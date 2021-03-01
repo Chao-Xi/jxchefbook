@@ -22,8 +22,8 @@ theme:
   feature:
     tabs: false
   palette:
-    primary: 'orange'
-    accent: 'orange'
+    primary: 'deep orange'
+    accent: 'deep orange'
   i18n:
     prev: 'Previous'
     next: 'Next'
