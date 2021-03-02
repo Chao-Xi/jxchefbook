@@ -11,6 +11,7 @@ nav:
   - 'Welcome': "index.md"
   - 'Learning Chef':
     - '第一节 Chef 介绍和安装': 'chap1/chef_tutorial1.md'
+    - '第二节 Ruby和Chef语法': 'chap1/chef_tutorial2.md'
 
 repo_url: https://github.com/Chao-Xi/jxchefbook.git
 repo_name: "jxchefbook"
