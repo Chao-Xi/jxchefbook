@@ -9,6 +9,8 @@ plugins:
 
 nav:
   - 'Welcome': "index.md"
+  - 'Learning Chef':
+    - '第一节 Chef 介绍和安装': ''
 
 repo_url: https://github.com/Chao-Xi/jxchefbook.git
 repo_name: "jxchefbook"
