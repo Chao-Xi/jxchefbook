@@ -141,11 +141,11 @@ default-centos65  Vagrant  ChefSolo     Busser    Ssh        <Not Created>  <Non
 ```
 $ chef generate file motd
 Recipe: code_generator::cookbook_file
-  * directory[/Users/i515190/Devops_sap/Chef_Doc/learningchef/chap07/motd/files] action create
-    - create new directory /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap07/motd/files
-  * template[/Users/i515190/Devops_sap/Chef_Doc/learningchef/chap07/motd/files/motd] action create
-    - create new file /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap07/motd/files/motd
-    - update content in file /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap07/motd/files/motd from none to e3b0c4
+  * directory[/Users/.../Devops_sap/Chef_Doc/learningchef/chap07/motd/files] action create
+    - create new directory /Users/.../Devops_sap/Chef_Doc/learningchef/chap07/motd/files
+  * template[/Users/.../Devops_sap/Chef_Doc/learningchef/chap07/motd/files/motd] action create
+    - create new file /Users/.../Devops_sap/Chef_Doc/learningchef/chap07/motd/files/motd
+    - update content in file /Users/.../Devops_sap/Chef_Doc/learningchef/chap07/motd/files/motd from none to e3b0c4
     (diff output suppressed by config)
 ```
 ```
@@ -368,7 +368,7 @@ $ kitchen converge default-centos65
 >>>>>> ------Exception-------
 >>>>>> Class: Kitchen::ActionFailed
 >>>>>> Message: 1 actions failed.
->>>>>>     Failed to complete #converge action: [policyfile detected, but provisioner Kitchen::Provisioner::ChefSolo doesn't support Policyfiles. Either use a different provisioner, or delete/rename /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap07/motd/Policyfile.rb.] on default-centos65
+>>>>>>     Failed to complete #converge action: [policyfile detected, but provisioner Kitchen::Provisioner::ChefSolo doesn't support Policyfiles. Either use a different provisioner, or delete/rename /Users/.../Devops_sap/Chef_Doc/learningchef/chap07/motd/Policyfile.rb.] on default-centos65
 >>>>>> ----------------------
 >>>>>> Please see .kitchen/logs/kitchen.log for more details
 >>>>>> Also try running `kitchen diagnose --all` for configuration
@@ -394,14 +394,14 @@ $ kitchen converge default-centos65
        Preparing files for transfer
 $$$$$$ You must set your run_list in your Policyfile instead of kitchen config. The run_list in your config will be ignored.
 $$$$$$ Ignored run_list: ["recipe[motd::default]"]
-       Policy lock file doesn't exist, running `chef install` for Policyfile /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap07/motd/Policyf
+       Policy lock file doesn't exist, running `chef install` for Policyfile /Users/.../Devops_sap/Chef_Doc/learningchef/chap07/motd/Policyf
 ile.rb...
        Building policy motd
        Expanded run list: recipe[motd::default]
        Caching Cookbooks...
        Installing motd >= 0.0.0 from path
        
-       Lockfile written to /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap07/motd/Policyfile.lock.json
+       Lockfile written to /Users/.../Devops_sap/Chef_Doc/learningchef/chap07/motd/Policyfile.lock.json
        Policy revision id: 1be1d358a9f055ff7c7ad9c39551cd0731acf63e2ef470dd6eec4324ae19a384
        Preparing dna.json
        Exporting cookbook dependencies from Policyfile /var/folders/r7/nml_dsbn44gcd2jlqh7s2w940000gn/T/default-centos65-sandbox-20191125-92576-
@@ -584,7 +584,7 @@ $ kitchen destroy default-centos65
 
 我们刚刚描述了当你运行`kitchen converge`（或chef-client）时`Chef`一次运行过程中 都做了什么。
 
-![Alt Image Text](images/6_1.png "Body image")
+![Alt Image Text](../images/6_1.png "Body image")
 
 
 ## 4、菜谱架构
@@ -693,7 +693,7 @@ cookbook
 * `Template`资源简介 
 * 验证达到成功标准 
 
-![Alt Image Text](images/6_2.png "Body image")
+![Alt Image Text](../images/6_2.png "Body image")
 
 ### **6-1 生成菜谱结构** 
 
@@ -884,13 +884,13 @@ default-centos65  Vagrant  ChefZero     Busser    Ssh        <Not Created>  <Non
        Preparing files for transfer
 $$$$$$ You must set your run_list in your Policyfile instead of kitchen config. The run_list in your config will be ignored.
 $$$$$$ Ignored run_list: ["recipe[apache::default]"]
-       Policy lock file doesn't exist, running `chef install` for Policyfile /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap07/apache/Policyfile.rb...
+       Policy lock file doesn't exist, running `chef install` for Policyfile /Users/.../Devops_sap/Chef_Doc/learningchef/chap07/apache/Policyfile.rb...
        Building policy apache
        Expanded run list: recipe[apache::default]
        Caching Cookbooks...
        Installing apache >= 0.0.0 from path
        
-       Lockfile written to /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap07/apache/Policyfile.lock.json
+       Lockfile written to /Users/.../Devops_sap/Chef_Doc/learningchef/chap07/apache/Policyfile.lock.json
        Policy revision id: ae351b7b70676a3b57cf2a87805c9c226677d50b224659443baa28550f06a258
        Preparing dna.json
        Exporting cookbook dependencies from Policyfile /var/folders/r7/nml_dsbn44gcd2jlqh7s2w940000gn/T/default-centos65-sandbox-20191127-13563-w35sjf...
@@ -985,7 +985,7 @@ $ kitchen converge default-centos65
        Preparing files for transfer
 $$$$$$ You must set your run_list in your Policyfile instead of kitchen config. The run_list in your config will be ignored.
 $$$$$$ Ignored run_list: ["recipe[apache::default]"]
-       Installing cookbooks for Policyfile /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap07/apache/Policyfile.rb using `chef install`
+       Installing cookbooks for Policyfile /Users/.../Devops_sap/Chef_Doc/learningchef/chap07/apache/Policyfile.rb using `chef install`
        Installing cookbooks from lock
        Installing apache 0.1.0
        Preparing dna.json
@@ -1086,7 +1086,7 @@ $ kitchen converge default-centos65
        Preparing files for transfer
 $$$$$$ You must set your run_list in your Policyfile instead of kitchen config. The run_list in your config will be ignored.
 $$$$$$ Ignored run_list: ["recipe[apache::default]"]
-       Installing cookbooks for Policyfile /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap07/apache/Policyfile.rb using `chef install`
+       Installing cookbooks for Policyfile /Users/.../Devops_sap/Chef_Doc/learningchef/chap07/apache/Policyfile.rb using `chef install`
        Installing cookbooks from lock
        Installing apache 0.1.0
        Preparing dna.json
@@ -1218,11 +1218,11 @@ touch templates/default/index.html.erb
 
 [chap07/apache]$ chef generate template index.html
 Recipe: code_generator::template
-  * directory[/Users/i515190/Devops_sap/Chef_Doc/learningchef/chap07/apache/templates] action create
-    - create new directory /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap07/apache/templates
-  * template[/Users/i515190/Devops_sap/Chef_Doc/learningchef/chap07/apache/templates/index.html.erb] action create
-    - create new file /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap07/apache/templates/index.html.erb
-    - update content in file /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap07/apache/templates/index.html.erb from none to e3b0c4
+  * directory[/Users/.../Devops_sap/Chef_Doc/learningchef/chap07/apache/templates] action create
+    - create new directory /Users/.../Devops_sap/Chef_Doc/learningchef/chap07/apache/templates
+  * template[/Users/.../Devops_sap/Chef_Doc/learningchef/chap07/apache/templates/index.html.erb] action create
+    - create new file /Users/.../Devops_sap/Chef_Doc/learningchef/chap07/apache/templates/index.html.erb
+    - update content in file /Users/.../Devops_sap/Chef_Doc/learningchef/chap07/apache/templates/index.html.erb from none to e3b0c4
     (diff output suppressed by config)
 ```
 
@@ -1248,7 +1248,7 @@ $ kitchen converge default-centos65
        Preparing files for transfer
 $$$$$$ You must set your run_list in your Policyfile instead of kitchen config. The run_list in your config will be ignored.
 $$$$$$ Ignored run_list: ["recipe[apache::default]"]
-       Installing cookbooks for Policyfile /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap07/apache/Policyfile.rb using `chef install`
+       Installing cookbooks for Policyfile /Users/.../Devops_sap/Chef_Doc/learningchef/chap07/apache/Policyfile.rb using `chef install`
        Installing cookbooks from lock
        Installing apache 0.1.0
        Preparing dna.json
@@ -1404,7 +1404,7 @@ $ kitchen create default-centos65
 $ kitchen converge default-centos65
 ```
 
-![Alt Image Text](images/6_3.png "Body image")
+![Alt Image Text](../images/6_3.png "Body image")
 
 ```
 $ kitchen destroy default-centos65

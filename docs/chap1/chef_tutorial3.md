@@ -75,11 +75,11 @@ end
 ```
 $ chef-apply stone.rb 
 Recipe: (chef-apply cookbook)::(chef-apply recipe)
-  * file[/Users/i515190/Devops_sap/Chef_Doc/learningchef/chap04/stone.txt] action create
-    - create new file /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap04/stone.txt
-    - update content in file /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap04/stone.txt from none to ba4fda
-    --- /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap04/stone.txt        2019-11-21 13:33:32.834565261 +0800
-    +++ /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap04/.chef-stone20191121-25291-1jglr40.txt    2019-11-21 13:33:32.834330945 +0800
+  * file[/Users/.../Devops_sap/Chef_Doc/learningchef/chap04/stone.txt] action create
+    - create new file /Users/.../Devops_sap/Chef_Doc/learningchef/chap04/stone.txt
+    - update content in file /Users/.../Devops_sap/Chef_Doc/learningchef/chap04/stone.txt from none to ba4fda
+    --- /Users/.../Devops_sap/Chef_Doc/learningchef/chap04/stone.txt        2019-11-21 13:33:32.834565261 +0800
+    +++ /Users/.../Devops_sap/Chef_Doc/learningchef/chap04/.chef-stone20191121-25291-1jglr40.txt    2019-11-21 13:33:32.834330945 +0800
     @@ -1 +1,2 @@
     +Written in stone
 ```
@@ -92,7 +92,7 @@ Written in stone
 ```
 $ chef-apply stone.rb 
 Recipe: (chef-apply cookbook)::(chef-apply recipe)
-  * file[/Users/i515190/Devops_sap/Chef_Doc/learningchef/chap04/stone.txt] action create (up to date)
+  * file[/Users/.../Devops_sap/Chef_Doc/learningchef/chap04/stone.txt] action create (up to date)
 ```
 
 
@@ -109,10 +109,10 @@ Written in stone, modify this file
 ```
 $ chef-apply stone.rb 
 Recipe: (chef-apply cookbook)::(chef-apply recipe)
-  * file[/Users/i515190/Devops_sap/Chef_Doc/learningchef/chap04/stone.txt] action create
-    - update content in file /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap04/stone.txt from 7139d7 to ba4fda
-    --- /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap04/stone.txt        2019-11-21 13:40:25.388303782 +0800
-    +++ /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap04/.chef-stone20191121-25655-18xmqfk.txt    2019-11-21 13:40:44.011358154 +0800
+  * file[/Users/.../Devops_sap/Chef_Doc/learningchef/chap04/stone.txt] action create
+    - update content in file /Users/.../Devops_sap/Chef_Doc/learningchef/chap04/stone.txt from 7139d7 to ba4fda
+    --- /Users/.../Devops_sap/Chef_Doc/learningchef/chap04/stone.txt        2019-11-21 13:40:25.388303782 +0800
+    +++ /Users/.../Devops_sap/Chef_Doc/learningchef/chap04/.chef-stone20191121-25655-18xmqfk.txt    2019-11-21 13:40:44.011358154 +0800
     @@ -1,2 +1,2 @@
     -Written in stone, modify this file
     +Written in stone
@@ -156,8 +156,8 @@ end
 ```
 $ chef-apply cleanup.rb 
 Recipe: (chef-apply cookbook)::(chef-apply recipe)
-  * file[/Users/i515190/Devops_sap/Chef_Doc/learningchef/chap04/stone.txt] action delete
-    - delete file /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap04/stone.txt
+  * file[/Users/.../Devops_sap/Chef_Doc/learningchef/chap04/stone.txt] action delete
+    - delete file /Users/.../Devops_sap/Chef_Doc/learningchef/chap04/stone.txt
 ```
 
 ## **4、本节小结**
