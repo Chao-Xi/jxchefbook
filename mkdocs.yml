@@ -13,6 +13,7 @@ nav:
     - '第一节 Chef 介绍和安装': 'chap1/chef_tutorial1.md'
     - '第二节 Ruby和Chef语法': 'chap1/chef_tutorial2.md'
     - '第三节 如何写 Chef 配方 & chef-apply' : 'chap1/chef_tutorial3.md'
+    - '第四节 用Test Kitchen管理沙盒测试环境' : 'chap1/chef_tutorial4.md'
 
 repo_url: https://github.com/Chao-Xi/jxchefbook.git
 repo_name: "jxchefbook"
