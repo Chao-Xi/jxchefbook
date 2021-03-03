@@ -1,4 +1,4 @@
-# **第三节 如何写 Chef 配方 & chef-apply **
+# **第三节 如何写 Chef 配方 & chef-apply**
 
 * `chef-apply` 
 * 验证第一个`Chef`配方单
@@ -21,7 +21,7 @@ end
 ```
 
 * 创建`hello.txt`文件。 
-* 把`Welcome to Chef`文本写到`hello.tx`t文件中。 
+* 把`Welcome to Chef`文本写到`hello.txt`文件中。 
 * 使用`chef-apply`命令可以让`Chef`执行刚才创建的`hello.rb`文件中的指定的动作： 
 
 
@@ -160,6 +160,7 @@ Recipe: (chef-apply cookbook)::(chef-apply recipe)
     - delete file /Users/i515190/Devops_sap/Chef_Doc/learningchef/chap04/stone.txt
 ```
 
+## **4、本节小结**
 
 * 配方单(`recipe`) 
 
@@ -173,3 +174,20 @@ Recipe: (chef-apply cookbook)::(chef-apply recipe)
 
 传递给资源的参数。 
 
+
+```
+file 'hello.txt' do 
+    content 'Welcome to Chef' 
+end 
+```
+
+```
+$ chef-apply hello.rb 
+Recipe: (chef-apply cookbook)::(chef-apply recipe)
+  * file[hello.txt] action create
+    - create new file hello.txt
+    - update content in file hello.txt from none to 40a30c
+    --- hello.txt       2019-11-21 10:17:25.810706235 +0800
+    +++ ./.chef-hello20191121-23912-z55r6x.txt  2019-11-21 10:17:25.810459223 +0800
+    @@ -1 +1,2 @@
+```
