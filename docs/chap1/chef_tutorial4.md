@@ -7,7 +7,7 @@
 
 ###  vagrant 为虚拟软件提供`API`
 
-![Alt Image Text](../../images/4_1.png "body image")
+![Alt Image Text](../images/4_1.png "body image")
 
 ## **1、宿主和虚拟机**
 
