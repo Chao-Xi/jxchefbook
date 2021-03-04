@@ -16,7 +16,8 @@ nav:
     - '第四节 用Test Kitchen管理沙盒测试环境': 'chap1/chef_tutorial4.md'
     - '第五节 用 Chef 户端管理节点': 'chap1/chef_tutorial5.md'
     - '第六节 撰写和使用菜谱': 'chap1/chef_tutorial6.md'
-    - '第七节 Chef 属性': 'chap1/chef_tutorial7.md'
+    - '第七节 Chef 属性': 'chap1/chef_tutorial7_attributes.md'
+    - '第八节 Chef 服务器同时管理多个节点': 'chap1/chef_tutorial8.md'
 
 repo_url: https://github.com/Chao-Xi/jxchefbook.git
 repo_name: "jxchefbook"
