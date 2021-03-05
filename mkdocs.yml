@@ -18,6 +18,7 @@ nav:
     - '第六节 撰写和使用菜谱': 'chap1/chef_tutorial6.md'
     - '第七节 Chef 属性': 'chap1/chef_tutorial7_attributes.md'
     - '第八节 Chef 服务器同时管理多个节点': 'chap1/chef_tutorial8.md'
+    - '第九节 社区以及Chef-Client菜谱': 'chap1/chef_tutorial9.md'
 
 repo_url: https://github.com/Chao-Xi/jxchefbook.git
 repo_name: "jxchefbook"
