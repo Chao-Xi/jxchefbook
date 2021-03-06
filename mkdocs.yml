@@ -20,6 +20,7 @@ nav:
     - '第八节 Chef 服务器同时管理多个节点': 'chap1/chef_tutorial8.md'
     - '第九节 社区以及Chef-Client菜谱': 'chap1/chef_tutorial9.md'
     - '第十节 Chef zero': 'chap1/chef_tutorial10_zero.md'
+    - '第十一节 数概包Databag': 'chap1/chef_tutorial11_databag.md'
 
 repo_url: https://github.com/Chao-Xi/jxchefbook.git
 repo_name: "jxchefbook"

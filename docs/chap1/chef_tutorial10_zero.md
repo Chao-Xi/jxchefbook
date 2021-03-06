@@ -850,3 +850,28 @@ $$$$$$ Ignored run_list: ["recipe[nodes::default]"]
        Finished converging <default-centos65> (0m33.65s).
 -----> Kitchen is finished. (1m20.65s)
 ```
+
+## **7、本节小结**
+
+* Test Kitchen and Chef Zero
+* 用`Chef-Playground` 在宿主机器上运行Chef-Zero
+
+```
+$ chef-client --local-mode  --chef-zero-port 8889
+$ chef-zero --port 9501
+$ knife client list
+$ knife client list --local-mode 
+$ knife upload nodes
+
+
+$ knife search <index> <search_query>
+$ knife search node "*:*"
+$ knife search node "ipaddress:192.168.33.32"
+$ knife search node "ipaddress:192.*"
+$ knife search node "platfo*:centos"
+$ knife search node "platform_version:14.0?"
+$ knife node show  snowman --long
+$ knife search node "name:susu OR name:atwood"
+$ knife search node "ipaddress:192* AND platform:ubuntu"
+$ knife search node "*:*" -a ipaddress
+```
