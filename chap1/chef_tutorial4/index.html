@@ -1,0 +1,1179 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's Chef Automation 技术与实战教程">
+      
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      <link rel="shortcut icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.0.5">
+    
+    
+      
+        <title>第四节 用Test Kitchen管理沙盒测试环境 - Jacob Chef Automation Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.77f3fd56.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.7fa14f5b.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ff6e42">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#test-kitchen" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Jacob Chef Automation Book" class="md-header__button md-logo" aria-label="Jacob Chef Automation Book">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob Chef Automation Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第四节 用Test Kitchen管理沙盒测试环境
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="md-header__options">
+      
+    </div>
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/Chao-Xi/jxchefbook.git/" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob Chef Automation Book" class="md-nav__button md-logo" aria-label="Jacob Chef Automation Book">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob Chef Automation Book
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/Chao-Xi/jxchefbook.git/" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      <label class="md-nav__link" for="__nav_2">
+        Learning Chef
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Learning Chef" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Learning Chef
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial1/" class="md-nav__link">
+        第一节 Chef 介绍和安装
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial2/" class="md-nav__link">
+        第二节 Ruby和Chef语法
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial3/" class="md-nav__link">
+        第三节 如何写 Chef 配方 & chef-apply
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          第四节 用Test Kitchen管理沙盒测试环境
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        第四节 用Test Kitchen管理沙盒测试环境
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#vagrant-api" class="md-nav__link">
+    vagrant 为虚拟软件提供API
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1、宿主和虚拟机
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2、启动自己的虚拟机
+  </a>
+  
+    <nav class="md-nav" aria-label="2、启动自己的虚拟机">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-kitchenyml" class="md-nav__link">
+    2-1 修改kitchen.yml
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-vmware_desktopvmfusion" class="md-nav__link">
+    2-2 因为我们用的是vmware_desktop和vmfusion作为虚拟机
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-list" class="md-nav__link">
+    2-3 List
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-4-login" class="md-nav__link">
+    2-4 Login
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#destroy" class="md-nav__link">
+    Destroy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3yaml-overview" class="md-nav__link">
+    3、YAML Overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4kitchenymltest-kitchen" class="md-nav__link">
+    4、用kitchen.yml配置Test Kitchen
+  </a>
+  
+    <nav class="md-nav" aria-label="4、用kitchen.yml配置Test Kitchen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kitchenymi" class="md-nav__link">
+    kitchen.ymi文件包含四个主要的部分。
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    5、本节小结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial5/" class="md-nav__link">
+        第五节 用 Chef 户端管理节点
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial6/" class="md-nav__link">
+        第六节 撰写和使用菜谱
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial7_attributes/" class="md-nav__link">
+        第七节 Chef 属性
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial8/" class="md-nav__link">
+        第八节 Chef 服务器同时管理多个节点
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial9/" class="md-nav__link">
+        第九节 社区以及Chef-Client菜谱
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial10_zero/" class="md-nav__link">
+        第十节 Chef zero
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial11_databag/" class="md-nav__link">
+        第十一节 数概包Databag
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial12/" class="md-nav__link">
+        第十二节 角色
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial13_env/" class="md-nav__link">
+        第十三节 环境
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial14_test/" class="md-nav__link">
+        第十四节 测试
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#vagrant-api" class="md-nav__link">
+    vagrant 为虚拟软件提供API
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1、宿主和虚拟机
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2、启动自己的虚拟机
+  </a>
+  
+    <nav class="md-nav" aria-label="2、启动自己的虚拟机">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-kitchenyml" class="md-nav__link">
+    2-1 修改kitchen.yml
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-vmware_desktopvmfusion" class="md-nav__link">
+    2-2 因为我们用的是vmware_desktop和vmfusion作为虚拟机
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-list" class="md-nav__link">
+    2-3 List
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-4-login" class="md-nav__link">
+    2-4 Login
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#destroy" class="md-nav__link">
+    Destroy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3yaml-overview" class="md-nav__link">
+    3、YAML Overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4kitchenymltest-kitchen" class="md-nav__link">
+    4、用kitchen.yml配置Test Kitchen
+  </a>
+  
+    <nav class="md-nav" aria-label="4、用kitchen.yml配置Test Kitchen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kitchenymi" class="md-nav__link">
+    kitchen.ymi文件包含四个主要的部分。
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    5、本节小结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/Chao-Xi/jxchefbook.git/edit/master/docs/chap1/chef_tutorial4.md" title="编辑此页" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="test-kitchen"><strong>第四节 用<code>Test Kitchen</code>管理沙盒测试环境</strong></h1>
+<ul>
+<li>宿主和虚拟机</li>
+<li>启动自己的虚拟机</li>
+<li>YAML Overview</li>
+<li>用<code>kitchen.yml</code>配置<code>Test Kitchen</code></li>
+</ul>
+<h3 id="vagrant-api">vagrant 为虚拟软件提供<code>API</code></h3>
+<p><img alt="Alt Image Text" src="../../images/4_1.png" title="body image" /></p>
+<h2 id="1"><strong>1、宿主和虚拟机</strong></h2>
+<p><img alt="Alt Image Text" src="../../images/4_2.png" title="body image" /></p>
+<pre><code>$ mkidr kitchen
+$ cd kitchen
+</code></pre>
+<ul>
+<li>在你创建的<code>kitchen</code>文件夹中运行<code>kitchen init --create-gemfile</code>命令。</li>
+<li><code>kitchen init</code>命令会创建让一个项目支持<code>Test Kitchen</code>所需的配置文件。</li>
+</ul>
+<p>我们需要使用<code>-create-gemfile</code>选项，否则<code>Test Kitchen</code>会直接尝试作为普通用户而非管理员运行<code>gem install</code>。在某些平台上这会失败，因为<code>Chef</code>开发包并不总是对其<code>gem</code>目录赋予一般用户写入的权限： </p>
+<pre><code>$ kitchen init --create-gemfile
+      create  kitchen.yml
+      create  chefignore
+      create  test/integration/default
+      create  Gemfile
+      append  Gemfile
+You must run `bundle install' to fetch any new gems.
+</code></pre>
+<p><strong>以上命令行输出中显示的<code>bundle install</code>命令指的是使用名称为<code>Bundle</code>的工具。</strong></p>
+<p><strong><code>Bundler</code>是一个用来下载和管理<code>Ruby</code>程序的工具。</strong></p>
+<p><code>Test Kitchen</code>需要你运行<code>bundle install</code>来下载和安装<code>kitchen-vagrant</code>驱动以及一些支持它的<code>Ruby</code>程序（<code>gem</code>)。 </p>
+<pre><code>$ bundle install
+Fetching gem metadata from https://rubygems.org/.........
+Fetching gem metadata from https://rubygems.org/.
+Resolving dependencies...
+Using bcrypt_pbkdf 1.0.1
+Using builder 3.2.3
+Using bundler 2.0.2
+Using ed25519 1.2.4
+Using equatable 0.6.1
+Using erubi 1.9.0
+Fetching ffi 1.11.2
+Installing ffi 1.11.2 with native extensions
+Using gssapi 1.3.0
+Using gyoku 1.3.1
+Using httpclient 2.8.3
+Using tty-color 0.5.0
+Using pastel 0.7.3
+Using tomlrb 1.2.8
+Using strings-ansi 0.2.0
+Using unicode-display_width 1.6.0
+Using unicode_utils 1.4.0
+Using strings 0.1.7
+Using tty-cursor 0.7.0
+Using tty-box 0.5.0
+Using necromancer 0.5.0
+Using tty-screen 0.7.0
+Using wisper 2.0.1
+Using tty-reader 0.6.0
+Using tty-prompt 0.19.0
+Using license-acceptance 1.0.13
+Using little-plugger 1.1.4
+Using multi_json 1.14.1
+Using logging 2.2.2
+Using mixlib-shellout 3.0.7
+Using mixlib-versioning 1.2.7
+Using thor 0.20.3
+Using mixlib-install 3.11.21
+Using net-ssh 5.2.0
+Using net-scp 2.0.0
+Using net-ssh-gateway 2.0.0
+Using nori 2.6.0
+Using rubyntlm 0.6.2
+Using rubyzip 2.0.0
+Using winrm 2.3.3
+Using winrm-fs 1.3.4
+Using winrm-elevated 1.1.2
+Using test-kitchen 2.3.4
+Bundle complete! 1 Gemfile dependency, 42 gems now installed.
+Use `bundle info [gemname]` to see where a bundled gem is installed.
+</code></pre>
+<p><strong>Error solutions for gem install <code>ffi</code></strong></p>
+<pre><code>brew install coreutils
+</code></pre>
+<pre><code>$ tree .
+.
+├── Gemfile
+├── Gemfile.lock
+├── chefignore
+├── kitchen.yml
+└── test
+    └── integration
+        └── default
+
+3 directories, 4 files
+</code></pre>
+<ul>
+<li><strong><code>kitchen.yml</code></strong> </li>
+</ul>
+<p>用来配置<code>Test Kitchen</code>的虚拟环境 </p>
+<ul>
+<li><code>Gemfile</code> </li>
+</ul>
+<p><code>Bundler</code>使用此文件来配置<code>Ruby</code>程序（<code>gem</code>）存储库以及需要下载、安装的<code>gem</code>列表。<code>Bundler</code>自动决定每个<code>gem</code>的依赖的其他<code>gem</code>,所以你只需要指定需要安装的顶级<code>gem</code>列表 </p>
+<ul>
+<li><code>Gemfile.lock</code> </li>
+</ul>
+<p>记录<code>Bundler</code>下载的当前项目的所有<code>gem</code>的版本，和所有这些<code>gem</code>依赖的<code>gem</code>的版本。 其他<code>Chef</code>开发者可以用这个文件通过<code>bundle install</code>重现你的<code>gem</code>环境。</p>
+<ul>
+<li><code>.kitchen/</code> </li>
+</ul>
+<p><code>Test Kitchen</code>用来储存其工作文件的隐藏文件夹。 </p>
+<ul>
+<li><code>.kitchen/logs/kitchen.log</code> </li>
+</ul>
+<p>包含上次运行<code>Test Kitchen</code>的输出的日志的文本文件 </p>
+<ul>
+<li><code>test/</code> </li>
+</ul>
+<p>包含测试( 最初只包含一个框架和子目录<code>test/integeration/default/</code>. 你可以自己添加 具体的侧试代码）的目录结构 </p>
+<h2 id="2"><strong>2、启动自己的虚拟机</strong></h2>
+<h3 id="2-1-kitchenyml"><strong>2-1 修改<code>kitchen.yml</code></strong></h3>
+<pre><code>---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: centos65
+    driver:
+      box: learningchef/centos65
+      box_url: learningchef/centos65
+
+suites:
+  - name: default
+    run_list:
+    attributes:
+</code></pre>
+<p>对配置文件达样的改变的意图是让<code>Test Kitchen</code>从<code>VagrantCloud</code>下载<code>CentOS 6.5</code>映 像。</p>
+<ul>
+<li>
+<p><code>box</code>:部分必须符合在<code>https://app.vagrantup.com/learningchef/boxes/centos65</code>列出的 <code>VagrantCloud</code>中机器的名称。</p>
+</li>
+<li>
+<p>机器的名称是<code>learningchef/ oentos65</code>。</p>
+</li>
+<li>在<code>platforms</code>下的<code>name</code>：部分我们简称它为<code>centos65</code>因为我们会在<code>Test Kitchen</code>的命令中输人这个名称 所以我们给它这个短一些的名字。</li>
+</ul>
+<p>在<code>Test Kitchen</code>的世界里一个实例是指一个可以创建包含操作系统的虚拟机以及可以部署自动化代码的环境。运行<code>kitchen list</code>命令可以看到现在可用的实例列表 </p>
+<pre><code>$ kitchen list
+Instance          Driver   Provisioner  Verifier  Transport  Last Action    Last Error
+default-centos65  Vagrant  ChefSolo     Busser    Ssh        &lt;Not Created&gt;  &lt;None&gt;
+</code></pre>
+<h3 id="2-2-vmware_desktopvmfusion"><strong>2-2 因为我们用的是<code>vmware_desktop</code>和<code>vmfusion</code>作为虚拟机</strong></h3>
+<p><strong>修改<code>kitchen.yml</code></strong></p>
+<pre><code>---
+driver:
+  name: vagrant
+  provider: vmware_desktop
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: centos65
+    driver:
+      box: learningchef/centos65
+      box_url: learningchef/centos65
+
+suites:
+  - name: default
+    run_list:
+    attributes:
+</code></pre>
+<pre><code>$ kitchen create default-centos65
+-----&gt; Starting Kitchen (v2.3.3)
+-----&gt; Creating &lt;default-centos65&gt;...
+       Bringing machine 'default' up with 'vmware_desktop' provider...
+       ==&gt; default: Box 'learningchef/centos65' could not be found. Attempting to find and install...
+           default: Box Provider: vmware_desktop, vmware_fusion, vmware_workstation
+           default: Box Version: &gt;= 0
+       ==&gt; default: Loading metadata for box 'learningchef/centos65'
+           default: URL: https://vagrantcloud.com/learningchef/centos65
+       ==&gt; default: Adding box 'learningchef/centos65' (v1.0.7) for provider: vmware_desktop
+           default: Downloading: https://vagrantcloud.com/learningchef/boxes/centos65/versions/1.0.7/providers/vmware_des
+ktop.box
+    default: Download redirected to host: cdn.learningchef.com
+==&gt; default: Successfully added box 'learningchef/centos65' (v1.0.7) for 'vmware_desktop'!
+       ==&gt; default: Cloning VMware VM: 'learningchef/centos65'. This can take some time...
+       ==&gt; default: Checking if box 'learningchef/centos65' version '1.0.7' is up to date...
+       ==&gt; default: Verifying vmnet devices are healthy...
+       ==&gt; default: Preparing network adapters...
+       WARNING: The VMX file for this box contains a setting that is automatically overwritten by Vagrant
+       WARNING: when started. Vagrant will stop overwriting this setting in an upcoming release which may
+       WARNING: prevent proper networking setup. Below is the detected VMX setting:
+       WARNING: 
+       WARNING:   ethernet0.pcislotnumber = &quot;33&quot;
+       WARNING: 
+       WARNING: If networking fails to properly configure, it may require this VMX setting. It can be manually
+       WARNING: applied via the Vagrantfile:
+       WARNING: 
+       WARNING:   Vagrant.configure(2) do |config|
+       WARNING:     config.vm.provider :vmware_desktop do |vmware|
+       WARNING:       vmware.vmx[&quot;ethernet0.pcislotnumber&quot;] = &quot;33&quot;
+       WARNING:     end
+       WARNING:   end
+       WARNING: 
+       WARNING: For more information: https://www.vagrantup.com/docs/vmware/boxes.html#vmx-whitelisting
+       ==&gt; default: Starting the VMware VM...
+       ==&gt; default: Waiting for the VM to receive an address...
+       ==&gt; default: Forwarding ports...
+           default: -- 22 =&gt; 2222
+       ==&gt; default: Waiting for machine to boot. This may take a few minutes...
+           default: SSH address: 127.0.0.1:2222
+           default: SSH username: vagrant
+           default: SSH auth method: private key
+           default: 
+           default: Vagrant insecure key detected. Vagrant will automatically replace
+           default: this with a newly generated keypair for better security.
+           default: 
+           default: Inserting generated public key within guest...
+           default: Removing insecure key from the guest if it's present...
+           default: Key inserted! Disconnecting and reconnecting using new SSH key...
+       ==&gt; default: Machine booted and ready!
+       ==&gt; default: Setting hostname...
+       ==&gt; default: Configuring network adapters within the VM...
+       ==&gt; default: Machine not provisioned because `--no-provision` is specified.
+       [SSH] Established
+       Vagrant instance &lt;default-centos65&gt; created.
+       Finished creating &lt;default-centos65&gt; (5m39.65s).
+-----&gt; Kitchen is finished. (5m40.09s)
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/4_3.png" title="body image" /></p>
+<h3 id="2-3-list"><strong>2-3 List</strong></h3>
+<pre><code>$ kitchen list
+Instance          Driver   Provisioner  Verifier  Transport  Last Action  Last Error
+default-centos65  Vagrant  ChefSolo     Busser    Ssh        Created      &lt;None&gt;
+</code></pre>
+<pre><code>$ vagrant global-status
+id       name    provider       state       directory  
+ac9f37f  default vmware_desktop running     /Users/.../Devops_sap/Chef_Doc/learningchef/chap04/kitchen/.kitchen/kitchen-vagrant/default-centos65 
+</code></pre>
+<h3 id="2-4-login"><strong>2-4 Login</strong></h3>
+<pre><code>$ kitchen login default-centos65
+Last login: Fri Nov 22 06:02:56 2019 from 172.16.72.2
+Welcome to your Packer-built virtual machine.
+[vagrant@default-centos65 ~]$ 
+
+
+
+[vagrant@default-centos65 ~]$ exit
+logout
+Connection to 127.0.0.1 closed.
+</code></pre>
+<h3 id="destroy">Destroy</h3>
+<pre><code>$ kitchen destroy default-centos65
+-----&gt; Starting Kitchen (v2.3.3)
+-----&gt; Destroying &lt;default-centos65&gt;...
+       ==&gt; default: Stopping the VMware VM...
+       ==&gt; default: Deleting the VM...
+       Vagrant instance &lt;default-centos65&gt; destroyed.
+       Finished destroying &lt;default-centos65&gt; (0m18.49s).
+-----&gt; Kitchen is finished. (0m18.93s)
+</code></pre>
+<h2 id="3yaml-overview"><strong>3、YAML Overview</strong></h2>
+<p>The <code>.kitchen.yml</code> configuration file used to configure Test Kitchen is in the YAML file format. </p>
+<p>YAML is a recursive acronym that stands for <code>YAML Ain’t Markup Language</code>. A sequence of three hyphens (<code>---)</code> denote the beginning of a YAML document, so you’ll see this at the beginning of every <code>.kitchen.yml</code>file. </p>
+<p>Comments are indicated by the hash symbol (<code>#</code>), just like in Ruby. Space and indentation matter in a <code>YAML</code> file. Tab characters should never be used in a YAML file, only spaces.</p>
+<p>YAML files work with two fundamental kinds of a data:</p>
+<ul>
+<li>Key-value pair</li>
+<li>List</li>
+</ul>
+<pre><code>name: vagrant
+</code></pre>
+<p>The space after the colon is required. The value for <code>name</code> is <code>vagrant</code>. The value <code>vagrant</code> can be looked up by the <code>name</code> key.</p>
+<p>Key-value pairs can be nested, so that the value for a key is another key-value pair. </p>
+<p>When a key-value pair is nested, the value portion for the parent is written on separate lines, indented by at least one space. For example:</p>
+<pre><code>driver:
+  name: vagrant
+  aws_access_key_id: 12345
+</code></pre>
+<p>Having more spaces is perfectly fine, as long as the values belonging to the same nested key-value pair are all aligned vertically, with the same number of spaces:</p>
+<pre><code>driver:
+             name: vagrant
+             aws_access_key_id: 12345
+</code></pre>
+<p>You can also include as many spaces as you like before the colon, like so:</p>
+<pre><code>driver:
+  name              : vagrant
+  aws_access_key_id : 12345
+</code></pre>
+<p>If there were no spaces before each line, the nested values would not be interpreted correctly, however:</p>
+<pre><code>driver:
+name: vagrant
+aws_access_key_id: 12345
+</code></pre>
+<p>There is an alternate format for nested key-value pairs. They can also be in the form of <code>{&lt;key&gt;: &lt;value&gt;, &lt;key&gt;: &lt;value&gt;, …}</code>, also known as JavaScript Object Notation format, or JSON. For example:</p>
+<pre><code>mysql: {server_root_password: &quot;rootpass&quot;, server_debian_password: &quot;debpass&quot;}
+</code></pre>
+<p>It is interpreted the same as:</p>
+<pre><code>mysql:
+  server_root_password: &quot;rootpass&quot;
+  server_debian_password: &quot;debpass&quot;
+</code></pre>
+<p>列表是可以用<code>YAML</code>文件储存的另一种数据类型。</p>
+<p><strong>列表包含有序数据。每一个值不会像键值对儿一样与一个键关联。列表的每一个项目都应使用新的一行，和嵌套的键值对儿类似每一个项目由一个横杠开始，然后接着一个空格。以下的例子展示用一个列表 在<code>kitchen.yml</code>中指定多个支持的平台，列表中每个项目是一个以<code>name</code>为键的键值对儿</strong></p>
+<pre><code>platforms:
+- name: ubuntu-10.04
+- name: ubuntu-12.04
+- name: ubuntu-12.10
+- name: ubuntu-13.04
+- name: centos-5.9
+- name: centos-6.4
+- name: debian-7.1.0
+</code></pre>
+<p>上面的例子同时展示了如何将键值对儿放在一个列表中。（你也可以把一个列表放在键 值对儿的值中。）和在键值对儿中一样，列表中的每个项目之前可以有任意多的空格， 但每个项目前面必须有一样多的空格数。以下例子等同于上面的例子 </p>
+<pre><code>platforms:
+    - name: ubuntu-10.04
+    - name: ubuntu-12.04
+    - name: ubuntu-12.10
+    - name: ubuntu-13.04
+    - name: centos-5.9
+    - name: centos-6.4
+    - name: debian-7.1.0
+</code></pre>
+<p>YAML文件中的值同时可以拥有类型。<code>kitchen.yml</code>文件大多数只需要用到整数、字符串或数组。以数字开始的值会坡解释为整数。以字以开始了以单引号<code>('')</code>以及双引号<code>("")</code>包括的值被解释为宇符串(<code>[]</code>)。</p>
+<pre><code>network:
+- [&quot;forwarded_port&quot;, {guest: 80, host: 8080}]
+- [&quot;private_network&quot;, {ip: &quot;192.168.33.33&quot;}]
+</code></pre>
+<h2 id="4kitchenymltest-kitchen"><strong>4、用<code>kitchen.yml</code>配置<code>Test Kitchen</code></strong></h2>
+<p>理解<code>YAML</code>基础之后让我们回到<code>Test Kitchen</code>创建的<code>Kitchen.yml</code>文件 </p>
+<pre><code>---
+driver:
+  name: vagrant
+  provider: vmware_desktop
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: centos65
+    driver:
+      box: learningchef/centos65
+      box_url: learningchef/centos65
+
+suites:
+  - name: default
+    run_list:
+    attributes:
+</code></pre>
+<h3 id="kitchenymi"><code>kitchen.ymi</code>文件包含四个主要的部分。</h3>
+<ul>
+<li>
+<p><code>driver</code>: 指定要使用的驱动动以及管理<code>Test Kitchen</code>环境的配的参数。你可以通过运行<code>kitchen driver discover</code>命令来得到一个可用的驱动列表</p>
+</li>
+<li>
+<p><code>provision</code>: 指定使用哪个配界管理工其来创建指定驱动的环掩,以上的例子中我们使用<code>chef_solo</code>,当你运行<code>kitchen setup</code>时它将在实例上安装<code>Chef</code>客户端（如果目前尚未安 装的话）。 </p>
+</li>
+<li>
+<p><code>platforms</code>: 你希望<code>Test kitchen</code>创建的实例操作系统列表</p>
+</li>
+<li>
+<p><code>suites</code>: 在使用<code>Chef</code>作为配置管理工具时（<code>Test Kitchen不</code>仅仅支持<code>Chef</code>)，指定每个实例上运行的配置。这包括指定在每个实例上运行的<code>Chef</code>配方单的列表来。 </p>
+</li>
+</ul>
+<pre><code>---
+platforms:
+  - name: ubuntu-12.04
+  - name: centos-6.4
+</code></pre>
+<p>Test Kitchen expands the values to the following internally:</p>
+<pre><code>platforms:
+- name: ubuntu-12.04
+  driver:
+    box: opscode-ubuntu-12.04
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/\
+             opscode_ubuntu-12.04_provisionerless.box
+- name: centos-6.4
+  driver:
+    box: opscode-centos-6.4
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/\
+             opscode_centos-6.4_provisionerless.box
+</code></pre>
+<h2 id="5"><strong>5、本节小结</strong></h2>
+<ul>
+<li><code>kitchen init</code> </li>
+</ul>
+<p>向一个项目中添加<code>Test Kitchen</code>支持 </p>
+<ul>
+<li><code>kitchen list</code> </li>
+</ul>
+<p>显示<code>Test Kitchen</code>实例的信急 </p>
+<ul>
+<li><code>kitchen create</code> </li>
+</ul>
+<p>启动个<code>Test Kitchen</code>实例（如果非已经运行） </p>
+<ul>
+<li><code>kitchen login</code> </li>
+</ul>
+<p>登录进人一个<code>Test Kitchen</code>实例 </p>
+<ul>
+<li><code>kitchen destroy</code> </li>
+</ul>
+<p>关闭一个实例并删除其虚拟机 </p>
+<p>我们介绍了控制<code>Test Kitchen</code>行为的以下配置文件： </p>
+<ul>
+<li>
+<p><code>kitchen.yml</code> 配置<code>Test Kitchen</code>环境设置 </p>
+</li>
+<li>
+<p><code>Gemfile</code></p>
+</li>
+</ul>
+<p><code>Bundler</code>可以通过<code>bundle install</code>安装的所需的<code>gem</code> (<code>Ruby</code>程序）以及存储库位置 </p>
+<ul>
+<li><code>Gemfile.lock</code></li>
+</ul>
+<p>当<code>bundle install</code>运行时<code>Bundler</code>所需的<code>gem</code>和它所依赖的<code>gem</code>的列表 
+可以用来在另一个开发者的电脑上重现一样的环境。 </p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href="../chef_tutorial3/" class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              第三节 如何写 Chef 配方 & chef-apply
+            </div>
+          </div>
+        </a>
+      
+      
+        <a href="../chef_tutorial5/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              第五节 用 Chef 户端管理节点
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2021-9999 Jacob Xi
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.fb4a9340.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.5cf3e710.min.js"></script>
+      
+    
+  </body>
+</html>

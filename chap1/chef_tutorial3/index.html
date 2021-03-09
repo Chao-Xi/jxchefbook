@@ -1,0 +1,781 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's Chef Automation 技术与实战教程">
+      
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      <link rel="shortcut icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.0.5">
+    
+    
+      
+        <title>第三节 如何写 Chef 配方 & chef-apply - Jacob Chef Automation Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.77f3fd56.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.7fa14f5b.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ff6e42">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chef-chef-apply" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Jacob Chef Automation Book" class="md-header__button md-logo" aria-label="Jacob Chef Automation Book">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob Chef Automation Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第三节 如何写 Chef 配方 & chef-apply
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="md-header__options">
+      
+    </div>
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/Chao-Xi/jxchefbook.git/" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob Chef Automation Book" class="md-nav__button md-logo" aria-label="Jacob Chef Automation Book">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob Chef Automation Book
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/Chao-Xi/jxchefbook.git/" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      <label class="md-nav__link" for="__nav_2">
+        Learning Chef
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Learning Chef" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Learning Chef
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial1/" class="md-nav__link">
+        第一节 Chef 介绍和安装
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial2/" class="md-nav__link">
+        第二节 Ruby和Chef语法
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          第三节 如何写 Chef 配方 & chef-apply
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        第三节 如何写 Chef 配方 & chef-apply
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1chef-apply" class="md-nav__link">
+    1、chef-apply
+  </a>
+  
+    <nav class="md-nav" aria-label="1、chef-apply">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-2-chef" class="md-nav__link">
+    1-2 验证第一个Chef配方单
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2、用配方指定理想配置
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3、用配方指定理想配置
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4、本节小结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial4/" class="md-nav__link">
+        第四节 用Test Kitchen管理沙盒测试环境
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial5/" class="md-nav__link">
+        第五节 用 Chef 户端管理节点
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial6/" class="md-nav__link">
+        第六节 撰写和使用菜谱
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial7_attributes/" class="md-nav__link">
+        第七节 Chef 属性
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial8/" class="md-nav__link">
+        第八节 Chef 服务器同时管理多个节点
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial9/" class="md-nav__link">
+        第九节 社区以及Chef-Client菜谱
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial10_zero/" class="md-nav__link">
+        第十节 Chef zero
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial11_databag/" class="md-nav__link">
+        第十一节 数概包Databag
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial12/" class="md-nav__link">
+        第十二节 角色
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial13_env/" class="md-nav__link">
+        第十三节 环境
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial14_test/" class="md-nav__link">
+        第十四节 测试
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1chef-apply" class="md-nav__link">
+    1、chef-apply
+  </a>
+  
+    <nav class="md-nav" aria-label="1、chef-apply">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-2-chef" class="md-nav__link">
+    1-2 验证第一个Chef配方单
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2、用配方指定理想配置
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3、用配方指定理想配置
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4、本节小结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/Chao-Xi/jxchefbook.git/edit/master/docs/chap1/chef_tutorial3.md" title="编辑此页" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="chef-chef-apply"><strong>第三节 如何写 Chef 配方 &amp; chef-apply</strong></h1>
+<ul>
+<li><code>chef-apply</code> </li>
+<li>验证第一个<code>Chef</code>配方单</li>
+<li>用配方指定理想配置</li>
+</ul>
+<pre><code>$ tree learningchef/
+learningchef/
+└── chap04
+
+1 directory, 0 files
+</code></pre>
+<pre><code>file 'hello.txt' do 
+    content 'Welcome to Chef' 
+end 
+</code></pre>
+<ul>
+<li>创建<code>hello.txt</code>文件。 </li>
+<li>把<code>Welcome to Chef</code>文本写到<code>hello.txt</code>文件中。 </li>
+<li>使用<code>chef-apply</code>命令可以让<code>Chef</code>执行刚才创建的<code>hello.rb</code>文件中的指定的动作： </li>
+</ul>
+<h2 id="1chef-apply"><strong>1、<code>chef-apply</code></strong></h2>
+<p><code>chef-apply</code>工具是在<code>Chef Solo</code>基础上建立的一个小工具。<code>Chef Solo</code>可以让你在没有<code>Chef</code>服务器的我们会提情况下在本地运行<code>Chef</code>代码。</p>
+<pre><code>$ chef-apply hello.rb 
+Recipe: (chef-apply cookbook)::(chef-apply recipe)
+  * file[hello.txt] action create
+    - create new file hello.txt
+    - update content in file hello.txt from none to 40a30c
+    --- hello.txt       2019-11-21 10:17:25.810706235 +0800
+    +++ ./.chef-hello20191121-23912-z55r6x.txt  2019-11-21 10:17:25.810459223 +0800
+    @@ -1 +1,2 @@
+    +Welcome to Chef
+</code></pre>
+<h3 id="1-2-chef"><strong>1-2 验证第一个<code>Chef</code>配方单</strong></h3>
+<pre><code>$ more hello.txt 
+Welcome to Chef
+</code></pre>
+<p><code>Welcome to Chef</code> 字符串被传递到<code>file</code>资源的<code>content</code>属性。<code>file</code>资源则将<code>Content</code>属性的字符串写入<code>hello. txt</code>文件。 </p>
+<h2 id="2"><strong>2、用配方指定理想配置</strong></h2>
+<p><img alt="Alt Image Text" src="../../images/3_1.png" title="body image" /></p>
+<p><strong>在给某个文件指定文件名时，应该使用绝对路径</strong></p>
+<pre><code>file &quot;#{ENV['HOME']}/Devops_sap/Chef_Doc/learningchef/chap04/stone.txt&quot; do
+    content &quot;Written in stone&quot;
+end
+</code></pre>
+<ul>
+<li><code>"#{ENV['HOME']}"</code></li>
+</ul>
+<p><code>"#{ENV['HOME']}"</code> 是一个指向现在用户的跟目录的变量。</p>
+<p>字符串定义中的变量使用<code>＃{＜变 量＞｝</code> 来表示（#号跟着大括号，大括号中包含变量名）。</p>
+<p>包含变量的字符串必须使用双引号来定义，否则，Chef不会执行和替换字符串中的变量，而会认为那是字符串本身 </p>
+<pre><code>$ chef-apply stone.rb 
+Recipe: (chef-apply cookbook)::(chef-apply recipe)
+  * file[/Users/.../Devops_sap/Chef_Doc/learningchef/chap04/stone.txt] action create
+    - create new file /Users/.../Devops_sap/Chef_Doc/learningchef/chap04/stone.txt
+    - update content in file /Users/.../Devops_sap/Chef_Doc/learningchef/chap04/stone.txt from none to ba4fda
+    --- /Users/.../Devops_sap/Chef_Doc/learningchef/chap04/stone.txt        2019-11-21 13:33:32.834565261 +0800
+    +++ /Users/.../Devops_sap/Chef_Doc/learningchef/chap04/.chef-stone20191121-25291-1jglr40.txt    2019-11-21 13:33:32.834330945 +0800
+    @@ -1 +1,2 @@
+    +Written in stone
+</code></pre>
+<pre><code>$ more $HOME/Devops_sap/Chef_Doc/learningchef/chap04/stone.txt
+Written in stone
+</code></pre>
+<pre><code>$ chef-apply stone.rb 
+Recipe: (chef-apply cookbook)::(chef-apply recipe)
+  * file[/Users/.../Devops_sap/Chef_Doc/learningchef/chap04/stone.txt] action create (up to date)
+</code></pre>
+<ul>
+<li>如果<code>stone.txt</code>不存在，<code>chef-apply</code>创建文件，并写入相应的内容 </li>
+<li>如果<code>stone.txt</code>已经存在并且内容正确，<code>chef-apply</code>不做任何事情 </li>
+</ul>
+<p>修改<code>stone.txt</code></p>
+<pre><code>Written in stone, modify this file
+</code></pre>
+<pre><code>$ chef-apply stone.rb 
+Recipe: (chef-apply cookbook)::(chef-apply recipe)
+  * file[/Users/.../Devops_sap/Chef_Doc/learningchef/chap04/stone.txt] action create
+    - update content in file /Users/.../Devops_sap/Chef_Doc/learningchef/chap04/stone.txt from 7139d7 to ba4fda
+    --- /Users/.../Devops_sap/Chef_Doc/learningchef/chap04/stone.txt        2019-11-21 13:40:25.388303782 +0800
+    +++ /Users/.../Devops_sap/Chef_Doc/learningchef/chap04/.chef-stone20191121-25655-18xmqfk.txt    2019-11-21 13:40:44.011358154 +0800
+    @@ -1,2 +1,2 @@
+    -Written in stone, modify this file
+    +Written in stone
+</code></pre>
+<p>这展示了<code>Chef</code>如何避免意外的配置变动。<code>Chef</code>不仅检查文件是否存在，并且还检查其内容。当<code>Chef</code>管理的文件在<code>Chef</code>外部被意外更改时，<code>Chef</code>会确保当其运行时将其恢复至配方单中指定的版本（生产环境中，许多人配置<code>Chef</code>作为后台程序循环运行，使系统一直保持配方单中指定的配置）。 </p>
+<h2 id="3"><strong>3、用配方指定理想配置</strong></h2>
+<p>卸载时，须明确指定不要做什么你可能会疑惑，在配方单中删除内容时，是否可能让<code>Chef</code>自动卸载所有其安装的东西。 其实并不然。<strong>但是你可以通过明确告诉<code>Chef</code>不要做什么来做等同于卸载的事情</strong>。 </p>
+<p>这听起来好像是<code>Chef</code>在卸载方面的不足，其实并不然。记住，<code>Chef</code>尝试作为一个聪明的工具。你不需要告诉Chef如何做什么，只需要在配方单中告诉<code>Chef</code>你的理想配置，然后让<code>Chef</code>决定做什么。</p>
+<p><strong>你的配方单通过定义理想配置是什么样的来告诉<code>Chef</code>什么时候该停止思考机器的配置</strong>。 </p>
+<p><code>Chef</code>只能确保将其管理的机器达到你现在版本的配方单中明确指定的理想配置，<strong>如果把某些东西从配方单中去除，<code>Chef</code>没有办法明确知道你想从管理的机器中删除这些还是不做关于这些的任何事情（因为新的配方单己经不存在这些配置）</strong>。</p>
+<p>如果选择自动卸载这些内容，这些非明确性暗示的卸载动作和将系统依照明确的理想配置来配置配方单来配置成好的系统在理论上是相悖的。</p>
+<p>每个系统管理员多多少少都经历过在由于一些机器上 不知道为何发生的改变造成的问题的排错时无法找到原因而放弃，将机器所有内容擦掉并从头开始。 </p>
+<p><strong>因此，如果想让<code>Chef</code>卸载什么， 必须在配方单中明确指定不要安装这些东西。所有的资源都支持这样的定义。 如果是一个文件， 你可以告诉<code>Chef</code>系统不需要这个文件， 然后<code>Chef</code>可以确保系统中没有这个文件</strong>。 </p>
+<ul>
+<li>如果文件存在<code>chef-apply</code>则会将其删除。 </li>
+<li>如果文件不存在<code>chef-appply</code>不做任何事情。 </li>
+</ul>
+<p><strong>cleanup.rb</strong></p>
+<pre><code>file &quot;#{ENV['HOME']}/Devops_sap/Chef_Doc/learningchef/chap04/stone.txt&quot; do
+    action :delete
+end
+</code></pre>
+<pre><code>$ chef-apply cleanup.rb 
+Recipe: (chef-apply cookbook)::(chef-apply recipe)
+  * file[/Users/.../Devops_sap/Chef_Doc/learningchef/chap04/stone.txt] action delete
+    - delete file /Users/.../Devops_sap/Chef_Doc/learningchef/chap04/stone.txt
+</code></pre>
+<h2 id="4"><strong>4、本节小结</strong></h2>
+<ul>
+<li>配方单(<code>recipe</code>) </li>
+</ul>
+<p>一系列用Ruby领域专用语言（DSL）来写的描述理想配置的指令。 </p>
+<ul>
+<li>资源(<code>resource</code>) </li>
+</ul>
+<p>对于<code>Chef</code>所管理的东西（比如文件）的一个跨平台的抽象表达。资源是<code>Chef</code>代码的组成部分。通过在配方单中使用不同的资源来告诉<code>Chef</code>你的理想配置。 </p>
+<ul>
+<li>属性（<code>attribute</code>) </li>
+</ul>
+<p>传递给资源的参数。 </p>
+<pre><code>file 'hello.txt' do 
+    content 'Welcome to Chef' 
+end 
+</code></pre>
+<pre><code>$ chef-apply hello.rb 
+Recipe: (chef-apply cookbook)::(chef-apply recipe)
+  * file[hello.txt] action create
+    - create new file hello.txt
+    - update content in file hello.txt from none to 40a30c
+    --- hello.txt       2019-11-21 10:17:25.810706235 +0800
+    +++ ./.chef-hello20191121-23912-z55r6x.txt  2019-11-21 10:17:25.810459223 +0800
+    @@ -1 +1,2 @@
+</code></pre>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href="../chef_tutorial2/" class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              第二节 Ruby和Chef语法
+            </div>
+          </div>
+        </a>
+      
+      
+        <a href="../chef_tutorial4/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              第四节 用Test Kitchen管理沙盒测试环境
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2021-9999 Jacob Xi
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.fb4a9340.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.5cf3e710.min.js"></script>
+      
+    
+  </body>
+</html>
