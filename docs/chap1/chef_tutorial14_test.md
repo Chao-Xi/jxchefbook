@@ -933,7 +933,7 @@ $$$$$$ Ignored run_list: ["recipe[apache-test::default]"]
 
 `Foodcritic`被设计为在写Chef代码时使用，它甚至可以集成到编辑器中。在写`Chef`代码的时候， `Foodcritic`可以给你提供快速的关于代码风格的反馈，让你通过定义规则（`rules`) 来指定理想的代码风格。  
 
-[foodcritic.io](foodcritic.io)
+[foodcritic.io](http://www.foodcritic.io/)
 
 `Foodcritic`命令需要在开发机器上执行，而不是测试节点，因此非常快。可以现在就试试。确保。`apache-test`菜谱是当前工作目录，然后运行以下命令。 
 
