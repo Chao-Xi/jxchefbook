@@ -24,6 +24,7 @@ nav:
     - '第十二节 角色': 'chap1/chef_tutorial12.md'
     - '第十三节 环境': 'chap1/chef_tutorial13_env.md'
     - '第十四节 测试': 'chap1/chef_tutorial14_test.md'
+    - '第十五节 词汇表': 'chap1/chef_tutorial15_term.md'
 
 repo_url: https://github.com/Chao-Xi/jxchefbook.git
 repo_name: "jxchefbook"
