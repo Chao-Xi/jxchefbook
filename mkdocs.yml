@@ -32,6 +32,9 @@ nav:
     - '第四节 12 Chef Knife Cookbook Command Examples': 'chap2/chef_adv2.md'
     - '第五节 knife search': 'chap2/chef_op1_kinfe_search.md'
     - '第六节 Chef Quick CheatSheet': 'chap2/chef_adv3.md'
+  - 'Chef Cookbook Sample LAMP':
+    - '第一节 Creating My First Chef Cookbook': 'chap3/chef_basic5.md'
+    - '第二节 Creating LAMP Chef Cookbook Analysis': 'chap3/chef_basic6.md'
 
 
 repo_url: https://github.com/Chao-Xi/jxchefbook.git
