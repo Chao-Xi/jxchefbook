@@ -25,6 +25,14 @@ nav:
     - '第十三节 环境': 'chap1/chef_tutorial13_env.md'
     - '第十四节 测试': 'chap1/chef_tutorial14_test.md'
     - '第十五节 词汇表': 'chap1/chef_tutorial15_term.md'
+  - 'Chef Opt & Adv':
+    - '第一节 Chef Roles': 'chap2/chef_adv4.md'
+    - '第二节 Cookbook Versioning': 'chap2/chef_adv5.md'
+    - '第三节 How to Perform Chef Knife SSL Check and Fetch to Verify Certificate': 'chap2/chef_adv1.md'
+    - '第四节 12 Chef Knife Cookbook Command Examples': 'chap2/chef_adv2.md'
+    - '第五节 knife search': 'chap2/chef_op1_kinfe_search.md'
+    - '第六节 Chef Quick CheatSheet': 'chap2/chef_adv3.md'
+
 
 repo_url: https://github.com/Chao-Xi/jxchefbook.git
 repo_name: "jxchefbook"
