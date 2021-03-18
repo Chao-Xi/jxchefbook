@@ -35,6 +35,9 @@ nav:
   - 'Chef Cookbook Sample LAMP':
     - '第一节 Creating My First Chef Cookbook': 'chap3/chef_basic5.md'
     - '第二节 Creating LAMP Chef Cookbook Analysis': 'chap3/chef_basic6.md'
+  - 'Learning Ansible':
+    - 'Chap1 Ansible Introduction': 'chap4/1ansible_intro.md'
+   
 
 
 repo_url: https://github.com/Chao-Xi/jxchefbook.git
