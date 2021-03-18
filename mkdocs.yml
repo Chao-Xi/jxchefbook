@@ -36,9 +36,11 @@ nav:
     - '第一节 Creating My First Chef Cookbook': 'chap3/chef_basic5.md'
     - '第二节 Creating LAMP Chef Cookbook Analysis': 'chap3/chef_basic6.md'
   - 'Learning Ansible':
-    - 'Chap1 Ansible Introduction': 'chap4/1ansible_intro.md'
+    - 'L1 Ansible Introduction': 'chap4/1ansible_intro.md'
+    - 'L2Ansible Install(MacOs) and Environment Setup': 'chap4/2ansible_over_install.md'
+    - 'L3 Task Execution management': 'chap4/3play_task.md'
+    - 'L4 Ansible Variable Management': 'chap4/4Ansible_variables.md'
    
-
 
 repo_url: https://github.com/Chao-Xi/jxchefbook.git
 repo_name: "jxchefbook"
