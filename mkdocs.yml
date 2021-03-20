@@ -37,9 +37,13 @@ nav:
     - '第二节 Creating LAMP Chef Cookbook Analysis': 'chap3/chef_basic6.md'
   - 'Learning Ansible':
     - 'L1 Ansible Introduction': 'chap4/1ansible_intro.md'
-    - 'L2Ansible Install(MacOs) and Environment Setup': 'chap4/2ansible_over_install.md'
+    - 'L2 Ansible Install(MacOs) and Environment Setup': 'chap4/2ansible_over_install.md'
     - 'L3 Task Execution management': 'chap4/3play_task.md'
     - 'L4 Ansible Variable Management': 'chap4/4Ansible_variables.md'
+    - 'L5 Managing complex playbooks with roles and ansible galaxy': 'chap4/5Complex_roles.md'
+    - 'L6 Working with Secrets': 'chap4/6Secret_management.md'
+    - 'L7 Network Management with Ansible': 'chap4/7Network_management.md'
+    - 'L8 Idempotentence with Ansible play': 'chap4/8idempotentence.md'
    
 
 repo_url: https://github.com/Chao-Xi/jxchefbook.git
