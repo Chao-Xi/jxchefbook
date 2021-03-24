@@ -101,6 +101,7 @@ Je travaillais en tant qu'ingénieur backend à New York et j'ai obtenu mon mast
 	* [L6 Working with Secrets](https://chao-xi.github.io/jxchefbook/chap4/6Secret_management/)
 	* [L7 Network Management with Ansible](https://chao-xi.github.io/jxchefbook/chap4/7Network_management/)
 	* [L8 Idempotentence with Ansible play](https://chao-xi.github.io/jxchefbook/chap4/8idempotentence/)
+	* [L9 Ansible Interview](https://chao-xi.github.io/jxchefbook/chap4/9Ansible_interview/)
 
 ## To be continue
 

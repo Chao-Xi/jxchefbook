@@ -44,6 +44,7 @@ nav:
     - 'L6 Working with Secrets': 'chap4/6Secret_management.md'
     - 'L7 Network Management with Ansible': 'chap4/7Network_management.md'
     - 'L8 Idempotentence with Ansible play': 'chap4/8idempotentence.md'
+    - 'L9 Ansible Interview': 'chap4/9Ansible_interview.md'
    
 
 repo_url: https://github.com/Chao-Xi/jxchefbook.git
