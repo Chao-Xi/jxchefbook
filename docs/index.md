@@ -92,7 +92,7 @@ Je travaillais en tant qu'ingénieur backend à New York et j'ai obtenu mon mast
 * **第三章 Chef Cookbook Sample LAMP**
 	* [第一节 Creating My First Chef Cookbook](https://chao-xi.github.io/jxchefbook/chap3/chef_basic5/)
 	* [第二节 Creating LAMP Chef Cookbook Analysis](https://chao-xi.github.io/jxchefbook/chap3/chef_basic6/) 
-* **第四章  Learning Chef**
+* **第四章  Learning Ansible**
 	* [L1 Ansible Introduction](https://chao-xi.github.io/jxchefbook/chap4/1ansible_intro/) 
 	* [L2 Ansible Install(MacOs) and Environment Setup](https://chao-xi.github.io/jxchefbook/chap4/2ansible_over_install/)
 	* [L3 Task Execution management](https://chao-xi.github.io/jxchefbook/chap4/3play_task/)
