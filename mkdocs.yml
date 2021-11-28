@@ -46,6 +46,10 @@ nav:
     - 'L8 Idempotentence with Ansible play': 'chap4/8idempotentence.md'
     - 'L9 Ansible Interview': 'chap4/9Ansible_interview.md'
     - 'L10 Ansible 自动化运维工具PPT': 'chap4/10Ansible_learn_ppt.md'
+  - 'HashiCorp Certified Terraform Associate':
+    - 'HashiCorp Certified Terraform Associate Learning Path': 'chap5/1hashicorp_certified_terraform.md'
+    - 'Terraform Cheat Sheet': 'chap5/2terraform_cs.md'
+
    
 
 repo_url: https://github.com/Chao-Xi/jxchefbook.git

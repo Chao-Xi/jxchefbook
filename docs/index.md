@@ -103,6 +103,10 @@ Je travaillais en tant qu'ingénieur backend à New York et j'ai obtenu mon mast
 	* [L8 Idempotentence with Ansible play](https://chao-xi.github.io/jxchefbook/chap4/8idempotentence/)
 	* [L9 Ansible Interview](https://chao-xi.github.io/jxchefbook/chap4/9Ansible_interview/)
 	* [L10 Ansible 自动化运维工具PPT](https://chao-xi.github.io/jxchefbook/chap4/10Ansible_learn_ppt/)
+* **第五章 Certified Terraform Associate**
+	* [HashiCorp Certified Terraform Associate Learning Path](https://chao-xi.github.io/jxchefbook/chap5/1hashicorp_certified_terraform/)
+	* [Terraform Cheat Sheet](https://chao-xi.github.io/jxchefbook/chap5/2terraform_cs/) 	 	
+
 
 ## To be continue
 
