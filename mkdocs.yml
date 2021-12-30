@@ -48,6 +48,7 @@ nav:
     - 'L10 Ansible 自动化运维工具PPT': 'chap4/10Ansible_learn_ppt.md' 
     - 'L11 任务中心之Ansible基础篇': 'chap4/11Ansible_task1.md'
     - 'L12 任务中心之Ansible进阶篇': 'chap4/12Ansible_task2.md'
+    - 'L13 Ansible 面试知识点': 'chap4/13Ansible_int.md'
   - 'HashiCorp Certified Terraform Associate':
     - 'HashiCorp Certified Terraform Associate Learning Path': 'chap5/1hashicorp_certified_terraform.md'
     - 'Terraform Cheat Sheet': 'chap5/2terraform_cs.md'
