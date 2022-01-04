@@ -117,7 +117,7 @@ ansible-doc -s copy
 
 ## **Modules**
 
-**默认模块：command **
+**默认模块：command**
 
 ```
 ansible servers -a "date"
@@ -439,3 +439,37 @@ ansible-playbook test.yml --skip-tags "date"
 * block: 普通模块
 * rescue: 异常时执行
 * always: 总是执行
+
+## **Ansible Secret**
+
+```
+.
+├── group_vars
+│   └── all
+│       ├── vars
+│       └── vault
+├── templates
+│   └── password.j2
+└── vault.yml
+```
+
+* vars: `password: '{{vault_password}}'`
+* vault: `vault_password: thisIsnotAgoodPassword`
+
+```
+ansible-vault encrypt vault
+
+ansible-vault edit vault
+```
+
+**password.j2**: `The password is {{password}}`
+
+```
+ansible-playbook -i ../inventory.ini vault.yml --tags create --ask-vault-pass
+```
+
+
+
+
+
+
