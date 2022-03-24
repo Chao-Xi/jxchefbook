@@ -574,7 +574,6 @@ suites:
 ```
 ```
 $ chef-client --local-mode --log_level --chef-zero-port 8889 --json-attributes dna.json
-
 $ chef-client --local-mode  --chef-zero-port 8889
 ```
 ### 搜索
@@ -847,7 +846,6 @@ $ knife search node "recipe:apache"
 ```
 include_recipe "motd"
 include_recipe "user"
-include_recipe "apache"
 ```
 
 ```
@@ -990,20 +988,6 @@ node.default['chef_client']['config']['environment'] = 'production'
 * 使用Let进行惰性求值
 * 生成一份测试覆盖报告 `ChefSpec::Coverage.report`
 * 在`spec_helper.rb`中共享测试代码
-
-```
-# chef client
-$ sudo gem install foodcritic --no-ri --no-rdoc
-$ sudo gem install chefspec --no-ri --no-rdoc
-
-$ chef generate template index.html
-$ kitchen verify
-$ kitchen test
-
-$ foodcritic .
-$ rspec --color
-```
-
 
 
 
