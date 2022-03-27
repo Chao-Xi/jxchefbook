@@ -27,7 +27,7 @@
 
 **Chef Client:**
 
-* Cookbooks, DataBags, Environments
+* **Cookbooks, DataBags, Environments**
 * Knife
 * Solo
 * Zero
@@ -48,33 +48,36 @@ $ chef-client --version
 
 ## **2 Chef 语法**
 
-bash / `Chef_gem` / Cron / `deploy_revision` / directory / execute / file / `gem_package` / group / link / mount / package / `remote_file` / service / template / User
+* bash / `Chef_gem` / Cron / `deploy_revision` / directory / execute / file 
+*  `gem_package` / group / link / mount / package / `remote_file`  
+*  service / template / User
 
 
-* `Chef_gem`: 在Chef内安装一个Ruby程序(gem)，在Chef内部使用。 如果你的Chef代码需要额外一个 的gem来执行一个函数, 可以用这个资源来在Chef内部安装这个额外的gem
-* `deploy_revision`: 控制和管理应用程序部署部署, 在代码版本控制工具中的代码（如Rails应用程序)
-* `gem_package`: 在Chef外安装一个Ruby程序（gem),比如在目标机器的系统中安装个应用程序或工具:
+* `Chef_gem`: 在Chef内安装一个Ruby程序(gem)，在Chef内部使用。 如果你的Chef代码需要额外一个的gem来执行一个函数, 可以用这个资源来在Chef内部安装这个额外的gem
+* `deploy_revision`: **控制和管理应用程序部署部署, 在代码版本控制工具中的代码**（如Rails应用程序)
+* `gem_package`: **在Chef外安装一个Ruby程序（gem)**,比如在目标机器的系统中安装个应用程序或工具:
 
 ## **3 如何写 Chef 配方 & chef-apply**
 
-* 配方单(recipe): 一系列用Ruby领域专用语言（DSL）来写的描述理想配置的指令。
-* 源(resource)： 资源是Chef代码的组成部分。通过在配方单中使用不同的资源来告诉Chef你的理想配置。
-* 属性（attribute)
+* **配方单(recipe): 一系列用Ruby领域专用语言（DSL）来写的描述理想配置的指令**。
+* **源(resource)： 资源是Chef代码的组成部分**。通过在配方单中使用不同的资源来告诉Chef你的理想配置。
+* **属性（attribute)**
 
 
 ## **4 用Test Kitchen管理沙盒测试环境**
 
-* kitchen init： 向一个项目中添加Test Kitchen支持
-* kitchen list: 显示Test Kitchen实例的信急
+* **kitchen init**： 向一个项目中添加Test Kitchen支持
+* **kitchen list: 显示Test Kitchen实例的信息**
 * kitchen create： 启动个Test Kitchen实例
 * `Gemfile.lock`:  当bundle install运行时Bundler所需的gem和它所依赖的gem的列表 可以用来在另一个开发者的电脑上重现一样的环境。
 
-`kitchen.yml`文件包含四个主要的部分。
+### **`kitchen.yml`文件包含四个主要的部分。**
 
-* `driver`: 指定要使用的驱动动以及管理Test Kitchen环境的配的参数。你可以通过运行kitchen driver discover命令来得到一个可用的驱动列表
-* `provision:` 指定使用哪个配界管理工其来创建指定驱动的环掩,以上的例子中我们使用`chef_solo`,当你运行kitchen setup时它将在实例上安装Chef客户端（如果目前尚未安 装的话）。
+* `driver`: **指定要使用的驱动以及管理Test Kitchen环境的配的参数**。你可以通过运行`kitchen driver discover`命令来得到一个可用的驱动列表
+* `provision:` **指定使用哪个配界管理工其来创建指定驱动的环掩**,以上的例子中我们使用`chef_solo`,当你运行`kitchen setup`时它将在实例上安装Chef客户端（如果目前尚未安装的话）。
 * `platforms`: 你希望Test kitchen创建的实例操作系统列表
-* `suites`: 在使用Chef作为配置管理工具时（Test Kitchen不仅仅支持Chef)，指定每个实例上运行的配置。这包括指定在每个实例上运行的Chef配方单的列表来。
+* `suites`: 在使用Chef作为配置管理工具时（Test Kitchen不仅仅支持Chef)，**指定每个实例上运行的配置。这包括指定在每个实例上运行的Chef配方单的列表来**。
+	* **`run_list: `+ attributes**
 
 
 
@@ -82,9 +85,11 @@ bash / `Chef_gem` / Cron / `deploy_revision` / directory / execute / file / `gem
 
 ### **什么是节点**
 
-* 只要这个节点安装了Chef客户端，就可以受Chef管理并运行Chef配方单。
+* **只要这个节点安装了Chef客户端，就可以受Chef管理并运行Chef配方单。**
 
-node/kitchen.yml
+`node/kitchen.yml`
+
+**`driver  provisioner  platforms  suites`**
 
 ```
 ---
@@ -118,9 +123,9 @@ $ kitchen create default-centos65
 $ kitchen setup default-centos65
 ```
 
-Chef Solo安装Chef客户端但不把它配置为使用Chef服务器
+**Chef Solo安装Chef客户端但不把它配置为使用Chef服务器**
 
-通过使用`chef-client`程序来执行配方单中指定的动作通常被称作一次Chef运行
+通过使用`chef-client`程序来**执行配方单中指定的动作通常被称作一次Chef运行**
 
 在命令行中输人`chef-client --local-mode hello.rb --log_level info`将执行你的第一次Chef运行。
 
@@ -130,39 +135,40 @@ Chef Solo安装Chef客户端但不把它配置为使用Chef服务器
 
 ### **Chef客户端的三种模式**
 
-**本地模式**
+* **本地模式**
 
-当`chef-client`以本地模式运行时，它在内存中模拟一个完整的Chef服务器。任何本应保存到服务器的数据会被写入一个本地文件夹。 将服务器数据写在本地的过程叫做回写(writeback)。这是为什么chef-client创建了`nodes/`目录。 
+当`chef-client`以本地模式运行时，**它在内存中模拟一个完整的Chef服务器**。任何本应保存到服务器的数据会被写入一个本地文件夹。 将服务器数据写在本地的过程叫做回写(writeback)。这是为什么`chef-client`创建了`nodes/`目录。 
 
 本地模式是设计来支持通过使用完全在内存的`Chef Zero`服务器来进行快速的`Chef`配方单开发
 
-**客户端模式**
+* **客户端模式**
 
-当chef-client以客户端模式运行时，它假设你在网络中已经让Chef服务器正在运行。
+当`chef-client`以客户端模式运行时，它假设你在网络中已经让Chef服务器正在运行。
 
-在客户端模式中，chef-client是一个在被Chef管理的机器本地运行的代理人程序（或服务、后台程序). 
+在客户端模式中，**`chef-client`是一个在被Chef管理的机器本地运行的代理人程序（或服务、后台程序).** 
 
 Chef服务器集中存储需要管理的基础架构的信息。如果需要同时管理多余一台机器，推荐使用Chef服务器
 
-**Solo模式**
+* **Solo模式**
 
-**在版本11.8中chef-client支持本地模式之前，唯一不需要Chef服务器运行Chef代码的方法是使用`chef-solo`.**
+**<mark>在版本11.8中chef-client支持本地模式之前，唯一不需要Chef服务器运行Chef代码的方法是使用`chef-solo`.</mark>**
 
-**chef-solo提供一个额外的客户端模式叫做Solo模式**。Solo模式提供了让Chef够本地运行的Chef功能的有限的子集。chef-solo不支持回写, 在大多数时候，本地模式都远远比Solo模式更方便使用。
+**chef-solo提供一个额外的客户端模式叫做Solo模式**。**Solo模式提供了让Chef够本地运行的Chef功能的有限的子集**。`chef-solo`不支持回写, 在大多数时候，本地模式都远远比Solo模式更方便使用。
 
 
 ### **命令行工具Ohai**
 
-* 当Chef客户端运行时, 它使用一个额外的命令行工具ohai来收集系统信息。ohai将收集 到的节点信包储存在Chef的自动属性中
+* 当Chef客户端运行时, **它使用一个额外的命令行工具ohai来收集系统信息。ohai将收集到的节点信包储存在Chef的自动属性中**
 * ohai收集许多关于电脑当前状态的信息：**网络配置, Cpu状态、操作系统类型和版本、内存使用量等。**
 
 
 属性是Chef管理的一个变量。在你的代码中，在中括号中用引号包围的字符串指定属胜的名称，Chef会返回属性的值。
 
-在我们的例子中，我们要知道IP地址，在之前的`ohaI`输出中，我们知道其IP地址属胜的名称是`ipaddress,`因此可以用此名称在`Chef`代码中访问节点的属胜
+在我们的例子中，
 
-* node是另外－个Chef代码中可以使用的属性。它包含在节点上运行ohai输出的所有信息和我们使用的ENV属性类似，node属性是一个键值对儿集合
-* 键值对儿集合支持嵌套，这是为什么在ohai输出中会有多层缩进。因此，如果要访问节点使用用的虚拟软件信急（"虚拟系统”)，使用以下的嵌套键值对儿，`system`是 `virtualization`集合中的一个键
+* 我们要知道IP地址，在之前的`ohai`输出中，我们知道其IP地址属胜的名称是`ipaddress,`因此可以用此名称在`Chef`代码中访问节点的属胜
+* node是另外一个Chef代码中可以使用的属性。它包含在节点上运行ohai输出的所有信息和我们使用的`ENV`属性类似，node属性是一个键值对儿集合
+* 键值对儿集合支持嵌套，这是为什么在ohai输出中会有多层缩进。因此，如果要访问节点使用用的虚拟软件信急（"虚拟系统”)，**使用以下的嵌套键值对儿，`system`是 `virtualization`集合中的一个键**
 
 
 
@@ -192,12 +198,12 @@ log "Hostname: #{node['hostname']}"
 
 ## **6 撰写和使用菜谱**
 
-**有了Chef开发包，我们推荐使用chef generate命令来管理菜语的目录结构**
+**有了Chef开发包，我们推荐使用`chef generate`命令来管理菜语的目录结构**
 
-chef generate命令拥有一些knife没有的功能。
+**chef generate命**令拥有一些knife没有的功能。
 
-* chef generate允许你自定义生成的配方单和菜谱模板。
-* 同时chef generate允许你逐步创建目录结构, 每次只添加你所必要的组件。
+* chef generate允许**你自定义生成的配方单和菜谱模板**。
+* 同时`chef generate`允许**你逐步创建目录结构, 每次只添加你所必要的组件**。
 * knife则只能一次性生成包含所有组件的目录结构
 
 ```
@@ -221,9 +227,9 @@ cookbook_file "/etc/motd" do
 end
 ```
 
-`cookbook file`是一个Chef资源。cookbook file资源用来将菜谱中`files/`子目录下的文件传输到Chef管理的节点中
+`cookbook file`是一个Chef资源。`cookbook file`资源用来将菜谱中`files/`子目录下的文件传输到Chef管理的节点中
 
-在命令行中，运行knife cookbook create命令可以创建菜谱的目录结构。knife将创建motd菜谱的主目录：
+在命令行中，运行`knife cookbook create`命令可以创建菜谱的目录结构。knife将创建motd菜谱的主目录：
 
 ```
 $ cd motd
@@ -243,13 +249,13 @@ $ kitchen converge default-centos65
 
 **在生产环境中`chef-client`通常件为服务在背后持续定期运行， 比如15分钟执行一次chef随行．它查看服务器上有没有任何菜谱的改变或新的运行清单。**
 
-* 开始运行Chef客户端
+* **开始运行Chef客户端**
 	* chef-client 进程在远程节点启动。 进程可能由一个服务， cron任务或某用户手动启 动。`chef-client`进程负责在目标节点上运行包含Chef代码的配方单的菜谱
-* 创建节点
+* **创建节点**
 	* `chef-client` 进程在内存中构建node（节点）对象。它运行ohai并收集所有关于这个 节点的自动属性（比如主机名、FQDN平台、用户等）。
-* 同步
+* **同步**
 	* 运行清单被发送到节点， 运行清单包含要在目标节点执行的配方单的清单
-* 加载
+* **加载**
 	*  菜谱和Ruby组件在此步骤被加载。
 		* **库(Libries)加载每个菜谱中`Libries/`目录下的所有文件**， 这样语言扩展或更改将会在余下的Chef运行步骤中可用
 		* **属性（Attributes)加载每个菜谱中`attributes/`目录下的所有文件井与ohai属性结合**
@@ -257,9 +263,9 @@ $ kitchen converge default-centos65
 		* **资源(Resource) 加载每个菜谱中(`resources/`)目录下的所有文件**。资源必须在配方单之前加载因为配方单会使用资源代码
 		* **提供者(Providers)加载每个菜谱中(`providers/`)目录下的所有文件**，以便资源引用合适的提供者。
 		* **配方单（Recipes)加载执行每个菜谱中`recipes/`目录下的所有文件**．在这个阶段， 配方单井未被执行来将节点转换为理想配置， 配方单中Ruby代码编译井转化成最后将在节点上执行的配方单， 每个资源也在此时被加人到资源集合中. 
-* 收敛
+* **收敛**
 	* 收敛阶段则是每次Chef运行中最重要的阶段。在**这个时候Chef配方单在目标节点执行并改变节点到理想状态，比如安装尚未安装的程序包、复制渲染好的模板或文件到目标位置等等**。
-* 报告
+* **报告**
 	* 如果Chef客户端运行成功，节点会保存任何新的属性值；如果失败，客户端会抛出异常而节点对象也不会被更新，通知机制和异常处理器将运行来通知工作人
 	* `recipe['＜菜谱名字＞::＜配方单名字＞']，`
 
@@ -303,15 +309,15 @@ cookbook
 
 * **metadata.rb**
 
-metadata.rb文件包含该菜谱的所有元数据。每个菜谱必须有一个元数据文件 metadata.rb 来包含菜谱的名字、版本、依赖以及其他信息。
+**`metadata.rb`文件包含该菜谱的所有元数据。** 每个菜谱必须有一个元数据文件 `metadata.rb` 来包含**菜谱的名字、版本、依赖以及其他信息**。
 
 *  **recipes**
 
-recipe目录包含Chef配方单。配方单文件包含Chef代码。此目录中包含多个.rb配方单文件。
+`recipe`目录包含`Chef`配方单。**配方单文件包含Chef代码。此目录中包含多个`.rb`配方单文件**。
 
 * **templates**
 
-templates目录存储Chef的模板。templates目录和files目录类似目的都是将文件分发到目标节点上。
+**templates目录存储Chef的模板**。`templates`目录和`files`目录类似目的都是将文件分发到目标节点上。
 
 然而，templates中的文件是嵌入式Ruby模板文件(ERB)，此类文件是可包含Ruby代码的纯文本文件，在复制到目标节点之前，文件中的Ruby代码被执行并渲染成相应的文件内容。
 
@@ -354,11 +360,11 @@ chef generate template index.html
 This site was set up by Jacob on <%= node['hostname'] %>
 ```
 
-## 7 属性
+## **7 属性**
 
 ### **Chef 属性**
 
-属性代表的是你的节点的相关信息。除了ohai自收集的节点相关信息之外， 你还可以在chef配方单或额外的属性文件中设定属性
+**属性代表的是你的节点的相关信息**。<mark>除了ohai自收集的节点相关信息之外， 你还可以在chef配方单或额外的属性文件中设定属性</mark>
 
 ```
 <cookbook>
@@ -430,15 +436,15 @@ include_recipe 'motd-attributes::message'
 
 ### **属性优先级**
 
-* 自动(Autormatic):  自动属性为ohai所生成的属性。
-* 默认(Default): 通常由菜谱及属性文件设定的属性。
-* 重写(Override):  最强的属性设定方法，务必请谨慎使用。
+* **自动(Autormatic):  自动属性为ohai所生成的属性。**
+* **默认(Default): 通常由菜谱及属性文件设定的属性。**
+* **重写(Override):  最强的属性设定方法，务必请谨慎使用**。
 
 ### **属性排错**
 
 如果需要为属性拍错，比如找到他们哪里设定，node对象提供的`node.debug_value()`方法能给与很多帮助。
 
-比如如果你不知道ohai设定了自动属性`node['ipaddress']`得知它是由。可以通过运行`node.debug_value()`得知由ohai设定的
+**比如如果你不知道ohai设定了自动属性`node['ipaddress']`得知它是由。可以通过运行`node.debug_value()`得知由ohai设定的**
 
 ```
 require 'pp'
@@ -457,7 +463,7 @@ end
 ```
 
 * 从这里， 可以看出`node[ipaddress]`属性在automatic优先级被设定为`"172.16.72.142"`,在default优先级被设定为`"1.1.1.1"`
-	* Chef的确处理了"1.1.1.1"这个值，但最终结果被高优先级的自动属性覆盖。
+	* **Chef的确处理了"1.1.1.1"这个值，但最终结果被高优先级的自动属性覆盖**。
 	* 要为同个优先级别被多次设定的属性排错比在不同优先级别设定的时候复杂一些
 	* 但仍然非常可行。你只需要在`include_recipe`前后分别打印`node.debug_value(）`的值。
 
@@ -479,7 +485,7 @@ $ chef-solo -h
 
 ### **用Chef Solo配置Chef服务器**
 
-你可以使用Chef Solo（而无需Test Kitchen）来自动化部署Chef服务器。
+**你可以使用Chef Solo（而无需Test Kitchen）来自动化部署Chef服务器。**
 
 在未来，大多数Chef Solo的功能会被迁移到Chef Local或Chef Zero,然而Chef Solo仍然对自动化配置和部署Chef服务器本身非常有用，因为Chef Local或Chef Zero会令一些配置脚本无法辨识发送请求道哪个Chef服务器 (Chef Local/Zero还是正在配置的Chef服务器），因为Chef Zero自己也会启动一个驻内存的Chef服务器。
 
@@ -489,7 +495,7 @@ $ chef-solo -h
 
 Chef及务器验证validation.pem的签名（就像它验证client.pem的签名一样）。在knife初次准备（bootstrap）节点时，validation.pem创建在节点上的`/etc/chef/validation.pem`位置．
 
-### Knife Cookbook Site 插件
+### **Knife Cookbook Site 插件**
 
 ```
 $ knife cookbook site search chef-client
@@ -502,16 +508,16 @@ $ tar xvf chef-client*.tar.gz -C chef-repo/cookbooks
 $ knife cookbook upload chef-client —cookbook-path cookbooks
 ```
 
-### 配置Knife使用生产环境SSL设置
+### **配置Knife使用生产环境SSL设置**
 
 ```
 $ knife ssl fetch
 $ knife ssl check 
 ```
 
-### 配置Chef-client使用生产环境的SSL设置
+### **配置Chef-client使用生产环境的SSL设置**
 
-chef-client菜谱包含用来自动生成`/etc/chef/client.rb`配置文件的`chef-client::config`配方单。
+**chef-client菜谱包含用来自动生成`/etc/chef/client.rb`配置文件的`chef-client::config`配方单。**
 
 登录到节点井查看`/etc/chef/client.rb`文件。 `/client.rb`文件在你运行`knife bootsrap`时在节点上被创建用来配置chef-client设置。执行以下命令，并确保完成时退回到开发机器
 
@@ -535,20 +541,18 @@ node.default['chef_client']['config']['ssl_verify_mode'] = ':verify_peer'
 $ knife node show --attribute "chef_client.config.ssl_verify_mode" \
 > node-centos65.vagrantup.com
 
-$ knife node show --attribute "chef_client.config.ssl_verify_mode" \
-> node-centos65.vagrantup.com
 
 $ knife node show --attribute "chef_client.config.ssl_ca_file" \
-> node-centos65.vagrantup.c
+> node-centos65.vagrantup.com
 ```
 
 ## **10 Chef zero**
 
-更少的内存启动一个Chef服务器作为测试用途岂不是很好。为此Chef开发包包含个精简版本的Chef服务器称作`chef-zero`.
+**<mark>更少的内存启动一个Chef服务器作为测试用途岂不是很好。为此Chef开发包包含个精简版本的Chef服务器称作`chef-zero`.</mark>**
 
 `chef_zero`可以使用址少20MB内存来运行因为它很小所以启动很快因此很适合用作测试。
 
-**由于要让Chef服务器用极少的内存即可运行，`chef-zero`也作出了一些牺牲它没有网页用户界面也小会永久存储任何数据一旦Chef Zero停止运行**,** 所有数据都将丢失但对于测试环境你井不需要网页用户界面或永久数据保存。**
+**由于要让Chef服务器用极少的内存即可运行，`chef-zero`也作出了一些牺牲它没有网页用户界面也小会永久存储任何数据一旦Chef Zero停止运行**,**所有数据都将丢失但对于测试环境你井不需要网页用户界面或永久数据保存**
 
 ```
 ---
@@ -600,13 +604,13 @@ $ knife search node "*:*" -a ipaddress
 
 ## **11 数概包Databag**
 
-Chef服务器支持存储全局的、可以在不同点上节点上使用的数据存储。这个功能称作数据包（data bag)。
+Chef服务器支持存储全局的、可以在不同点上节点上使用的数据存储。**这个功能称作数据包（data bag)**。
 
 **在Chef的概念中，数据包是包含代表你的基础架构而并不针对某一个节点的信息的容器。数据包包含需要在多个节点共享的信息**
 
-* 通用的密码
-* 软件安装的许可证钥匙
-* 通用的用户或组的列表
+* **通用的密码**
+* **软件安装的许可证钥匙**
+* **通用的用户或组的列表**
 
 除了数据包外,Chef节点之间无法共享数据。
 
@@ -633,7 +637,7 @@ $ mkdir -p data_bags/users
 }
 ```
 
-在Chef服务器上创建名为users的数据包，运行knife data create命令
+**在Chef服务器上创建名为users的数据包，运行`knife data create`命令**
 
 ```
 $ knife data_bag create users
@@ -653,15 +657,17 @@ Updated data_bag_item[users::alice]
 $ chef generate cookbook users
 ```
 
-注意我们在provisioner:中添加`data_bags_path`来指定数据包的位置。
+注意我们在`provisioner:`中添加`data_bags_path`来指定数据包的位置。
 
 ```
 provisioner:
   name: chef_zero
   data_bags_path: ../../data_bags
- ```
+```
 
 **`data_bags_path`:指向的目录中的所有文件将作为数据包上传到`chef-zero`服务器。在生 产环境中数据包的数据通常不会包含在菜谱文件结构中。**
+
+**`always_update_cookbooks: true`**
 
 ```
 provisioner:
@@ -684,7 +690,7 @@ search("users", "*:*").each do |user_data|
 end
 ```
 
-我们使用each do结构。在这里，遍历数据包的每个项目并将每个项目的内容存在user_data变量中。`user_data`是一个字典（哈希）包含数据包项目的键值对儿
+**我们使用`each do`结构。在这里，遍历数据包的每个项目并将每个项目的内容存在`user_data`变量中。`user_data`是一个字典（哈希）包含数据包项目的键值对儿**
 
 **update**
 
@@ -693,9 +699,9 @@ $ knife data_bag from file users eve.json
 Updated data_bag_item[users::eve]
 ```
 
-### 加密数据包
+### **加密数据包**
 
-数据包项目可以被共享密钥加密使其可以在Chef服务器中存储高度安全的信包。比如 可以使用加密数据包存储
+**数据包项目可以被共享密钥加密使其可以在Chef服务器中存储高度安全的信包。比如可以使用加密数据包存储**
 
 * SSL证书
 * SSH密钥
@@ -706,7 +712,7 @@ Updated data_bag_item[users::eve]
 $ knife data bag create api_keys
 Created data_bag[api_keys]
 
-# 当数据包项目需要加密时,使用--secret-file参数来传递密钥
+# 当数据包项目需要加密时,使用 --secret-file 参数来传递密钥
 $ knife data bag from file api_keys payment.json \
 --secret-file encrypted_data_bag_secret data_bag_item[api_keys::payment]
 
@@ -719,9 +725,12 @@ $ knife data bag show api_keys payment
 $ sudo gem install chef-vault --no-ri --no-rdoc
 ```
 
-`--admin`选项允许其创建的客户端针对它相对的节点以外的其他节点使用`knife client show`和`knife node commands`背后的`API`。默认情况下，`knife client create`将客户端 信息显示在一个编辑器内，允许你在。
+* **`--admin`选项允许其创建的客户端针对它相对的节点以外的其他节点使用`knife client show`和`knife node commands`背后的`API`。**
+	* 默认情况下，`knife client create`将客户端信息显示在一个编辑器内，允许你在。
 
-client.pem密钥生成之前对客户端作出修改。在我们的例子中，默认值就可以满足我们的要求，因此我们传递`--disable-editing`参数来直接使用默认值。`--file`参数将客户端密钥。`client.pem`写出到一个指定的文件。
+* **`client.pem`密钥生成之前对客户端作出修改。在我们的例子中，默认值就可以满足我们的要求，因此我们传递`--disable-editing`参数来直接使用默认值**
+	* `--file`参数将客户端密钥。`client.pem`写出到一个指定的文件。
+
 ```
 $  knife client create devhost  --disable-editing --file .chef/devhost.pem
 Created client[devhost]
@@ -730,7 +739,7 @@ Created client[devhost]
 **`chef-vault`会安装一个knife命令的插件来管理加密数据包**。
 
 
-这个插件将`chef-valut`的命令整合到knife vault命令中。运行以下命令来创建一个加密数据包项目并用`chef-vdult` 管理密钥：
+这个插件将`chef-valut`的命令整合到`knife vault`命令中。运行以下命令来创建一个加密数据包项目并用`chef-vdult` 管理密钥：
 
 ```
 $ knife vault create passwords mysql_root --json data_bags/passwords/mysql_root.json --search "*:*"  --mode client
@@ -773,7 +782,7 @@ Updated Role webserver
 $ knife role show webserver
 ```
 
-可以通过`knife node set`命令在服务器上设定节点的运行清单。
+**可以通过`knife node set`命令在服务器上设定节点的运行清单。**
 
 ```
 $ knife node run_list set snowman "role[webserver]"
@@ -783,15 +792,15 @@ snowman:
 
 在Chef运行时，运行清单中的网页服务器(webserver)角色将展开至该角色的运行清单
 
-* recipe[motd]
-* recipe[users]
-* recipe[apache]
+* `recipe[motd]`
+* `recipe[users]`
+* `recipe[apache]`
 
 ### **属性和角色**
 
-角色同时可以包含属性。
+**角色同时可以包含属性。**
 
-让我们创建一个.json文件来表示一个基本角色。这个角色包含我们在前面推荐运行在每个节点上的`chef-client::delete_validation`和`chef-client::default`配方单。
+让我们创建一个`.json`文件来表示一个基本角色。**这个角色包含我们在前面推荐运行在每个节点上的`chef-client::delete_validation`和`chef-client::default`配方单**。
 
 **`roles/base.json`**
 
@@ -822,10 +831,10 @@ Updated Role base
 
 * **`Automatic(ohai) >  Defined in a Role > attributes defined in a recipe > attributes defined in an attribute file`**
 
-* 角色的属性可以重写配方单或属性文件中定义的属性
-* 但优先级比ohai定义的自动属性要低
-* 角色中的属性设计为全局设定
-* 并比在菜单中设定的属性拥有更高的优先级。
+* **角色的属性可以重写配方单或属性文件中定义的属性**
+* **但优先级比ohai定义的自动属性要低**
+* **角色中的属性设计为全局设定**
+* **并比在菜单中设定的属性拥有更高的优先级**。
 
 ### **角色和搜索**
 
@@ -887,7 +896,7 @@ override_attributes:
 
 ### **属性和环境**
 
-`chef-playground/roles/production.json`
+**`chef-playground/roles/production.json`**
 
 ```
 {
@@ -920,7 +929,8 @@ cookbook_versions:
 * **`Highest Proity`  <-----    `Lowest Proiority`**
 
 * **`Automatic(ohai) >  Defined in a Role > Defined in the Environment  > attributes defined in a recipe > attributes defined in an attribute file`**
-因此在使用环填属性时往往使用override attributes而不是default attributes
+
+**因此在使用环填属性时往往使用`override attributes`而不是`default attributes`**
 
 ```
 override_attributes:
@@ -928,7 +938,7 @@ override_attributes:
     message: A production-worthy message of the day
 ```
 
-chef-zero/environments目录中创建一个环境定义。这会代表一个production（生产）环境．在此环境中我们也将以重写级别定义`node['motd']['message']`属性
+`chef-zero/environments`目录中创建一个环境定义。这会代表一个production（生产）环境．在此环境中我们也将以重写级别定义`node['motd']['message']`属性
 
 
 **`chef-zero/environments/production.json`**
@@ -958,7 +968,7 @@ provisioner:
   always_update_cookbooks: true
 ```
 
-同时，我们借此介绍`suites:`设定的新语句。
+**同时，我们借此介绍`suites:`设定的新语句。**
 
 通过`client_rb`和environment语句为我们的沙盒节点在它的`/etc/chef/client.rb`中设定环境
 
@@ -988,12 +998,3 @@ node.default['chef_client']['config']['environment'] = 'production'
 * 使用Let进行惰性求值
 * 生成一份测试覆盖报告 `ChefSpec::Coverage.report`
 * 在`spec_helper.rb`中共享测试代码
-
-
-
-
-
-
-
-
-
