@@ -217,3 +217,146 @@ Although config files and environment variables are a preferable alternative, th
 
 Sensitive Variable is Secure Place for API Credentials : **Terraform Cloud can securely store and encrypt your passwords. This encrypted storage can be used to store passwords, TLS certificates, SSH keys, and anything else that shouldn't be stored in plain text.**
 
+### **22 Explain what Terraform is and how does it works**
+
+Terraform.io: **"Terraform is an infrastructure as code (IaC) tool that allows you to build, change, and version infrastructure safely and efficiently."**
+
+### **23 Why one would prefer using Terraform and not other technologies? (e.g. Ansible, Puppet, CloudFormation)**
+
+The benefits of Terraform over the other tools:
+
+* It follows the immutable infrastructure approach which has benefits like avoiding a configuration drift over time
+* Ansible and Puppet are more procedural (you mention what to execute in each step) and **Terraform is declarative since you describe the overall desired state and not per resource or task.** 
+	* You can give the example of going from 1 to 2 servers in each tool. In Terraform you specify 2, in Ansible and puppet you have to only provision 1 additional server so you need to explicitly make sure you provision only another one server.
+
+
+### **24 How do you structure your Terraform projects?**
+
+`terraform_directory providers.tf` -> List providers (source, version, etc.) `variables.tf` -> any variable used in other files such as main.tf main.tf -> Lists the resources
+
+### **25 True or False? Terraform follows the mutable infrastructure paradigm**
+
+False. Terraform follows immutable infrastructure paradigm.
+
+### **26 True or False? Terraform uses declarative style to describe the expected end state**
+
+True
+
+### **27 What is HCL?** 
+
+HCL stands for **Hashicorp Configuration Language**. It is the language Hashicorp made to use as the configuration language for a number of its tools, including terraform.
+
+
+## **Terraform - Resources**
+
+### **What is a "resource"?**
+
+"Terraform uses resource blocks to manage infrastructure, **such as virtual networks, compute instances, or higher-level components such as DNS records**. Resource blocks represent one or more infrastructure objects in your Terraform configuration."
+
+### **Explain each part of the following line: `resource "aws_instance" "web_server" {...}`**
+
+* resource: keyword for defining a resource
+* `"aws_instance"`: the type of the resource
+* `"web_server"`: the name of the resource
+
+### **What is the ID of the following resource: `resource "aws_instance" "web_server" {...}`**
+
+`aws_instance.web_server`
+
+
+
+### **How would you enforce users that use your variables to provide values with certain constraints? For example, a number greater than 1**
+
+
+
+Using validation block
+
+```
+variable "some_var" {
+  type = number
+  
+  validation {
+    condition = var.some_var > 1
+    error_message = "you have to specify a number greater than 1"
+  }
+
+}
+```
+
+### **The same variable is defined in the following places:**
+
+* The file `terraform.tfvars`
+* Environment variable
+* Using `-var` or `-var-file`
+
+### **What `terraform.tfstate` file is used for?**
+
+It keeps track of the IDs of created resources so that Terraform knows what it's managing.
+
+###**How do you rename an existing resource?**
+
+```
+terraform state mv
+```
+
+### **Mention some best practices related to tfstate**
+
+* Don't edit it manually. **tfstate was designed to be manipulated by terraform and not by users directly.**
+* **Store it in secured location** (since it can include credentials and sensitive data in general)
+* **Backup it regularly so you can roll-back easily when needed**
+* Store it in remote shared storage. This is especially needed when working in a team and the state can be updated by any of the team members
+* **Enabled versioning if the storage where you store the state file**, supports it. Versioning is great for backups and roll-backs in case of an issue.
+
+### **What is a "tainted resource"?**
+
+It's a resource which was successfully created but failed during provisioning. Terraform will fail and mark this resource as "tainted".
+
+### **What terraform taint does?**
+
+**`terraform taint resource.id` manually marks the resource as tainted in the state file. **
+
+So when you run terraform apply the next time, the resource will be destroyed and recreated.
+
+### **What is a data source? In what scenarios for example would need to use it?**
+
+**Data sources lookup or compute values that can be used elsewhere in terraform configuration.**
+
+There are quite a few cases you might need to use them:
+
+* you want to reference resources not managed through terraform
+* you want to reference resources managed by a different terraform module
+* you want to cleanly compute a value with typechecking, such as with `aws_iam_policy_document`
+
+### **Explain "State Locking"**
+
+State locking is a mechanism that blocks an operations against a specific state file from multiple callers so as to avoid conflicting operations from different team members. Once the first caller's operation's lock is released the other team member may go ahead to carryout his own operation. Nevertheless Terraform will first check the state file to see if the desired resource already exist and if not it goes ahead to create it.
+
+状态锁定是一种阻止来自多个调用者对特定状态文件的操作的机制，以避免来自不同团队成员的冲突操作。一旦第一个调用者的操作的锁被释放，其他团队成员就可以继续执行他自己的操作。尽管如此，Terraform 将首先检查状态文件以查看所需资源是否已经存在，如果不存在，则继续创建它。
+
+### **What is Terraform import?**
+
+Terraform import is used to import existing infrastructure. It allows you to bring resources created by some other means (eg. manually launched cloud resources) and bring it under Terraform management.
+
+### **How do you import existing resource using Terraform import?**
+
+* Identify which resource you want to import.
+* Write terraform code matching configuration of that resource.
+* Run terraform command `terraform import RESOURCE ID`
+
+ Let's say you want to import an aws instance. Then you'll perform following:
+ 
+*  Identify that aws instance in console
+* Refer to it's configuration and write Terraform code which will look something like:
+
+```
+resource "aws_instance" "tf_aws_instance" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t3.micro"
+
+  tags = {
+    Name = "import-me"
+  }
+}
+```
+
+Run terraform command `terraform import aws_instance.tf_aws_instance i-12345678`
