@@ -57,6 +57,8 @@ nav:
     - 'terraform.tfvars 与 variables.tf 的区别': 'chap5/4terraform_var.md'
     - 'Terraform: Random 简介': 'chap5/5terraform_random.md'
     - 'Top Terraform Interview Questions and Answers (2022)': 'chap5/6terraform_int.md'
+    - 'Terraform provider update': 'chap5/7terraform_provider.md'
+    - 'Terraform install Jenkins in Docker': 'chap5/8terraform_docker_jenkins.md'
 
 repo_url: https://github.com/Chao-Xi/jxchefbook.git
 repo_name: "jxchefbook"
