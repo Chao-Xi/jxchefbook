@@ -59,6 +59,7 @@ nav:
     - 'Top Terraform Interview Questions and Answers (2022)': 'chap5/6terraform_int.md'
     - 'Terraform provider update': 'chap5/7terraform_provider.md'
     - 'Terraform install Jenkins in Docker': 'chap5/8terraform_docker_jenkins.md'
+    - '解决Terraform初始化慢~配置本地离线源': 'chap5/9terraform_local.md'
 
 repo_url: https://github.com/Chao-Xi/jxchefbook.git
 repo_name: "jxchefbook"
