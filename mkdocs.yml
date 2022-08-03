@@ -61,8 +61,8 @@ nav:
     - 'Terraform install Jenkins in Docker': 'chap5/8terraform_docker_jenkins.md'
     - '解决Terraform初始化慢~配置本地离线源': 'chap5/9terraform_local.md'
   - 'Puppet Learning':
-    - '1 Puppet - Overview & Architecture': 'chap5/1pp_overview.md'
-    - '2 Puppet - 安装, 配置以及验证': 'chap5/2pp_install_config.md'
+    - '1 Puppet - Overview & Architecture': 'chap6/1pp_overview.md'
+    - '2 Puppet - 安装, 配置以及验证': 'chap6/2pp_install_config.md'
 
 repo_url: https://github.com/Chao-Xi/jxchefbook.git
 repo_name: "jxchefbook"
