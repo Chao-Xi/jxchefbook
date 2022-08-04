@@ -63,6 +63,9 @@ nav:
   - 'Puppet Learning':
     - '1 Puppet - Overview & Architecture': 'chap6_pp/1pp_overview.md'
     - '2 Puppet - 安装, 配置以及验证': 'chap6_pp/2pp_install_config.md'
+    - '3 Puppet - 编码风格': 'chap6_pp/3pp_coding_style.md'
+    - '4 Puppet - 核心模块': 'chap6_pp/4pp_key_comps.md'
+    - '5 Puppet - 资源': 'chap6_pp/5pp_resource.md'
 
 repo_url: https://github.com/Chao-Xi/jxchefbook.git
 repo_name: "jxchefbook"

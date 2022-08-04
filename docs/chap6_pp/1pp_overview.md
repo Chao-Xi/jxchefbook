@@ -72,7 +72,7 @@ Modules 是 Puppet 的关键构建块，它可以定义为资源、文件、模�
 Listen <% = @httpd_port %>
 ```
 
-The `httpd_port` variable in this case is defined in the manifest that references this template.
+在这种情况下，`httpd_port` 变量是在引用此模板的清单中定义的
 
 ### **3-6 Static Files**
 
