@@ -68,6 +68,10 @@ nav:
     - '5 Puppet - 资源': 'chap6_pp/5pp_resource.md'
     - '6 Puppet - 模板 & 类': 'chap6_pp/6pp_tmp_cls.md'
     - '7 Puppet - Function': 'chap6_pp/7pp_func.md'
+    - '8 Puppet - 环境': 'chap6_pp/8pp_env.md'
+    - '9 Puppet - 类型和提供者': 'chap6_pp/9app_type_pr.md'
+    - '10 Puppet - RESTful API': 'chap6_pp/10pp_api.md'
+    - '11 Puppet - Live Project 1': 'chap6_pp/11pp_proj1.md'
 
 repo_url: https://github.com/Chao-Xi/jxchefbook.git
 repo_name: "jxchefbook"
