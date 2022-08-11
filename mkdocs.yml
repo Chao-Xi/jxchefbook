@@ -60,6 +60,8 @@ nav:
     - 'Terraform provider update': 'chap5/7terraform_provider.md'
     - 'Terraform install Jenkins in Docker': 'chap5/8terraform_docker_jenkins.md'
     - '解决Terraform初始化慢~配置本地离线源': 'chap5/9terraform_local.md'
+    - 'Terraform(Troubleshooting/Data Sources/Existing Resource)': 'chap5/10terraform_adv.md'
+    - 'Terraform Exam(Backend/Command/Script/Others)': 'chap5/11tf_adv_exam.md'
   - 'Puppet Learning':
     - '1 Puppet - Overview & Architecture': 'chap6_pp/1pp_overview.md'
     - '2 Puppet - 安装, 配置以及验证': 'chap6_pp/2pp_install_config.md'
