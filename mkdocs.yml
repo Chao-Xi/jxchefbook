@@ -76,6 +76,8 @@ nav:
     - '9 Puppet - 类型和提供者': 'chap6_pp/9app_type_pr.md'
     - '10 Puppet - RESTful API': 'chap6_pp/10pp_api.md'
     - '11 Puppet - Live Project 1': 'chap6_pp/11pp_proj1.md'
+  - 'ArgoCD Learning':
+    - '1 Introduction to Continuous Delivery': 'chap7_argocd/1Intro.md'
 
 repo_url: https://github.com/Chao-Xi/jxchefbook.git
 repo_name: "jxchefbook"
