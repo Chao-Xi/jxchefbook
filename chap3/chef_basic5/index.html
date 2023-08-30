@@ -1,0 +1,2750 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's Chef&Ansible Automation 技术与实战教程">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../../chap2/chef_adv3/">
+      
+      
+        <link rel="next" href="../chef_basic6/">
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.5">
+    
+    
+      
+        <title>第一节 Creating My First Chef Cookbook - Jacob Chef&Ansible Automation Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0e669242.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#creating-my-first-chef-cookbook" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-header__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob Chef&Ansible Automation Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第一节 Creating My First Chef Cookbook
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-nav__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob Chef&Ansible Automation Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Chef
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Chef
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef 介绍和安装
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Ruby和Chef语法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 如何写 Chef 配方 & chef-apply
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 用Test Kitchen管理沙盒测试环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 用 Chef 户端管理节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 撰写和使用菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial7_attributes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第七节 Chef 属性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第八节 Chef 服务器同时管理多个节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第九节 社区以及Chef-Client菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial10_zero/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十节 Chef zero
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial11_databag/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十一节 数概包Databag
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十二节 角色
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial13_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十三节 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial14_test/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十四节 测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial15_term/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十五节 词汇表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial16_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十六节 Chef Tutorial Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Opt & Adv
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Opt & Adv
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef Roles
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Cookbook Versioning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 How to Perform Chef Knife SSL Check and Fetch to Verify Certificate
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 12 Chef Knife Cookbook Command Examples
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_op1_kinfe_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 knife search
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 Chef Quick CheatSheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Cookbook Sample LAMP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Cookbook Sample LAMP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    第一节 Creating My First Chef Cookbook
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Creating My First Chef Cookbook
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1bootstap-a-new-machine-as-new-node" class="md-nav__link">
+    1、Bootstap a new machine as new node
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2create-the-cookbook" class="md-nav__link">
+    2、Create the Cookbook
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3defaultrb" class="md-nav__link">
+    3、default.rb
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4apache" class="md-nav__link">
+    4、Apache
+  </a>
+  
+    <nav class="md-nav" aria-label="4、Apache">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-install-and-enable" class="md-nav__link">
+    4-1 Install and Enable
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5configure-virtual-hosts" class="md-nav__link">
+    5、Configure Virtual Hosts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11apache-configuration" class="md-nav__link">
+    11、Apache Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12mysql" class="md-nav__link">
+    12、MySQL
+  </a>
+  
+    <nav class="md-nav" aria-label="12、MySQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#12-1-download-the-mysql" class="md-nav__link">
+    12-1 Download the MySQL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-2-create-and-encrypt-your-mysql-password" class="md-nav__link">
+    12-2 Create and Encrypt Your MySQL Password
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-3-set-up-mysql" class="md-nav__link">
+    12-3 Set Up MySQL
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13php" class="md-nav__link">
+    13、PHP
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_basic6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Creating LAMP Chef Cookbook Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Ansible
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Ansible
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/1ansible_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L1 Ansible Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/2ansible_over_install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L2 Ansible Install(MacOs) and Environment Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/3play_task/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L3 Task Execution management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/4Ansible_variables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L4 Ansible Variable Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/5Complex_roles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L5 Managing complex playbooks with roles and ansible galaxy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/6Secret_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L6 Working with Secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/7Network_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L7 Network Management with Ansible
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/8idempotentence/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L8 Idempotentence with Ansible play
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/9Ansible_interview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L9 Ansible Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/10Ansible_learn_ppt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L10 Ansible 自动化运维工具PPT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/11Ansible_task1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L11 任务中心之Ansible基础篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/12Ansible_task2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L12 任务中心之Ansible进阶篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/13Ansible_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L13 Ansible 面试知识点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/14Ansible_containerd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L14 Ansible Role批量部署Containerd服务
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            HashiCorp Certified Terraform Associate
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/1hashicorp_certified_terraform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate Learning Path
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/2terraform_cs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Cheat Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/3terraform_lock/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    .terraform.lock.hcl 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/4terraform_var/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    terraform.tfvars 与 variables.tf 的区别
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/5terraform_random/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform: Random 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/6terraform_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Top Terraform Interview Questions and Answers (2022)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/7terraform_provider/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform provider update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/8terraform_docker_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform install Jenkins in Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/9terraform_local/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    解决Terraform初始化慢~配置本地离线源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/10terraform_adv/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform(Troubleshooting/Data Sources/Existing Resource)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/11tf_adv_exam/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Exam(Backend/Command/Script/Others)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/12terraform_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12 Adding Terraform to a CI/CD Pipeline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/13terraform_cmt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Integrating with Configuration Managers(Anisble)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Puppet Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Puppet Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/1pp_overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Puppet - Overview & Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/2pp_install_config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2 Puppet - 安装, 配置以及验证
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/3pp_coding_style/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3 Puppet - 编码风格
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/4pp_key_comps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4 Puppet - 核心模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/5pp_resource/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5 Puppet - 资源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/6pp_tmp_cls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6 Puppet - 模板 & 类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/7pp_func/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7 Puppet - Function
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/8pp_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8 Puppet - 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/9app_type_pr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9 Puppet - 类型和提供者
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/10pp_api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10 Puppet - RESTful API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/11pp_proj1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11 Puppet - Live Project 1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ArgoCD Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            ArgoCD Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_argocd/1Intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Introduction to Continuous Delivery
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1bootstap-a-new-machine-as-new-node" class="md-nav__link">
+    1、Bootstap a new machine as new node
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2create-the-cookbook" class="md-nav__link">
+    2、Create the Cookbook
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3defaultrb" class="md-nav__link">
+    3、default.rb
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4apache" class="md-nav__link">
+    4、Apache
+  </a>
+  
+    <nav class="md-nav" aria-label="4、Apache">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-install-and-enable" class="md-nav__link">
+    4-1 Install and Enable
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5configure-virtual-hosts" class="md-nav__link">
+    5、Configure Virtual Hosts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11apache-configuration" class="md-nav__link">
+    11、Apache Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12mysql" class="md-nav__link">
+    12、MySQL
+  </a>
+  
+    <nav class="md-nav" aria-label="12、MySQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#12-1-download-the-mysql" class="md-nav__link">
+    12-1 Download the MySQL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-2-create-and-encrypt-your-mysql-password" class="md-nav__link">
+    12-2 Create and Encrypt Your MySQL Password
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-3-set-up-mysql" class="md-nav__link">
+    12-3 Set Up MySQL
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13php" class="md-nav__link">
+    13、PHP
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="creating-my-first-chef-cookbook"><strong>第一节 Creating My First Chef Cookbook</strong></h1>
+<p><strong>Cookbooks are one of the key components in Chef.</strong></p>
+<p>They describe the desired state of your nodes, and allow Chef to push out the changes needed to achieve this state. Creating a cookbook can seem like an arduous task at first, given the sheer number of options provided and areas to configure, so in this guide we will walk through the creation of one of the first things people often learn to configure: </p>
+<p><strong>A LAMP stack.</strong></p>
+<h2 id="1bootstap-a-new-machine-as-new-node"><strong>1、Bootstap a new machine as new node</strong></h2>
+<p><a href="https://docs.chef.io/install_bootstrap.html">https://docs.chef.io/install_bootstrap.html</a></p>
+<pre><code>$ knife bootstrap 123.45.6.789 -x username -P password --sudo
+</code></pre>
+<pre><code>$ knife bootstrap 192.168.33.14 -x vagrant -P vagrant --sudo
+
+ERROR: You must pass a node name with -N when bootstrapping with user credentials
+</code></pre>
+<pre><code>$ knife bootstrap 192.168.33.14 -x vagrant -P vagrant --sudo --use-sudo-password --node-name node2
+Creating new client for node2
+Creating new node for node2
+Connecting to 192.168.33.14
+192.168.33.14 -----&gt; Existing Chef installation detected
+192.168.33.14 Starting the first Chef Client run...
+192.168.33.14 YAML safe loading is not available. Please upgrade psych to a version that supports safe loading (&gt;= 2.0).
+192.168.33.14 Starting Chef Client, version 11.8.2
+192.168.33.14
+192.168.33.14 ================================================================================
+192.168.33.14 Chef encountered an error attempting to load the node data for &quot;node2&quot;
+192.168.33.14 ================================================================================
+192.168.33.14
+192.168.33.14
+192.168.33.14 Networking Error:
+192.168.33.14 -----------------
+192.168.33.14 Error connecting to https://chefserver/organizations/devops-jxi/nodes/node2 - getaddrinfo: Name or service not known
+192.168.33.14
+192.168.33.14 Your chef_server_url may be misconfigured, or the network could be down.
+192.168.33.14
+192.168.33.14
+192.168.33.14
+192.168.33.14 Relevant Config Settings:
+192.168.33.14 -------------------------
+192.168.33.14 chef_server_url  &quot;https://chefserver/organizations/devops-jxi&quot;
+192.168.33.14
+192.168.33.14
+192.168.33.14
+192.168.33.14 [2018-08-17T08:48:43+00:00] FATAL: Stacktrace dumped to /var/chef/cache/chef-stacktrace.out
+192.168.33.14 Chef Client failed. 0 resources updated
+192.168.33.14 [2018-08-17T08:48:43+00:00] ERROR: Error connecting to https://chefserver/organizations/devops-jxi/nodes/node2 - getaddrinfo: Name or service not known
+192.168.33.14 [2018-08-17T08:48:43+00:00] FATAL: Chef::Exceptions::ChildConvergeError: Chef run process exited unsuccessfully (exit code 1)
+</code></pre>
+<p><strong>On the new node machine <code>192.168.33.14</code></strong></p>
+<pre><code>$ sudo vi /etc/hosts
+192.168.33.19 chefserver chefserver
+</code></pre>
+<p><strong>Try it again</strong></p>
+<pre><code>$ knife bootstrap 192.168.33.14 -x vagrant -P vagrant --sudo --use-sudo-password --node-name node2
+
+Node node2 exists, overwrite it? (Y/N) y
+Client node2 exists, overwrite it? (Y/N) y
+Creating new client for node2
+Creating new node for node2
+Connecting to 192.168.33.14
+192.168.33.14 -----&gt; Existing Chef installation detected
+192.168.33.14 Starting the first Chef Client run...
+192.168.33.14 YAML safe loading is not available. Please upgrade psych to a version that supports safe loading (&gt;= 2.0).
+192.168.33.14 Starting Chef Client, version 11.8.2
+192.168.33.14 resolving cookbooks for run list: []
+192.168.33.14 Synchronizing Cookbooks:
+192.168.33.14 Compiling Cookbooks...
+192.168.33.14 [2018-08-17T08:50:28+00:00] WARN: Node node2 has an empty run list.
+192.168.33.14 Converging 0 resources
+192.168.33.14 Chef Client finished, 0 resources updated
+</code></pre>
+<pre><code>$ knife client list
+devops-jxi-validator
+node1
+node2
+</code></pre>
+<pre><code>$ knife client show node2
+admin:     false
+chef_type: client
+name:      node2
+validator: false
+</code></pre>
+<h2 id="2create-the-cookbook"><strong>2、Create the Cookbook</strong></h2>
+<p>1.From your workstation, move to your <code>cookbooks</code> directory in <code>chef-repo</code>:</p>
+<pre><code>cd chef-repo/cookbooks
+</code></pre>
+<p>2.Create the cookbook. In this instance the cookbook is titled <code>lamp_stack</code>:</p>
+<pre><code>chef generate cookbook lamp_stack
+</code></pre>
+<p>3.List the files located in the newly-created cookbook to see that a number of directories and files have been created:</p>
+<pre><code>$ cd lamp_stack/
+$ ls
+Berksfile  CHANGELOG.md  chefignore  LICENSE  metadata.rb  README.md  recipes  spec  test
+</code></pre>
+<h2 id="3defaultrb"><strong>3、default.rb</strong></h2>
+<p>The <code>default.rb</code> file in <code>recipes</code> contains the “default” recipe resources.</p>
+<p>Because each section of the LAMP stack (Apache, MySQL, and PHP) will have its own recipe, the <code>default.rb</code> file is used to prepare your servers.</p>
+<p>From within your <code>lamp_stack</code> directory, navigate to the recipes folder:</p>
+<pre><code>cd recipes
+</code></pre>
+<p>Open <code>default.rb</code> and add the Ruby command below, which will run system updates:</p>
+<pre><code>execute &quot;update-upgrade&quot; do
+  command &quot;sudo apt-get update &amp;&amp; sudo apt-get upgrade -y&quot;
+  action :run
+end
+</code></pre>
+<p><a href="https://docs.chef.io/resource_execute.html">https://docs.chef.io/resource_execute.html</a></p>
+<p>Recipes are comprised of a series of resources. In this case, the execute resource is used, which calls for a command to be executed once. The <code>apt-get update &amp;&amp; apt-get upgrade -y</code> commands are defined in the <code>command</code> section, and the <code>action</code> is set to <code>:run</code> the commands.</p>
+<p>This is one of the simpler Chef recipes to write, and a good way to start out. Any other startup procedures that you deem important can be added to the file by mimicking the above code pattern.</p>
+<p><strong>3.To test the recipe, add the LAMP stack cookbook to the Chef server:</strong></p>
+<pre><code>$ sudo knife cookbook upload lamp_stack
+Uploading lamp_stack     [0.1.0]
+Uploaded 1 cookbook.
+</code></pre>
+<p>4.Test that the recipe has been added to the chef server:</p>
+<pre><code>knife cookbook lists
+</code></pre>
+<p>5.Add the recipe to your chosen node’s run list, replacing <code>nodename</code> with your node’s name:</p>
+<pre><code>knife node run_list add node2 &quot;recipe[lamp_stack]&quot;
+</code></pre>
+<pre><code>node2:
+  run_list: recipe[lamp_stack]
+</code></pre>
+<p>Because this is the default recipe, the recipe name does not need to be defined after <code>lamp_stack</code> cookbook in the code above.</p>
+<p>6.Access your chosen node and run the <code>chef-client</code>:</p>
+<h2 id="4apache"><strong>4、Apache</strong></h2>
+<h3 id="4-1-install-and-enable"><strong>4-1 Install and Enable</strong></h3>
+<p>1.In your Chef workstation, Create a new file under the <code>~/chef-repo/cookbooks/lamp_stack/recipes</code> directory called <code>apache.rb</code>. This will contain all of your Apache configuration information.</p>
+<p>2.Open the file, and define the <code>package resource</code> to install Apache:</p>
+<pre><code>package &quot;apache2&quot; do
+  action :install
+end
+</code></pre>
+<p>Again, this is a very basic recipe. The package resource calls to a package (<code>apache2</code>). This value must be a legitimate package name. The action is install because Apache is being installed in this step. There is no need for additional values to run the install.</p>
+<p>3.Set Apache to enable and start at reboot. In the same file, add the additional lines of code:</p>
+<pre><code>service &quot;apache2&quot; do
+  action [:enable, :start]
+end
+</code></pre>
+<p>This uses the service resource, which calls on the Apache service. The <code>enable</code> action enables it upon startup, and <code>start</code> starts Apache.</p>
+<p>Save and close the <code>apache.rb</code> file.</p>
+<p>4.To test the Apache recipe, update the LAMP Stack recipe on the server:</p>
+<pre><code>sudo knife cookbook upload lamp_stack
+</code></pre>
+<p>5.Add the recipe to a node’s run-list, replacing <code>nodename</code> with your chosen node’s name:</p>
+<pre><code>knife node run_list add node2 &quot;recipe[lamp_stack::apache]&quot;
+</code></pre>
+<pre><code>node2:
+  run_list:
+    recipe[lamp_stack]
+    recipe[lamp_stack::apache]
+</code></pre>
+<p>Because this is not the <code>default.rb</code> recipe, the recipe name, <code>apache</code>, must be appended to the recipe value.</p>
+<p>6.From that node, run <code>chef-client</code>:</p>
+<pre><code>sudo chef-client
+</code></pre>
+<pre><code>YAML safe loading is not available. Please upgrade psych to a version that supports safe loading (&gt;= 2.0).
+Starting Chef Client, version 11.8.2
+resolving cookbooks for run list: [&quot;lamp_stack&quot;, &quot;lamp_stack::apache&quot;]
+Synchronizing Cookbooks:
+  - lamp_stack
+Compiling Cookbooks...
+Converging 3 resources
+Recipe: lamp_stack::default
+  * execute[update-upgrade] action run
+    - execute sudo apt-get update &amp;&amp; sudo apt-get upgrade -y
+
+Recipe: lamp_stack::apache
+  * package[apache2] action install
+    - install version 2.4.7-1ubuntu4.20 of package apache2
+
+  * service[apache2] action enable
+    - enable service service[apache2]
+
+  * service[apache2] action start (up to date)
+Chef Client finished, 3 resources updated
+</code></pre>
+<p>If the recipe fails due to a syntax error, Chef will note it during the output.</p>
+<p>7.After a successful <code>chef-client</code> run, check to see if Apache is running:</p>
+<pre><code>$ service apache2 status
+ * apache2 is running
+</code></pre>
+<p>It should say that <code>apache2</code> is running.</p>
+<h2 id="5configure-virtual-hosts"><strong>5、Configure Virtual Hosts</strong></h2>
+<p>1.Because multiple websites may need to be configured, use Chef’s attributes feature to define certain aspects of the virtual hosts file(s). The ChefDK has a built-in command to generate the attributes directory and <code>default.rb</code> file within a cookbook. Replace <code>~/chef-repo/cookbooks/lamp_stack</code> with your cookbook’s path:</p>
+<pre><code>$ chef generate attribute ~/chef-repo/cookbooks/lamp_stack default
+
+  * directory[/home/vagrant/chef-repo/cookbooks/lamp_stack/attributes] action create
+    - create new directory /home/vagrant/chef-repo/cookbooks/lamp_stack/attributes
+    - restore selinux security context
+  * template[/home/vagrant/chef-repo/cookbooks/lamp_stack/attributes/default.rb] action create
+    - create new file /home/vagrant/chef-repo/cookbooks/lamp_stack/attributes/default.rb
+    - update content in file /home/vagrant/chef-repo/cookbooks/lamp_stack/attributes/default.rb from none to e3b0c4
+    (diff output suppressed by config)
+    - restore selinux security context
+</code></pre>
+<p>2.Within the new <code>default.rb</code>, create the default values of the cookbook:</p>
+<p><code>~/chef-repo/cookbooks/lamp_stack/attributes/default.rb</code></p>
+<pre><code>default[&quot;lamp_stack&quot;][&quot;sites&quot;][&quot;example.com&quot;] = { &quot;port&quot; =&gt; 80, &quot;servername&quot; =&gt; &quot;cheftest.com&quot;, &quot;serveradmin&quot; =&gt; &quot;cheftest@example.com&quot; }
+</code></pre>
+<p>The prefix <code>default</code> defines that these are the normal values to be used in the <code>lamp_stack</code> where the site <code>cheftest.com</code> will be called upon. This can be seen as a hierarchy: Under the cookbook itself are the site(s), which are then defined by their URL.</p>
+<p>The following values in the array (defined by curly brackets (<code>{}</code>)) are the values that will be used to configure the virtual hosts file. Apache will be set to listen on port 80 and use the listed values for its server name, and administrator email.</p>
+<pre><code>$ cd ~/chef-repo/cookbooks/lamp_stack/attributes/default.rb
+
+default[&quot;lamp_stack&quot;][&quot;sites&quot;][&quot;example.com&quot;] = { &quot;port&quot; =&gt; 80, &quot;servername&quot; =&gt; &quot;example.com&quot;, &quot;serveradmin&quot; =&gt; &quot;webmaster@example.com&quot; }
+default[&quot;lamp_stack&quot;][&quot;sites&quot;][&quot;example.org&quot;] = { &quot;port&quot; =&gt; 80, &quot;servername&quot; =&gt; &quot;example.org&quot;, &quot;serveradmin&quot; =&gt; &quot;webmaster@example.org&quot; }
+</code></pre>
+<p>3.Return to your <code>apache.rb</code> file under <code>recipes</code> to call the attributes that were just defined. Do this with the <code>node</code> resource:</p>
+<pre><code>#Install &amp; enable Apache
+
+package &quot;apache2&quot; do
+  action :install
+end
+
+service &quot;apache2&quot; do
+  action [:enable, :start]
+end
+
+
+# Virtual Hosts Files
+
+node[&quot;lamp_stack&quot;][&quot;sites&quot;].each do |sitename, data|
+end
+</code></pre>
+<p>This calls in the values under <code>["lamp_stack"]["sites"]</code>. </p>
+<p>Code added to this block will be generated for each value, which is defined by the word <code>sitename</code>. </p>
+<p>The data value calls the values that are listed in the array of each <code>sitename</code> attribute.</p>
+<p>4.Within the <code>node</code> resource, define a document root. This root will be used to define the public HTML files, and any log files that will be generated:</p>
+<pre><code>node[&quot;lamp_stack&quot;][&quot;sites&quot;].each do |sitename, data|
+  document_root = &quot;/var/www/html/#{sitename}&quot;
+end
+</code></pre>
+<p>5.However, this does not create the directory itself. To do so, the <code>directory</code> resource should be used, with a <code>true</code> recursive value so all directories leading up to the <code>sitename</code> will be created. A permissions value of <code>0755</code> allows for the file owner to have full access to the directory, while group and regular users will have read and execute privileges:</p>
+<pre><code>$ vi ~/chef-repo/cookbooks/lamp_stack/apache.rb
+
+node[&quot;lamp_stack&quot;][&quot;sites&quot;].each do |sitename, data|
+  document_root = &quot;/var/www/html/#{sitename}&quot;
+
+  directory document_root do
+    mode &quot;0755&quot;
+    recursive true
+  end
+
+end 
+</code></pre>
+<p>6.The template feature will be used to generate the needed virtual hosts files. Within the <code>chef-repo</code> directory run the <code>chef generate template</code> command with the path to your cookbook and template file name defined:</p>
+<pre><code>$ chef generate template ~/chef-repo/cookbooks/lamp_stack virtualhosts
+
+Recipe: code_generator::template
+  * directory[/home/vagrant/chef-repo/cookbooks/lamp_stack/templates] action create
+    - create new directory /home/vagrant/chef-repo/cookbooks/lamp_stack/templates
+    - restore selinux security context
+  * template[/home/vagrant/chef-repo/cookbooks/lamp_stack/templates/virtualhosts.erb] action create
+    - create new file /home/vagrant/chef-repo/cookbooks/lamp_stack/templates/virtualhosts.erb
+    - update content in file /home/vagrant/chef-repo/cookbooks/lamp_stack/templates/virtualhosts.erb from none to e3b0c4
+    (diff output suppressed by config)
+    - restore selinux security context
+</code></pre>
+<p>7.Open and edit the <code>virtualhosts.erb</code> file. Instead of writing in the true values for each VirtualHost parameter, use Ruby variables. Ruby variables are identified by the <code>&lt;%= @variable_name %&gt;</code> syntax. The variable names you use will need to be defined in the recipe file:</p>
+<pre><code>$ vi ~/chef-repo/cookbooks/lamp_stack/templates/default/virtualhosts.erb
+
+&lt;VirtualHost *:&lt;%= @port %&gt;&gt;
+        ServerAdmin &lt;%= @serveradmin %&gt;
+        ServerName &lt;%= @servername %&gt;
+        ServerAlias www.&lt;%= @servername %&gt;
+        DocumentRoot &lt;%= @document_root %&gt;/public_html
+        ErrorLog &lt;%= @document_root %&gt;/logs/error.log
+        &lt;Directory &lt;%= @document_root %&gt;/public_html&gt;
+                Require all granted
+        &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+</code></pre>
+<p>Some variables should look familiar. They were created in Step 2, when naming default attributes.</p>
+<pre><code>$ vi ~/chef-repo/cookbooks/lamp_stack/recipes/apache.rb
+
+#Virtual Hosts Files
+
+node[&quot;lamp_stack&quot;][&quot;sites&quot;].each do |sitename, data|
+  document_root = &quot;/var/www/html/#{sitename}&quot;
+
+  directory document_root do
+    mode &quot;0755&quot;
+    recursive true
+  end
+
+  template &quot;/etc/apache2/sites-available/#{sitename}.conf&quot; do
+    source &quot;virtualhosts.erb&quot;
+    mode &quot;0644&quot;
+    variables(
+      :document_root =&gt; document_root,
+      :port =&gt; data[&quot;port&quot;],
+      :serveradmin =&gt; data[&quot;serveradmin&quot;],
+      :servername =&gt; data[&quot;servername&quot;]
+    )
+  end
+
+end
+</code></pre>
+<p>The name of the template resource should be the location where the virtual host file is placed on the nodes. The <code>source</code> is the name of the template file. Mode <code>0644</code> gives the file owner read and write privileges, and everyone else read privileges. The values defined in the variables section are taken from the attributes file, and they are the same values that are called upon in the template.</p>
+<p>9.The sites now need to be enabled in Apache, and the server restarted. This should only occur if there are changes to the virtual hosts, so the <code>notifies</code> value should be added to the <code>template</code> resource. <code>notifies</code> tells Chef when things have changed, and only then runs the commands:</p>
+<pre><code>template &quot;/etc/apache2/sites-available/#{sitename}.conf&quot; do
+  source &quot;virtualhosts.erb&quot;
+  mode &quot;0644&quot;
+  variables(
+    :document_root =&gt; document_root,
+    :port =&gt; data[&quot;port&quot;],
+    :serveradmin =&gt; data[&quot;serveradmin&quot;],
+    :servername =&gt; data[&quot;servername&quot;]
+  )
+  notifies :restart, &quot;service[apache2]&quot;
+end
+</code></pre>
+<p>The <code>notifies</code> command names the <code>:action</code> to be committed, then the resource, and resource name in square brackets.</p>
+<p>10.<code>notifies</code> can also call on <code>execute</code> commands, which will run <code>a2ensiteand</code> enable the sites we’ve made virtual hosts files for. Add the following <code>execute</code> command above the <code>template</code> resource code to create the <code>a2ensite</code> script:</p>
+<pre><code>$vi ~/chef-repo/cookbooks/lamp_stack/recipes/apache.rb
+
+# [...]
+
+directory document_root do
+  mode &quot;0755&quot;
+  recursive true
+end
+
+execute &quot;enable-sites&quot; do
+  command &quot;a2ensite #{sitename}&quot;
+  action :nothing
+end
+
+template &quot;/etc/apache2/sites-available/#{sitename}.conf&quot; do
+
+# [...]
+</code></pre>
+<p>The <code>action :nothing</code> directive means the resource will wait to be called on. Add a new <code>notifies</code> line above the previoues <code>notifies</code> line to the <code>template</code> resource code to use it:</p>
+<pre><code>$ vi ~/chef-repo/cookbooks/lamp_stack/recipes/apache.rb
+
+# [...]
+
+template &quot;/etc/apache2/sites-available/#{sitename}.conf&quot; do
+  # [...]
+  notifies :run, &quot;execute[enable-sites]&quot;
+  notifies :restart, &quot;service[apache2]&quot;
+end
+
+# [...]
+</code></pre>
+<p>11.The paths referenced in the virtual hosts files need to be created. Once more, this is done with the <code>directory</code> resource, and should be added before the final <code>end</code> tag:</p>
+<pre><code>$ vi ~/chef-repo/cookbooks/lamp_stack/recipes/apache.rb
+
+# [...]
+
+node[&quot;lamp_stack&quot;][&quot;sites&quot;].each do |sitename, data|
+  # [...]
+
+  directory &quot;/var/www/html/#{sitename}/public_html&quot; do
+    action :create
+  end
+
+  directory &quot;/var/www/html/#{sitename}/logs&quot; do
+    action :create
+  end
+end
+</code></pre>
+<h2 id="11apache-configuration"><strong>11、Apache Configuration</strong></h2>
+<p>With the virtual hosts files configured and your website enabled, configure Apache to efficiently run on your servers. Do this by enabling and configuring a multi-processing module (MPM), and editing apache2.conf.</p>
+<p>The MPMs are all located in the <code>mods_available</code> directory of Apache. In this example the event MPM will be used, located at <code>/etc/apache2/mods-available/mpm_event.conf</code>. If we were planning on deploying to nodes of varying size we would create a template file to replace the original, which would allow for more customization of specific variables. In this instance, a cookbook file will be used to edit the file.</p>
+<p>Cookbook files are static documents that are run against the document in the same locale on your servers. If any changes are made, the cookbook file makes a backup of the original file and replaces it with the new one.</p>
+<p>1.To create a cookbook file navigate to <code>files/default</code> from your cookbook’s main directory. If the directories do not already exist, create them:</p>
+<pre><code>mkdir -p ~/chef-repo/cookbooks/lamp_stack/files/default/
+cd ~/chef-repo/cookbooks/lamp_stack/files/default/
+vi mpm_event.conf
+</code></pre>
+<p>2.Create a file called <code>mpm_event.conf</code> and copy the MPM event configuration into it, changing any needed values:</p>
+<pre><code>&lt;IfModule mpm_event_module&gt;
+        StartServers        2
+        MinSpareThreads     6
+        MaxSpareThreads     12
+        ThreadLimit         64
+        ThreadsPerChild     25
+        MaxRequestWorkers   25
+        MaxConnectionsPerChild  3000
+&lt;/IfModule&gt;
+</code></pre>
+<p>3.Return to <code>apache.rb</code>, and use the <code>cookbook_file</code> resource to call the file we just created. Because the MPM will need to be enabled, we’ll use the <code>notifies</code> command again, this time to execute <code>a2enmod mpm_event</code>. Add the <code>execute</code> and <code>cookbook_file</code> resources to the <code>apache.rb</code> file prior to the final <code>end</code> tag:</p>
+<pre><code># [...]
+
+node[&quot;lamp_stack&quot;][&quot;sites&quot;].each do |sitename, data|
+  # [...]
+
+  execute &quot;enable-event&quot; do
+    command &quot;a2enmod mpm_event&quot;
+    action :nothing
+  end
+
+  cookbook_file &quot;/etc/apache2/mods-available/mpm_event.conf&quot; do
+    source &quot;mpm_event.conf&quot;
+    mode &quot;0644&quot;
+    notifies :run, &quot;execute[enable-event]&quot;
+  end
+end
+</code></pre>
+<p>4.Within the <code>apache2.conf</code> the <code>KeepAlive</code> value should be set to <code>off</code>, which is the only change made within the file. This can be altered through templates or cookbook files, although in this instance a simple <code>sed</code> command will be used, paired with the <code>execute</code> resource. Update <code>apache.rb</code> with the new <code>execute</code> resource:</p>
+<pre><code># [...]
+
+directory &quot;/var/www/html/#{sitename}/logs&quot; do
+  action :create
+end
+
+execute &quot;keepalive&quot; do
+  command &quot;sed -i 's/KeepAlive On/KeepAlive Off/g' /etc/apache2/apache2.conf&quot;
+  action :run
+end
+
+execute &quot;enable-event&quot; do
+
+# [...]
+</code></pre>
+<p>Your <code>apache.rb</code> is now complete.</p>
+<pre><code>$ vi
+
+package &quot;apache2&quot; do
+  action :install
+end
+
+service &quot;apache2&quot; do
+  action [:enable, :start]
+end
+
+#Virtual Hosts Files
+
+node[&quot;lamp_stack&quot;][&quot;sites&quot;].each do |sitename, data|
+  document_root = &quot;/var/www/html/#{sitename}&quot;
+
+  directory document_root do
+    mode &quot;0755&quot;
+    recursive true
+  end
+
+  execute &quot;enable-sites&quot; do
+    command &quot;a2ensite #{sitename}&quot;
+    action :nothing
+  end
+
+  template &quot;/etc/apache2/sites-available/#{sitename}.conf&quot; do
+    source &quot;virtualhosts.erb&quot;
+    mode &quot;0644&quot;
+    variables(
+      :document_root =&gt; document_root,
+      :port =&gt; data[&quot;port&quot;],
+      :serveradmin =&gt; data[&quot;serveradmin&quot;],
+      :servername =&gt; data[&quot;servername&quot;]
+    )
+    notifies :run, &quot;execute[enable-sites]&quot;
+    notifies :restart, &quot;service[apache2]&quot;
+  end
+
+  directory &quot;/var/www/html/#{sitename}/public_html&quot; do
+    action :create
+  end
+
+  directory &quot;/var/www/html/#{sitename}/logs&quot; do
+    action :create
+  end
+
+  execute &quot;keepalive&quot; do
+    command &quot;sed -i 's/KeepAlive On/KeepAlive Off/g' /etc/apache2/apache2.conf&quot;
+    action :run
+  end
+
+  execute &quot;enable-event&quot; do
+    command &quot;a2enmod mpm_event&quot;
+    action :nothing
+  end
+
+  cookbook_file &quot;/etc/apache2/mods-available/mpm_event.conf&quot; do
+    source &quot;mpm_event.conf&quot;
+    mode &quot;0644&quot;
+    notifies :run, &quot;execute[enable-event]&quot;
+  end
+
+end
+</code></pre>
+<pre><code>$ sudo knife cookbook upload lamp_stack
+Uploading lamp_stack     [0.1.0]
+Uploaded 1 cookbook.
+
+$ knife node run_list add node2 &quot;recipe[lamp_stack]&quot;
+node2:
+  run_list:
+    recipe[lamp_stack]
+    recipe[lamp_stack::apache]
+</code></pre>
+<h2 id="12mysql"><strong>12、MySQL</strong></h2>
+<h3 id="12-1-download-the-mysql"><strong>12-1 Download the MySQL</strong></h3>
+<p>1.The Chef Supermarket has an OpsCode-maintained <a href="https://supermarket.chef.io/cookbooks/mysql">MySQL cookbook</a> that sets up MySQL lightweight resources/providers (LWRPs) to be used. From the workstation, download and install the cookbook:</p>
+<pre><code>knife cookbook site install mysql
+</code></pre>
+<p>This will also install any and all dependencies required to use the cookbook. These dependencies include the <code>smf</code> and <code>yum-mysql-community</code> cookbooks, which in turn depend on the <code>rbac</code> and <code>yum</code> cookbooks.</p>
+<p>2.From the main directory of your LAMP stack cookbook, open the <code>metadata.rb</code> file and add a dependency to the MySQL cookbook:</p>
+<pre><code>$ vi ~/chef-repo/cookbooks/lamp_stack/metadata.rb
+
+depends          'mysql', '~&gt; 8.5.1'
+</code></pre>
+<p>3.Upload these cookbooks to the server:</p>
+<pre><code>knife cookbook upload mysql --include-dependencies
+</code></pre>
+<pre><code>sudo knife cookbook upload lamp_stack --force
+</code></pre>
+<h3 id="12-2-create-and-encrypt-your-mysql-password"><strong>12-2 Create and Encrypt Your MySQL Password</strong></h3>
+<p>Chef contains a feature known as <code>data bags</code>. Data bags store information, and can be encrypted to store passwords, and other sensitive data.</p>
+<p>1.On the workstation, generate a secret key:</p>
+<pre><code>openssl rand -base64 512 &gt; ~/chef-repo/.chef/encrypted_data_bag_secret
+</code></pre>
+<p>2.Upload this key to your node’s <code>/etc/chef</code> directory, either manually by <code>scp</code> (an example can be found in the <a href="https://www.linode.com/docs/applications/configuration-management/install-a-chef-server-workstation-on-ubuntu-14-04/#add-the-rsa-private-keys">Setting Up Chef</a> guide), or through the use of a recipe and cookbook file.</p>
+<p>3.On the workstation, create a <code>mysql</code> data bag that will contain the file <code>rtpass.json</code> for the root password:</p>
+<pre><code>knife data bag create mysql rtpass.json --secret-file ~/chef-repo/.chef/encrypted_data_bag_secret
+</code></pre>
+<pre><code>Created data_bag[mysql]
+ERROR: RuntimeError: Please set EDITOR environment variable. See https://docs.chef.io/knife_setup.html for details.
+</code></pre>
+<pre><code>cd ../../.chef
+vi knife.rb
+
+knife[:editor] = &quot;/usr/bin/vim&quot;
+</code></pre>
+<p>You will be asked to edit the <code>rtpass.json</code> file:</p>
+<pre><code>{
+  &quot;id&quot;: &quot;rtpass.json&quot;,
+  &quot;password&quot;: &quot;password123&quot;
+}
+</code></pre>
+<p>4.Confirm that the rtpass.json file was created:</p>
+<pre><code>$ knife data bag show mysql
+
+rtpass.json
+</code></pre>
+<p>It should output <code>rtpass.json</code>. To ensure that is it encrypted, run:</p>
+<pre><code>$ knife data bag show mysql rtpass.json
+
+WARNING: Encrypted data bag detected, but no secret provided for decoding. Displaying encrypted data.
+id:       rtpass.json
+password:
+  auth_tag:       +EoLhhpYKrHtyrbyx9oC7g==
+
+  cipher:         aes-256-gcm
+  encrypted_data: dON+BYY9+vu0JexTVwmiGftpftiv+glLIta7tvL0
+
+  iv:             FrD0NUPg78t4GJCr
+
+  version:        3
+</code></pre>
+<h3 id="12-3-set-up-mysql"><strong>12-3 Set Up MySQL</strong></h3>
+<p>With the MySQL library downloaded and an encrypted root password prepared, you can now set up the recipe to download and configure MySQL</p>
+<p>1.Open a new file in <code>recipes</code> called <code>mysql.rb</code> and define the data bag that will be used:</p>
+<p><code>vi ~/chef-repo/cookbooks/lamp_stack/recipes/mysql.rb</code></p>
+<pre><code>mysqlpass = data_bag_item(&quot;mysql&quot;, &quot;rtpass.json&quot;)
+</code></pre>
+<p>2.Thanks to the LWRPs provided through the MySQL cookbook, the initial installation and database creation for MySQL can be done in one resource:</p>
+<pre><code>mysqlpass = data_bag_item(&quot;mysql&quot;, &quot;rtpass.json&quot;)
+
+mysql_service &quot;mysqldefault&quot; do
+  version '5.7'
+  initial_root_password mysqlpass[&quot;password&quot;]
+  action [:create, :start]
+end
+</code></pre>
+<p><code>mysqldefault</code> is the name of the MySQL service for this container. The <code>inital_root_password</code> calls to the value defined in the text above, while the action creates the database and starts the MySQL service.</p>
+<pre><code>sudo knife cookbook upload lamp_stack --force
+knife node run_list add node2 &quot;recipe[lamp_stack::mysql]&quot;
+
+node2:
+  run_list:
+    recipe[lamp_stack]
+    recipe[lamp_stack::apache]
+    recipe[lamp_stack::mysql]
+</code></pre>
+<p>When running MySQL from your nodes you will need to define the socket:</p>
+<pre><code>mysql -S /var/run/mysql-mysqldefault/mysqld.sock -p
+</code></pre>
+<h2 id="13php"><strong>13、PHP</strong></h2>
+<p>1.Under the recipes directory, create a new <code>php.rb</code> file. The commands below install PHP and all the required packages for working with Apache and MySQL:</p>
+<pre><code>$ vi php.rb
+
+package &quot;php&quot; do
+  action :install
+end
+
+package &quot;php-pear&quot; do
+  action :install
+end
+
+package &quot;php-mysql&quot; do
+  action :install
+end
+</code></pre>
+<p>2.For easy configuration, the <code>php.ini</code> file will be created and used as a cookbook file, much like the MPM module above. You can either:</p>
+<ul>
+<li>Add the PHP recipe, run <code>chef-client</code> and copy the file from a node (located in <code>/etc/php/7.0/cli/php.ini</code>), or:</li>
+<li>Copy it from this <a href="https://www.linode.com/docs/applications/configuration-management/creating-your-first-chef-cookbook/chef-php.ini">chef-php.ini</a> sample. The file should be moved to the <code>chef-repo/cookbooks/lamp_stack/files/default/</code> directory. This can also be turned into a template, if that better suits your configuration.</li>
+</ul>
+<p>3.<code>php.ini</code> is a large file. Search and edit the following values to best suit your Linodes. The values suggested below are for 2GB Linodes:</p>
+<pre><code>vi ~/chef-repo/cookbooks/lamp_stack/files/default/php.ini
+</code></pre>
+<pre><code>max_execution_time = 30
+memory_limit = 128M
+error_reporting = E_COMPILE_ERROR|E_RECOVERABLE_ERROR|E_ERROR|E_CORE_ERROR
+display_errors = Off
+log_errors = On
+error_log = /var/log/php/error.log
+max_input_time = 30
+</code></pre>
+<p>4.Return to <code>php.rb</code> and append the <code>cookbook_file</code> resource to the end of the recipe:</p>
+<pre><code>cookbook_file &quot;/etc/php/7.0/cli/php.ini&quot; do
+  source &quot;php.ini&quot;
+  mode &quot;0644&quot;
+  notifies :restart, &quot;service[apache2]&quot;
+end
+</code></pre>
+<p>5.Because of the changes made to <code>php.ini</code>, a <code>/var/log/php</code> directory needs to be made and its ownership set to the Apache user. This is done through a <code>notifies</code> command and execute resource, as done previously. Append these resources to the end of <code>php.rb</code>:</p>
+<pre><code>execute &quot;chownlog&quot; do
+  command &quot;chown www-data /var/log/php&quot;
+  action :nothing
+end
+
+directory &quot;/var/log/php&quot; do
+  action :create
+  notifies :run, &quot;execute[chownlog]&quot;
+end
+</code></pre>
+<p>The PHP recipe is now done! </p>
+<p>6.Ensure that your Chef server contains the updated cookbook, and that your node’s run list is up-to-date. Replace nodename with your Chef node’s name:</p>
+<pre><code>$ sudo knife cookbook upload lamp_stack --force
+$ knife node run_list add node2 &quot;recipe[lamp_stack],recipe[lamp_stack::apache],recipe[lamp_stack::mysql],recipe[lamp_stack::php]&quot;
+node2:
+  run_list:
+    recipe[lamp_stack]
+    recipe[lamp_stack::apache]
+    recipe[lamp_stack::mysql]
+    recipe[lamp_stack::php]
+</code></pre>
+<p>You have just created a LAMP Stack cookbook. Through this guide, you should have learned to use the execute, package, service, node, directory, template, cookbook_file, and mysql_service resources within a recipe, as well as download and use LWRPs, create encrypted data bags, upload/update your cookbooks to the server, and use attributes, templates, and cookbook files, giving you a strong basis in Chef and cookbook creation for future projects.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.78eede0e.min.js"></script>
+      
+    
+  </body>
+</html>

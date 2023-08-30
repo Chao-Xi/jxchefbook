@@ -1,0 +1,2579 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's Chef&Ansible Automation 技术与实战教程">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../chef_tutorial6/">
+      
+      
+        <link rel="next" href="../chef_tutorial8/">
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.5">
+    
+    
+      
+        <title>第七节 Chef 属性 - Jacob Chef&Ansible Automation Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0e669242.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-header__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob Chef&Ansible Automation Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第七节 Chef 属性
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-nav__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob Chef&Ansible Automation Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Chef
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Chef
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef 介绍和安装
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Ruby和Chef语法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 如何写 Chef 配方 & chef-apply
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 用Test Kitchen管理沙盒测试环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 用 Chef 户端管理节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 撰写和使用菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    第七节 Chef 属性
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    第七节 Chef 属性
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1chef" class="md-nav__link">
+    1、Chef 属性
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2motd-attributes" class="md-nav__link">
+    2、Motd-Attributes菜谱
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3setting-attributes" class="md-nav__link">
+    3、Setting Attributes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4、属性优先级基础
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5include_recipe" class="md-nav__link">
+    5、Include_Recipe
+  </a>
+  
+    <nav class="md-nav" aria-label="5、Include_Recipe">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    同个优先级同个属性被多次设定时，最后设定的值胜出
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    6、属性优先级
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    7、属性排错
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    8、小结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第八节 Chef 服务器同时管理多个节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第九节 社区以及Chef-Client菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial10_zero/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十节 Chef zero
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial11_databag/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十一节 数概包Databag
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十二节 角色
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial13_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十三节 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial14_test/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十四节 测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial15_term/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十五节 词汇表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial16_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十六节 Chef Tutorial Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Opt & Adv
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Opt & Adv
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef Roles
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Cookbook Versioning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 How to Perform Chef Knife SSL Check and Fetch to Verify Certificate
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 12 Chef Knife Cookbook Command Examples
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_op1_kinfe_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 knife search
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 Chef Quick CheatSheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Cookbook Sample LAMP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Cookbook Sample LAMP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Creating My First Chef Cookbook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Creating LAMP Chef Cookbook Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Ansible
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Ansible
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/1ansible_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L1 Ansible Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/2ansible_over_install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L2 Ansible Install(MacOs) and Environment Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/3play_task/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L3 Task Execution management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/4Ansible_variables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L4 Ansible Variable Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/5Complex_roles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L5 Managing complex playbooks with roles and ansible galaxy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/6Secret_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L6 Working with Secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/7Network_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L7 Network Management with Ansible
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/8idempotentence/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L8 Idempotentence with Ansible play
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/9Ansible_interview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L9 Ansible Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/10Ansible_learn_ppt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L10 Ansible 自动化运维工具PPT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/11Ansible_task1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L11 任务中心之Ansible基础篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/12Ansible_task2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L12 任务中心之Ansible进阶篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/13Ansible_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L13 Ansible 面试知识点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/14Ansible_containerd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L14 Ansible Role批量部署Containerd服务
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            HashiCorp Certified Terraform Associate
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/1hashicorp_certified_terraform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate Learning Path
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/2terraform_cs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Cheat Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/3terraform_lock/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    .terraform.lock.hcl 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/4terraform_var/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    terraform.tfvars 与 variables.tf 的区别
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/5terraform_random/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform: Random 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/6terraform_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Top Terraform Interview Questions and Answers (2022)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/7terraform_provider/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform provider update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/8terraform_docker_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform install Jenkins in Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/9terraform_local/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    解决Terraform初始化慢~配置本地离线源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/10terraform_adv/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform(Troubleshooting/Data Sources/Existing Resource)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/11tf_adv_exam/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Exam(Backend/Command/Script/Others)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/12terraform_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12 Adding Terraform to a CI/CD Pipeline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/13terraform_cmt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Integrating with Configuration Managers(Anisble)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Puppet Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Puppet Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/1pp_overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Puppet - Overview & Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/2pp_install_config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2 Puppet - 安装, 配置以及验证
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/3pp_coding_style/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3 Puppet - 编码风格
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/4pp_key_comps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4 Puppet - 核心模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/5pp_resource/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5 Puppet - 资源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/6pp_tmp_cls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6 Puppet - 模板 & 类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/7pp_func/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7 Puppet - Function
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/8pp_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8 Puppet - 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/9app_type_pr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9 Puppet - 类型和提供者
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/10pp_api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10 Puppet - RESTful API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/11pp_proj1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11 Puppet - Live Project 1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ArgoCD Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            ArgoCD Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_argocd/1Intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Introduction to Continuous Delivery
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1chef" class="md-nav__link">
+    1、Chef 属性
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2motd-attributes" class="md-nav__link">
+    2、Motd-Attributes菜谱
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3setting-attributes" class="md-nav__link">
+    3、Setting Attributes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4、属性优先级基础
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5include_recipe" class="md-nav__link">
+    5、Include_Recipe
+  </a>
+  
+    <nav class="md-nav" aria-label="5、Include_Recipe">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    同个优先级同个属性被多次设定时，最后设定的值胜出
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    6、属性优先级
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    7、属性排错
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    8、小结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="_1"><strong>第七节 属性</strong></h1>
+<ul>
+<li><code>Motd-Attributes</code>菜谱 </li>
+<li>Setting Attributes</li>
+<li>属性优先级基础 </li>
+<li><code>Include_Recipe</code></li>
+<li>属性优先级</li>
+<li>属性排错 </li>
+</ul>
+<h2 id="1chef"><strong>1、Chef 属性</strong></h2>
+<p><strong>属性代表的是你的节点的相关信息。除了<code>ohai</code>自收集的节点相关信息之外， 你还可以在<code>chef</code>配方单或额外的属性文件中设定属性</strong></p>
+<p>属性文件在菜谱的<code>attributes</code>此目录中。和配方单类似, 莫认属性文件叫<code>default.rb</code></p>
+<pre><code>&lt;cookbook&gt;
+└── attributes
+    └── default.rb
+</code></pre>
+<p>使用菜谱中的属性文件来设定的属性的格式。 </p>
+<p><img alt="Alt Image Text" src="../../images/7_1.png" title="body image" /></p>
+<p>属性也可以在配方单中设定，展示在配方单中所设定的属性的格式口在配方单中设定属性时必须使用<code>node．</code>前缀 </p>
+<p><img alt="Alt Image Text" src="../../images/7_2.png" title="body image" /></p>
+<p>Because attributes can be defined in multiple places, all attribute values are composed together during a Chef run according to the priority levels as shown in Figure</p>
+<p>Attributes defined by <code>ohai</code> have the highest priority, followed by attributes defined in a recipe, then attributes defined in an attribute file. </p>
+<p>In other words, recipe attributes have a <strong>higher priority</strong> than those defined in <strong>attribute file</strong>, and will <strong>override them by default</strong>. Attributes defined by <code>ohai</code> trump everything else.</p>
+<p><img alt="Alt Image Text" src="../../images/7_3.png" title="body image" /></p>
+<p><code>ohai</code> &gt; <strong>attributes defined in a recipe</strong> &gt; <strong>attributes defined in an attribute file</strong></p>
+<h2 id="2motd-attributes"><strong>2、<code>Motd-Attributes</code>菜谱</strong></h2>
+<p>我们用一个叫・<code>Motd-Attributes</code>的菜谱来试验菜谱中的属性，这里来写一个由属胜驱动的版本 。</p>
+<p>首先，使用<code>chef generate cookbook</code>或<code>knife cookbook create</code>（取决于开发机器使用Chef开发包还是客户端）来生成<code>motd-attributes</code>菜谱的目录结构。 </p>
+<p><strong>Chef开发包</strong></p>
+<pre><code>$ chef generate cookbook motd-attributes
+ chef generate cookbook motd-attributes
+Hyphens are discouraged in cookbook names as they may cause problems with custom resources. See https://docs.chef.io/ctl_chef.html#chef-generate-cookbook for more information.
+Generating cookbook motd-attributes
+- Ensuring correct cookbook content
+- Committing cookbook files to git
+
+Your cookbook is ready. Type `cd motd-attributes` to enter it.
+
+There are several commands you can run to get started locally developing and testing your cookbook.
+Type `delivery local --help` to see a full list of local testing commands.
+
+Why not start by writing an InSpec test? Tests for the default recipe are stored at:
+
+test/integration/default/default_test.rb
+
+If you'd prefer to dive right in, the default recipe can be found at:
+
+recipes/default.rb
+
+
+
+$ cd motd-attributes
+</code></pre>
+<p><strong>Chef客户端</strong></p>
+<pre><code>$ knife cookbook create motd-attributes --cookbook-path .
+$ cd motd-attributes
+$ kitchen init --create-gemfile
+$ bundle install
+</code></pre>
+<p><strong><code>/motd-attributes/kitchen.yml</code></strong></p>
+<pre><code>---
+driver:
+  name: vagrant
+  provider: vmware_desktop
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: centos65
+    driver:
+      box: learningchef/centos65
+      box_url: learningchef/centos65
+
+suites:
+  - name: default
+    run_list:
+      - recipe[motd-attributes::default]
+    attributes:
+</code></pre>
+<p>创建一个配方单使用<code>template</code>资源来生成节点上的<code>/etc/motd</code>文件。但这一次，使用模板文件中的属胜。</p>
+<p><strong><code>motd-attributes/recipes/default.rb</code></strong></p>
+<pre><code>#
+# Cookbook:: motd-attributes
+# Recipe:: default
+#
+# Copyright:: 2019, The Authors, All Rights Reserved.
+
+template '/etc/motd' do
+    source 'motd.erb'
+    mode '0644'
+end
+</code></pre>
+<p><strong>Generate a template file to generate <code>/etc/motd</code>.</strong></p>
+<p><strong>Chef开发包</strong></p>
+<pre><code>$ chef generate template motd
+Recipe: code_generator::template
+  * directory[/Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/templates] action create
+    - create new directory /Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/templates
+  * template[/Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/templates/motd.erb] action create
+    - create new file /Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/templates/motd.erb
+    - update content in file /Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/templates/motd.erb from none to e3b0c4
+    (diff output suppressed by config)
+
+</code></pre>
+<p><strong>Chef Client - Linux/Mac OS X:</strong></p>
+<pre><code>$ touch templates/default/motd.erb
+</code></pre>
+<p><strong><code>templates/default/motd.erb</code></strong></p>
+<pre><code>The hostname of this node is &lt;%= node['hostname'] %&gt;
+The IP address of this node is &lt;%= node['ipaddress'] %&gt;
+</code></pre>
+<pre><code>$ kitchen list
+Instance          Driver   Provisioner  Verifier  Transport  Last Action    Last Error
+default-centos65  Vagrant  ChefZero     Busser    Ssh        &lt;Not Created&gt;  &lt;None&gt;
+
+
+$ kitchen converge
+
+$ kitchen login
+Last login: Thu Nov 28 03:12:17 2019 from 172.16.72.2
+The hostname of this node is default-centos65
+The IP address of this node is 172.16.72.142
+
+$ exit
+</code></pre>
+<h2 id="3setting-attributes"><strong>3、Setting Attributes</strong></h2>
+<p><strong>Chef Development Kit:</strong></p>
+<pre><code>$ chef generate attribute default
+
+
+Recipe: code_generator::attribute
+  * directory[/Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/attributes] action create
+    - create new directory /Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/attributes
+  * template[/Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/attributes/default.rb] action create
+    - create new file /Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/attributes/default.rb
+    - update content in file /Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/attributes/default.rb from none to e3b0c4
+    (diff output suppressed by config)
+</code></pre>
+<p><strong>Chef Client - Linux/Mac OS X:</strong></p>
+<pre><code>$ touch attributes/default.rb
+</code></pre>
+<p>默认情况下，如果使用<code>Chef</code>开发包生成新菜谱的目录结构，它不会创建<code>attribute</code>目录，因为你不一定会用到它。然而，在需要在菜谱中使用属性文件时，你需要运行<code>chef generate</code>命令来创建其目录结构。</p>
+<p>而如果使用<code>Chef</code>客户端创建新菜谱的目录结构，它永远会创建所有的目录（包括attribute、目录，无论你是否需要），但你需要自己手动创建<code>default.rb</code>属性文件。 </p>
+<p><strong><code>/attributes/default.rb</code></strong></p>
+<pre><code>default['motd-attributes']['company'] = 'Chef'
+</code></pre>
+<p>根据约定，在菜谱的属性文件中设定属性时，属性的键和值应该存在以菜谱名字命名的顶级命名空间下。</p>
+<p>比如<code>default['motd-attributes']['company'</code>］的值是字符串<code>Chef</code>,键<code>company</code>存在顶级命名空间<code>motd-attributes</code>下。</p>
+<p>在这个例子中，菜谱的名字在<code>metadata.rb</code>中定义为<code>mot-attributes</code>。<strong>这个属性使用default优先级。</strong></p>
+<p><strong><code>/recipes/default.rb</code></strong></p>
+<pre><code>node.default['motd-attributes']['message'] = &quot;It's a wonderful day today!&quot;
+
+template '/etc/motd' do
+  source 'motd.erb'
+  mode '0644'
+end
+</code></pre>
+<p>编辑<code>mold.erb</code>模板。可以在<code>node</code>对象下访问通过任何途径设定的属胜属性文件菜谱或<code>ohai</code> </p>
+<p><strong><code>templates/default/motd.erb</code></strong></p>
+<pre><code>Welcome to &lt;%= node['motd-attributes']['company'] %&gt;
+&lt;%= node['motd-attributes']['message'] %&gt;
+The hostname of this node is &lt;%= node['hostname'] %&gt;
+The IP address of this node is &lt;%= node['ipaddress'] %&gt;
+</code></pre>
+<pre><code>$ kitchen converge
+-----&gt; Starting Kitchen (v2.3.3)
+-----&gt; Converging &lt;default-centos65&gt;...
+       Preparing files for transfer
+$$$$$$ You must set your run_list in your Policyfile instead of kitchen config. The run_list in your config will be ignored.
+$$$$$$ Ignored run_list: [&quot;recipe[motd-attributes::default]&quot;]
+       Installing cookbooks for Policyfile /Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/Policyfile.rb using `chef in
+stall`
+       Installing cookbooks from lock
+       Installing motd-attributes 0.1.0
+       Preparing dna.json
+       Exporting cookbook dependencies from Policyfile /var/folders/r7/nml_dsbn44gcd2jlqh7s2w940000gn/T/default-centos65-sandbox-20191129-2695
+5-1g48hf7...
+       Exported policy 'motd-attributes' to /var/folders/r7/nml_dsbn44gcd2jlqh7s2w940000gn/T/default-centos65-sandbox-20191129-26955-1g48hf7
+
+       To converge this system with the exported policy, run:
+         cd /var/folders/r7/nml_dsbn44gcd2jlqh7s2w940000gn/T/default-centos65-sandbox-20191129-26955-1g48hf7
+         chef-client -z
+       Removing non-cookbook files before transfer
+       Preparing validation.pem
+       Preparing client.rb
+-----&gt; Chef installation detected (install only if missing)
+       Transferring files to &lt;default-centos65&gt;
+       Starting Chef Infra Client, version 15.5.17
+       Using policy 'motd-attributes' at revision '3e7401637721e60a1aa8475f5dd46efd6ad452ec2cb08118d94bbf112815ab5e'
+       resolving cookbooks for run list: [&quot;motd-attributes::default@0.1.0 (4b1d2ce)&quot;]
+       Synchronizing Cookbooks:
+         - motd-attributes (0.1.0)
+       Installing Cookbook Gems:
+       Compiling Cookbooks...
+       Converging 1 resources
+       Recipe: motd-attributes::default
+         * template[/etc/motd] action create
+           - update content in file /etc/motd from 0397e6 to b17ece
+           --- /etc/motd        2019-11-28 03:12:20.412305997 +0000
+           +++ /etc/.chef-motd20191129-3585-p6oosp      2019-11-29 02:24:14.925471024 +0000
+           @@ -1,3 +1,8 @@
+           +# The hostname of this node is default-centos65
+           +# The IP address of this node is 172.16.72.142
+           +
+           +Welcome to Chef
+           +It's a wonderful day today!
+            The hostname of this node is default-centos65
+            The IP address of this node is 172.16.72.142
+
+       Running handlers:
+       Running handlers complete
+       Chef Infra Client finished, 1/1 resources updated in 01 seconds
+       Downloading files from &lt;default-centos65&gt;
+       Finished converging &lt;default-centos65&gt; (0m8.64s).
+-----&gt; Kitchen is finished. (0m9.31s
+</code></pre>
+<pre><code>$ kitchen login
+Last login: Fri Nov 29 02:24:10 2019 from 172.16.72.2
+# The hostname of this node is default-centos65
+# The IP address of this node is 172.16.72.142
+
+Welcome to Chef
+It's a wonderful day today!
+The hostname of this node is default-centos65
+The IP address of this node is 172.16.72.142
+
+[vagrant@default-centos65 ~]$ exit
+logout
+Connection to 127.0.0.1 closed.
+</code></pre>
+<h2 id="4"><strong>4、属性优先级基础</strong></h2>
+<p><strong>现在， 让我们来试验一下不同属性的优先级</strong>。 重新设定已经在其他地方设定过的属性值
+编辑<code>recipe/default.rb</code>, <strong>重设一个在属文件中已经由<code>ohai</code>设定的更高优先级的属性的值，同时重设一个在属性文件中已经设定的更低优先级的属性的值</strong></p>
+<p><strong><code>motd-attributes/recipes/default.rb</code></strong></p>
+<pre><code>#
+# Cookbook:: motd-attributes
+# Recipe:: default
+#
+# Copyright:: 2019, The Authors, All Rights Reserved.
+
+node.default['ipaddress'] = '1.1.1.1'
+node.default['motd-attributes']['company'] = 'My Company'
+node.default['motd-attributes']['message'] = &quot;It's a wonderful day today!&quot;
+
+template '/etc/motd' do
+  source 'motd.erb'
+  mode &quot;0644&quot;
+end
+</code></pre>
+<pre><code>$ kitchen converge
+
+$ kitchen login
+
+Last login: Fri Nov 29 03:09:32 2019 from 172.16.72.2
+Welcome to My Company
+It's a wonderful day today!
+The hostname of this node is default-centos65
+The IP address of this node is 172.16.72.142
+</code></pre>
+<p><strong>Perform a Chef run and check to see the resulting values:</strong></p>
+<ul>
+<li>在配方单中设定的<code>mode['motd_attributes']['company'］</code>的值<code>My Company</code>比属性文件中设定的值<code>Chef</code>拥有更高优先级，因此模板使用了配方单中设定的值。 </li>
+<li>
+<p>在配方单中设定的<code>node['ipaddeess'］</code>值比<code>ohai</code>自动设定的<code>10.0.2.15</code>值有更低优先 级，因此在配方单中设定的值被忽略，模板使用了高优先级的值。 </p>
+</li>
+<li>
+<p>这些优先级体现了变量的使用方法在属胜文件中设定的值被设计为可以被配方单覆盖</p>
+</li>
+<li>而由<code>ohai</code>生成的自动属胜则不会被任何属性覆盖，因为它们代表重要的不应被篡改的系统信息，比如<code>IP</code>地址。 </li>
+</ul>
+<h2 id="5include_recipe"><strong>5、<code>Include_Recipe</code></strong></h2>
+<p>你可能会想<code>Chef</code>这样的属性优先级机制有没有必要这是因为和很多其他编程语言一样，<code>Chef</code>配方单可以通过<code>include_recipe</code>语句引用其他<code>Chef</code>配方单。</p>
+<p>当<code>Chef</code>运行并处理<code>Chef</code>代码时，它可能包含对许多不同的配方单（甚至在其他菜谱中的配方单）的引用.</p>
+<p>由于你可以使用<code>include_recipe</code>，所以<code>Chef</code>代码可能会包含互相冲突的属性定义，这样便需要一个准则来决定相冲突的属性在定义时，哪个会胜出。 </p>
+<p><img alt="Alt Image Text" src="../../images/7_4.png" title="body image" /></p>
+<blockquote>
+<p>说明：很多<code>Chef</code>用户遵循一个准则，将配方单代码的长度限制在一个屏幕能显示出来的范围内 &gt; (20多行）以使代码可读。更长的代码通常可以考虑根据代码块的用途分割成多个不同的配方单&gt; 文件，然后使用<code>include_ recip</code>来包含这些配方单 </p>
+</blockquote>
+<p>在使用<code>include_recipe</code>语句时，你应该使用和在运行清草中一样的格式：<code>"＜菜谱&gt;::&lt;配方单＞"</code>。比如"<code>motd-attributes::message</code>"</p>
+<p><strong>Chef开发包</strong></p>
+<pre><code>chef generate recipe message
+</code></pre>
+<p><strong>Chef Client - Linux/Mac OS X:</strong></p>
+<pre><code>touch recipes/message.rb
+</code></pre>
+<pre><code>$ chef generate recipe message
+Recipe: code_generator::recipe
+  * directory[/Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/spec/unit/recipes] action create (up to date)
+  * cookbook_file[/Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/spec/spec_helper.rb] action create_if_missing (up to date)
+  * template[/Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/spec/unit/recipes/message_spec.rb] action create_if_missing
+    - create new file /Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/spec/unit/recipes/message_spec.rb
+    - update content in file /Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/spec/unit/recipes/message_spec.rb from none to 6d73b3
+    (diff output suppressed by config)
+  * directory[/Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/test/integration/default] action create (up to date)
+  * template[/Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/test/integration/default/message_test.rb] action create_if_missing
+    - create new file /Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/test/integration/default/message_test.rb
+    - update content in file /Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/test/integration/default/message_test.rb from none to 456a77
+    (diff output suppressed by config)
+  * template[/Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/recipes/message.rb] action create
+    - create new file /Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/recipes/message.rb
+    - update content in file /Users/.../Devops_sap/Chef_Doc/learningchef/chap08/motd-attributes/recipes/message.rb from none to f414d1
+    (diff output suppressed by config)
+</code></pre>
+<p><strong><code>recipes/message.rb</code></strong></p>
+<pre><code>#
+# Cookbook:: motd-attributes
+# Recipe:: message
+#
+# Copyright:: 2019, The Authors, All Rights Reserved.
+
+
+node.default['motd-attributes']['company'] = 'the best company in the universe(This info from message.rb)'
+</code></pre>
+<p><strong>提示:</strong></p>
+<p>注意，我们<code>kitchen.yml</code>文件在运行清单中仍然只使用了<code>default</code>配方单。因为我们不想让人们直接使用<code>message</code>配方单。 </p>
+<p><strong>只是使用<code>message</code>配方单来组织代码，使其可读，容易管理。因此, 我们需要在<code>default</code>配方单中使用<code>include_recipe</code>来引用需要引用的配方单， 而总的运行清单中只有<code>default</code>配方单</strong> </p>
+<pre><code>...
+  run_list:
+    - recipe[motd-attributes::default]
+...
+</code></pre>
+<p>有些<code>Chef</code>用户将“私有”的配方单文件以下划线开头（"-“）作为一个约定来区分公开和私有的配方单文件 。他们同时将这个配方单文件命名为<code>”message.rb“</code>，使其私有性在菜谱的文件结构中显得更明显。 </p>
+<p><strong>end:</strong></p>
+<pre><code>node.default['ipaddress'] = '1.1.1.1'
+node.default['motd-attributes']['company'] = 'My Company'
+node.default['motd-attributes']['message'] = &quot;It's a wonderful day today!&quot;
+
+include_recipe 'motd-attributes::message'
+
+template '/etc/motd' do
+  source 'motd.erb'
+  mode '0644'
+end
+</code></pre>
+<p>You need to add an include_recipe statement to your <code>default.rb</code>.</p>
+<p><strong><code>recipes/default.rb</code></strong></p>
+<pre><code>#
+# Cookbook:: motd-attributes
+# Recipe:: default
+#
+# Copyright:: 2019, The Authors, All Rights Reserved.
+
+node.default['ipaddress'] = '1.1.1.1'
+node.default['motd-attributes']['company'] = 'My Company'
+node.default['motd-attributes']['message'] = &quot;It's a wonderful day today!&quot;
+
+include_recipe 'motd-attributes::message'
+
+template '/etc/motd' do
+  source 'motd.erb'
+  mode &quot;0644&quot;
+end
+</code></pre>
+<p><strong><code>include_recipe</code>语句可以放在配方单文件的任何位置。当<code>Chef</code>处理这些代码时<code>include_recipe</code>将被替换为它所引用用的配方单代码</strong></p>
+<p><img alt="Alt Image Text" src="../../images/7_5.png" title="body image" /></p>
+<h3 id="_2"><strong>同个优先级同个属性被多次设定时，最后设定的值胜出</strong></h3>
+<p>在本例中，在<code>include_recipe</code>引用展开后，<code>node.defau1t["motd-attributes"]["company"]</code>属性被设定了两次；</p>
+<p>在<code>template</code>资源应用之前最后被设定的一个胜出，即<code>“the best company in the universe(This info from message.rb)"</code>: </p>
+<pre><code>$ kitchen converge
+
+$ kitchen login
+Last login: Fri Nov 29 06:27:57 2019 from 172.16.72.2
+Welcome to the best company in the universe(This info from message.rb)
+It's a wonderful day today!
+The hostname of this node is default-centos65
+The IP address of this node is 172.16.72.142
+</code></pre>
+<h2 id="6"><strong>6、属性优先级</strong></h2>
+<p>三个最常用的属性优先级别： </p>
+<p><strong>自动(<code>Autormatic</code>)</strong></p>
+<p>自动属性为<code>ohai</code>所生成的属性。 </p>
+<p><strong>默认(<code>Default</code>)</strong> </p>
+<p>通常由菜谱及属性文件设定的属性。 </p>
+<p><strong>重写(<code>Override</code>)</strong></p>
+<p>最强的属性设定方法，务必请谨慎使用。  </p>
+<p><img alt="Alt Image Text" src="../../images/7_6.png" title="body image" /></p>
+<p>在菜谱中设定一个属性时，通常应该设为默认属性。这个规则有一个例外，即当使用环境时使用<code>override</code>优先级。</p>
+<p>除了使用“环境”的特例之外，属性优先级多自定义<code>Chef</code>的时候。在<code>Chef</code>中实现一个新的功能（比如自定义资源）时，<code>Chef</code>强大的属性优先级引擎能帮助你遵循本章讲述的基本属性优先级功能为其语言添加新的功能。</p>
+<h2 id="7"><strong>7、属性排错</strong></h2>
+<p>如果需要为属性拍错，比如找到他们哪里设定，<code>node</code>对象提供的<code>node.debug_value()</code>方法能给与很多帮助。</p>
+<p><strong>比如如果你不知道<code>ohai</code>设定了自动属性<code>node['ipaddress']</code>得知它是由。可以通过运行<code>node.debug_value()</code>得知由<code>ohai</code>设定的</strong></p>
+<p>修改<code>recipes/default.rb</code>文件，可以使用<code>Ruby</code>的pp程序，<code>pp</code>程序可以将对象<code>Ruby</code>以可读性强格式打印出来。<code>node.debug_value()</code>返回对象的内容， pp输出有较强的可读性 </p>
+<pre><code>#
+# Cookbook:: motd-attributes
+# Recipe:: default
+#
+# Copyright:: 2019, The Authors, All Rights Reserved.
+
+
+require 'pp'
+node.default['ipaddress'] = '1.1.1.1'
+pp node.debug_value('ipaddress')
+
+node.default['motd-attributes']['company'] = 'My Company'
+node.default['motd-attributes']['message'] = &quot;It's a wonderful day today!&quot;
+
+include_recipe 'motd-attributes::message'
+
+template '/etc/motd' do
+  source 'motd.erb'
+  mode &quot;0644&quot;
+end
+</code></pre>
+<pre><code>$ kitchen converge
+...
+ Installing Cookbook Gems:
+       Compiling Cookbooks...
+       [[&quot;default&quot;, &quot;1.1.1.1&quot;],
+        [&quot;env_default&quot;, :not_present],
+        [&quot;role_default&quot;, :not_present],
+        [&quot;force_default&quot;, :not_present],
+        [&quot;normal&quot;, :not_present],
+        [&quot;override&quot;, :not_present],
+        [&quot;role_override&quot;, :not_present],
+        [&quot;env_override&quot;, :not_present],
+        [&quot;force_override&quot;, :not_present],
+        [&quot;automatic&quot;, &quot;172.16.72.142&quot;]]
+       Converging 1 resources
+       Recipe: motd-attributes::default
+         * template[/etc/motd] action create (up to date)
+
+       Running handlers:
+       Running handlers complete
+       Chef Infra Client finished, 0/1 resources updated in 01 seconds
+       Downloading files from &lt;default-centos65&gt;
+       Finished converging &lt;default-centos65&gt; (0m6.47s).
+</code></pre>
+<p>从这里， 可以看出<code>node[ipaddress]</code>]属性在<code>automatic</code>优先级被设定为<code>"172.16.72.142"</code>,在<code>default</code>优先级被设定为"<code>1.1.1.1</code>"</p>
+<p><strong><code>Chef</code>的确处理了"<code>1.1.1.1</code>"这个值，但最终结果被高优先级的自动属性覆盖。</strong></p>
+<p><strong>要为同个优先级别被多次设定的属性排错比在不同优先级别设定的时候复杂一些</strong></p>
+<p><strong>但仍然非常可行。你只需要在<code>include_recipe</code>前后分别打印<code>node.debug_value(）</code>的值。</strong> </p>
+<p>比如，假设我们不知道<code>motd-attributes::message</code>配方单设定了<code>motd-attributes::message</code>属性，就可以通过在<code>recipes/default.rb</code>一中多次打印<code>node.debug_value()</code> 的值，在<code>include_recipe</code>前后分别打印<code>node.debug_value('motd-attributes','company')</code></p>
+<pre><code>...
+  Compiling Cookbooks...
+       [[&quot;default&quot;, &quot;1.1.1.1&quot;],
+        [&quot;env_default&quot;, :not_present],
+        [&quot;role_default&quot;, :not_present],
+        [&quot;force_default&quot;, :not_present],
+        [&quot;normal&quot;, :not_present],
+        [&quot;override&quot;, :not_present],
+        [&quot;role_override&quot;, :not_present],
+        [&quot;env_override&quot;, :not_present],
+        [&quot;force_override&quot;, :not_present],
+        [&quot;automatic&quot;, &quot;172.16.72.142&quot;]]
+       [[&quot;default&quot;, &quot;My Company&quot;],
+        [&quot;env_default&quot;, :not_present],
+        [&quot;role_default&quot;, :not_present],
+        [&quot;force_default&quot;, :not_present],
+        [&quot;normal&quot;, :not_present],
+        [&quot;override&quot;, :not_present],
+        [&quot;role_override&quot;, :not_present],
+        [&quot;env_override&quot;, :not_present],
+        [&quot;force_override&quot;, :not_present],
+        [&quot;automatic&quot;, :not_present]]
+       [[&quot;default&quot;, &quot;the best company in the universe(This info from message.rb)&quot;],
+        [&quot;env_default&quot;, :not_present],
+        [&quot;role_default&quot;, :not_present],
+        [&quot;force_default&quot;, :not_present],
+        [&quot;normal&quot;, :not_present],
+        [&quot;override&quot;, :not_present],
+        [&quot;role_override&quot;, :not_present],
+        [&quot;env_override&quot;, :not_present],
+        [&quot;force_override&quot;, :not_present],
+        [&quot;automatic&quot;, :not_present]]
+       Converging 1 resources
+       Recipe: motd-attributes::default
+         * template[/etc/motd] action create (up to date)
+...
+</code></pre>
+<p>From this output, you could sort out that something in<code>motd-attributes::message</code> recipe set the attribute <code>node['motd-attributes']['company']</code> to <code>"the best company in the universe" using the default precedence</code>, overriding what was set earlier.</p>
+<pre><code>$ kitchen destroy
+-----&gt; Starting Kitchen (v2.3.3)
+-----&gt; Destroying &lt;default-centos65&gt;...
+       ==&gt; vagrant: A new version of Vagrant is available: 2.2.6 (installed version: 2.2.5)!
+       ==&gt; vagrant: To upgrade visit: https://www.vagrantup.com/downloads.html
+
+       ==&gt; default: Stopping the VMware VM...
+       ==&gt; default: Deleting the VM...
+       Vagrant instance &lt;default-centos65&gt; destroyed.
+       Finished destroying &lt;default-centos65&gt; (0m23.58s).
+-----&gt; Kitchen is finished. (0m24.15s)
+</code></pre>
+<h2 id="8"><strong>8、小结</strong></h2>
+<p>属性可以在多处设定</p>
+<ul>
+<li><code>ohai</code>自动设定 </li>
+<li>属性文件 </li>
+<li>配方单 </li>
+<li>其他菜谱 </li>
+</ul>
+<p>由于属性可以在多处设定，所以<code>Chef</code>定义了优先级方案来控制多处设定属性如何调用设定属性时，<code>automatic</code>,<code>default</code>和<code>override</code>来控制属性的优先级。 总的来说，会用到<code>default</code>优先级，除非有特别需求或需要自定义Chef.</p>
+<ul>
+<li>Chef开发包</li>
+</ul>
+<pre><code>$ chef generate cookbook motd-attributes
+</code></pre>
+<ul>
+<li>Chef客户端</li>
+</ul>
+<pre><code>$ knife cookbook create motd-attributes --cookbook-path .
+$ cd motd-attributes
+$ kitchen init --create-gemfile
+$ bundle install
+</code></pre>
+<pre><code>$ kitchen list
+
+$ kitchen converge
+
+$ kitchen login
+</code></pre>
+<pre><code>$ chef generate attribute default #chef-dk
+$ touch attributes/default.rb  #chef-client
+
+$ chef generate recipe message  #chef-dk
+$ touch recipes/message.rb  #chef-client
+</code></pre>
+<p><strong>Chef开发包</strong></p>
+<pre><code>chef generate recipe message
+</code></pre>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.78eede0e.min.js"></script>
+      
+    
+  </body>
+</html>

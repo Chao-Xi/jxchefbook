@@ -1,0 +1,3105 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's Chef&Ansible Automation 技术与实战教程">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../chef_tutorial13_env/">
+      
+      
+        <link rel="next" href="../chef_tutorial15_term/">
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.5">
+    
+    
+      
+        <title>第十四节 测试 - Jacob Chef&Ansible Automation Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0e669242.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-header__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob Chef&Ansible Automation Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第十四节 测试
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-nav__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob Chef&Ansible Automation Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Chef
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Chef
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef 介绍和安装
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Ruby和Chef语法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 如何写 Chef 配方 & chef-apply
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 用Test Kitchen管理沙盒测试环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 用 Chef 户端管理节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 撰写和使用菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial7_attributes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第七节 Chef 属性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第八节 Chef 服务器同时管理多个节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第九节 社区以及Chef-Client菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial10_zero/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十节 Chef zero
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial11_databag/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十一节 数概包Databag
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十二节 角色
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial13_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十三节 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    第十四节 测试
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    第十四节 测试
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1apache" class="md-nav__link">
+    1、重温Apache菜谱
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2serverspec" class="md-nav__link">
+    2、使用Serverspec进行自动化测试
+  </a>
+  
+    <nav class="md-nav" aria-label="2、使用Serverspec进行自动化测试">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-serverspec" class="md-nav__link">
+    2-1 撰写你的第一个Serverspec测试
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3rspec-dsl" class="md-nav__link">
+    3、RSpec DSL语法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4serverspec" class="md-nav__link">
+    4、Serverspec详解
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5foodcritic" class="md-nav__link">
+    5、使用Foodcritic进行自动化测试
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6chefspec" class="md-nav__link">
+    6、使用ChefSpec进行自动化测试
+  </a>
+  
+    <nav class="md-nav" aria-label="6、使用ChefSpec进行自动化测试">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chefspec" class="md-nav__link">
+    **撰写你的第一个ChefSpec测试 **
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7let" class="md-nav__link">
+    7、使用Let进行惰性求值
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    8、生成一份测试覆盖报告
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9spec_helperrb" class="md-nav__link">
+    9、在spec_helper.rb中共享测试代码
+  </a>
+  
+    <nav class="md-nav" aria-label="9、在spec_helper.rb中共享测试代码">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testing-your-automation-code-vagrant-version" class="md-nav__link">
+    Testing Your Automation Code (Vagrant Version)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10" class="md-nav__link">
+    10、本节小结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial15_term/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十五节 词汇表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial16_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十六节 Chef Tutorial Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Opt & Adv
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Opt & Adv
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef Roles
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Cookbook Versioning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 How to Perform Chef Knife SSL Check and Fetch to Verify Certificate
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 12 Chef Knife Cookbook Command Examples
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_op1_kinfe_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 knife search
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 Chef Quick CheatSheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Cookbook Sample LAMP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Cookbook Sample LAMP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Creating My First Chef Cookbook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Creating LAMP Chef Cookbook Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Ansible
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Ansible
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/1ansible_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L1 Ansible Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/2ansible_over_install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L2 Ansible Install(MacOs) and Environment Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/3play_task/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L3 Task Execution management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/4Ansible_variables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L4 Ansible Variable Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/5Complex_roles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L5 Managing complex playbooks with roles and ansible galaxy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/6Secret_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L6 Working with Secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/7Network_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L7 Network Management with Ansible
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/8idempotentence/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L8 Idempotentence with Ansible play
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/9Ansible_interview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L9 Ansible Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/10Ansible_learn_ppt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L10 Ansible 自动化运维工具PPT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/11Ansible_task1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L11 任务中心之Ansible基础篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/12Ansible_task2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L12 任务中心之Ansible进阶篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/13Ansible_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L13 Ansible 面试知识点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/14Ansible_containerd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L14 Ansible Role批量部署Containerd服务
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            HashiCorp Certified Terraform Associate
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/1hashicorp_certified_terraform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate Learning Path
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/2terraform_cs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Cheat Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/3terraform_lock/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    .terraform.lock.hcl 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/4terraform_var/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    terraform.tfvars 与 variables.tf 的区别
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/5terraform_random/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform: Random 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/6terraform_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Top Terraform Interview Questions and Answers (2022)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/7terraform_provider/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform provider update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/8terraform_docker_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform install Jenkins in Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/9terraform_local/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    解决Terraform初始化慢~配置本地离线源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/10terraform_adv/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform(Troubleshooting/Data Sources/Existing Resource)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/11tf_adv_exam/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Exam(Backend/Command/Script/Others)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/12terraform_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12 Adding Terraform to a CI/CD Pipeline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/13terraform_cmt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Integrating with Configuration Managers(Anisble)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Puppet Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Puppet Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/1pp_overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Puppet - Overview & Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/2pp_install_config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2 Puppet - 安装, 配置以及验证
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/3pp_coding_style/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3 Puppet - 编码风格
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/4pp_key_comps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4 Puppet - 核心模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/5pp_resource/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5 Puppet - 资源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/6pp_tmp_cls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6 Puppet - 模板 & 类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/7pp_func/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7 Puppet - Function
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/8pp_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8 Puppet - 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/9app_type_pr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9 Puppet - 类型和提供者
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/10pp_api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10 Puppet - RESTful API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/11pp_proj1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11 Puppet - Live Project 1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ArgoCD Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            ArgoCD Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_argocd/1Intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Introduction to Continuous Delivery
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1apache" class="md-nav__link">
+    1、重温Apache菜谱
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2serverspec" class="md-nav__link">
+    2、使用Serverspec进行自动化测试
+  </a>
+  
+    <nav class="md-nav" aria-label="2、使用Serverspec进行自动化测试">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-serverspec" class="md-nav__link">
+    2-1 撰写你的第一个Serverspec测试
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3rspec-dsl" class="md-nav__link">
+    3、RSpec DSL语法
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4serverspec" class="md-nav__link">
+    4、Serverspec详解
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5foodcritic" class="md-nav__link">
+    5、使用Foodcritic进行自动化测试
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6chefspec" class="md-nav__link">
+    6、使用ChefSpec进行自动化测试
+  </a>
+  
+    <nav class="md-nav" aria-label="6、使用ChefSpec进行自动化测试">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chefspec" class="md-nav__link">
+    **撰写你的第一个ChefSpec测试 **
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7let" class="md-nav__link">
+    7、使用Let进行惰性求值
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    8、生成一份测试覆盖报告
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9spec_helperrb" class="md-nav__link">
+    9、在spec_helper.rb中共享测试代码
+  </a>
+  
+    <nav class="md-nav" aria-label="9、在spec_helper.rb中共享测试代码">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testing-your-automation-code-vagrant-version" class="md-nav__link">
+    Testing Your Automation Code (Vagrant Version)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10" class="md-nav__link">
+    10、本节小结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="_1"><strong>第十四节 测试</strong></h1>
+<ul>
+<li>重温Apache菜谱 </li>
+<li>使用<code>Serverspec</code>进行自动化测试</li>
+<li><code>RSpec DSL</code>语法 </li>
+<li>使用<code>Foodcritic</code>进行自动化测试 </li>
+<li>使用<code>ChefSpec</code>进行自动化测试</li>
+<li>使用<code>Let</code>进行惰性求值 </li>
+<li>在<code>spec_helper.rb</code>中共享测试代码</li>
+</ul>
+<p>关于测试使用类似<code>Chef</code>的配置管理工具可以帮你实现50％的自动化测试和验证。因为由Chef进行 的基础架构自动化具备可重复性，它很自然地使应用程序运行环境更容易进行测试。</p>
+<p>这也是为什么我们就介绍<code>Test Kitchen</code>的原因，这样你可以能在实践中理解到这个概念。在整本书的各个章节中，都使用<code>Test Kitchen</code>将<code>Chef</code>代码部署到本地的沙盒测试环境并进行测试和验证，这可以帮助确保如果将同样的代码部署到生产环境，其结果一样。 </p>
+<p>自动化测试除了使用<code>Chef</code>以外的另外50%，则是关于测试和部署自动化代码的策略。就像在部署应用程序代码时最好一点一点渐进式部署一样，在最理想的情况下，部署基础架构的改变一样也最好是一步一步渐进式进行。图展示了理想的渐进式<strong>开发-测试一部署周期</strong>。这样的策略可以帮助保证完成足够的测试，从而得到高质量的基础架构和应用程序。 </p>
+<p><img alt="Alt Image Text" src="../../images/14_1.png" title="body image" /></p>
+<p>渐进式短期开发周期相反的长期开发周期（开发完很大的新功能再考虑部署）中，你很难预测什么时候开发结束；而如果测试留在最后一刻才进行，往往需要使用更长的时间测试很大的新功能；因而测试时间往往被缩短而牺牲产品质量。</p>
+<p>这样的习惯同样会形成“应用开发完了，现在让运维去部吧”这样的情形―应用在开发环境完美运行，却无法在生产环境中运作。类似<code>Chef</code>的配置管理工具尝试解决的正是这个问题。 </p>
+<p><img alt="Alt Image Text" src="../../images/14_2.png" title="body image" /></p>
+<p>再者，寻找和修复软件和基础架构代码中的问题是需要成本的，而且发现问题的时间越接近周期结束修复这些问题的成本就越高。图展示了在开发流程中修复问题的相对成本。在这个角度看，基础架构代码遵循同样的道理： </p>
+<ul>
+<li>需求 </li>
+<li>设计 </li>
+<li>开发</li>
+<li>开发测试 </li>
+<li>整合测试 </li>
+<li>生产环境 </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/14_3.png" title="body image" /></p>
+<p>在需求和设计阶段寻找和解决问题并不是那么昂贵， 然而在后面阶段走彻越远，修复问题的成本则越高。</p>
+<p>等到所有开发代码都完成时再尝试寻找问题， 相比一早就发现问题需要的成本花费要高出20至50倍.</p>
+<p>如果代码已经郎署到生产环境， 修复问题的花费相比早期高150倍</p>
+<p>这应该提醒你在做Che颇目时应做到以下几点。 </p>
+<ol>
+<li>第一次就做对以免未来再修复问题 </li>
+<li>越早发现问匆越好越接近写代码的时族就发砚问越越立好 </li>
+<li>尽可能做渐进式的小改变胡试小的改变要容易很多 </li>
+</ol>
+<p><code>Chef</code>包含可以帮你做到达些目标的测试工其。所示<code>Chef</code>提供多种侧试工具在你撰写菜谱时尽早对代码中的问题提供反馈 </p>
+<p><img alt="Alt Image Text" src="../../images/14_4.png" title="body image" /></p>
+<p>有多种不同的测试工具，因为是每个工具针对菜谱开发过程中的特定阶段。以下是对每 种测试工具的概览以及你应该在什么时候使用它：</p>
+<ul>
+<li>在编辑器中打入Chef代码的时候 </li>
+<li>使用<code>Foodcritic</code>可以分析你的<code>Chef</code>编程风格。 </li>
+<li>在部署到测试节点之前 </li>
+<li>使用<code>ChefSpec</code>可以帮助你保证代码的组织和文档符合标准。 </li>
+<li>在部署到测试节点后 </li>
+<li>使用<code>Serverspec</code>验证菜谱产生的行为与预期相符。 </li>
+</ul>
+<p>如果使用<code>Chef</code>客户端，需要安装一些额外的Ruby应用来支持自动化测试。运行以下命令安装本章所需的工具： </p>
+<pre><code>$ sudo gem install foodcritic --no-ri --no-rdoc
+$ sudo gem install chefspec --no-ri --no-rdoc
+</code></pre>
+<p>如果是Chef开发包，那它己经包含所有所需工具了。 </p>
+<h2 id="1apache"><strong>1、重温Apache菜谱</strong></h2>
+<p>Generate a cookbook called apache-test.</p>
+<p>Chef Development Kit:</p>
+<pre><code>$ chef generate cookbook apache-test
+$ cd apache-test
+</code></pre>
+<p>Chef Client:</p>
+<pre><code>$ knife cookbook create apache-test --cookbook-path .
+$ cd apache-test
+$ kitchen init --create-gemfile
+$ bundle install
+</code></pre>
+<p><strong><code>apache-test/kitchen.yml</code></strong></p>
+<pre><code>---
+driver:
+  name: vagrant
+  provider: vmware_desktop
+
+provisioner:
+  name: chef_zero
+  always_update_cookbooks: true
+
+platforms:
+  - name: centos65
+    driver:
+      box: learningchef/centos65
+      box_url: learningchef/centos65
+      network:
+      - [&quot;private_network&quot;, {ip: &quot;192.168.33.38&quot;}]
+
+suites:
+  - name: default
+    run_list:
+      - recipe[apache-test::default]
+    attributes:
+</code></pre>
+<p><strong><code>apache-test/recipes/default.rb</code></strong></p>
+<pre><code>#
+# Cookbook:: apache-test
+# Recipe:: default
+#
+# Copyright:: 2019, The Authors, All Rights Reserved.
+package &quot;httpd&quot;
+
+service &quot;httpd&quot; do
+  action [ :enable, :start ]
+end
+
+template &quot;/var/www/html/index.html&quot; do
+  source 'index.html.erb'
+  mode '0644'
+end
+</code></pre>
+<p><strong>Chef Development Kit:</strong></p>
+<pre><code>$ chef generate template index.html
+</code></pre>
+<p><strong>Chef Client:</strong></p>
+<pre><code>$ touch templates/default/index.html.erb
+</code></pre>
+<p>在模拟测试节点上有三个网络界面<code>lo</code>,<code>eth0</code>,<code>eth1</code> <code>ERB</code>中的脚本将渲染以下输出： </p>
+<ul>
+<li>lo</li>
+<li>eth0</li>
+<li>eth1</li>
+</ul>
+<p>提示：在ERB模板中要仔细分辨<code>＜% %＞</code>和<code>＜％=％＞</code>。</p>
+<p><code>ERB</code>模板中不包含等号的<code>＜% %＞</code>标签作为脚本执行；语句执行，但不作为字符串渲染到输出文件中。然后，我们使用带有等号的ERB标签<code>＜%= %＞</code>在脚本的条件符合时输出其结果。 </p>
+<p><strong><code>apache-test/templates/default/index.hmtl.erb</code></strong></p>
+<pre><code>&lt;html&gt;
+&lt;body&gt;
+&lt;pre&gt;&lt;code&gt;
+This site was set up by &lt;%= node['hostname'] %&gt;
+My network addresses are:
+&lt;% node['network']['interfaces'].keys.each do |iface_name| %&gt;
+  * &lt;%= iface_name %&gt;:
+      &lt;%= node['network']['interfaces'][iface_name]['addresses'].keys[1] %&gt;
+&lt;% end %&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<pre><code>kitchen converge
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/14_5.png" title="body image" /></p>
+<h2 id="2serverspec"><strong>2、使用<code>Serverspec</code>进行自动化测试</strong></h2>
+<h3 id="2-1-serverspec"><strong>2-1 撰写你的第一个<code>Serverspec</code>测试</strong></h3>
+<p>默认情况下，<code>Test kitchen</code>会在<code>test/integration</code>子目录中寻找相关的文件.</p>
+<p><code>Serverspec</code>在<code>test/integration</code>目录下的一 些子目录中守找它的测试文件。</p>
+<p>首先，在<code>test/integration</code>目录下需要针对每个测试套件的名字(<code>suite name</code>)有一个对应的测试目录：</p>
+<pre><code>&lt;cookbook_root&gt;
+└── test
+    └── integration
+        └── &lt;suite_name&gt;
+</code></pre>
+<p>套件（<code>suite</code>) 的名字可以在<code>kitchen.yml</code>文件中的<code>suites:</code>部分找到。 
+<code>default</code>是默认生成的套件名字。 </p>
+<p><strong>Linux/Mac OS X:</strong></p>
+<pre><code>$ mkdir -p test/integration/default
+</code></pre>
+<p><strong>Windows:</strong></p>
+<pre><code>&gt; mkdir test\integration\default
+</code></pre>
+<p>根据约定，<code>Serverspec</code>预期包含测试代码的文件以<code>spec.rb</code>结尾。如示例16-4所示，让我们 在<code>default/serverspec/default_spec.rb</code>子目录中创建<code>default_spec.rb</code>文件。 </p>
+<pre><code>set :backend, :exec
+
+describe 'web site' do
+  it 'responds on port 80' do
+    expect(port 80).to be_listening 'tcp'
+  end
+end
+</code></pre>
+<pre><code>require 'serverspec' 1
+
+set :backend, :exec 2
+
+describe 'web site' do 3
+  it 'responds on port 80' do
+    expect(port 80).to be_listening 'tcp'
+  end
+end
+</code></pre>
+<ol>
+<li><code>require</code>语句用来加载<code>serverspec</code>的<code>gem</code>库，这样我们可以引用<code>Serverspec</code>的类和方法，比如set方法。 </li>
+<li><code>set</code>语句让我们配置<code>serverspec</code>如何运行。在本例中，我们将<code>:backend</code>属性设定为<code>:exec</code>来告诉<code>serverspec</code>测试代码将会在同一台机器运行。 </li>
+<li>测试用<code>RSpec DSL</code>（领域专用语言）写，使用<code>describe</code>和<code>it</code>语句。在本例中，我们使用<code>RSpec DSL</code>写检查网站是否使用<code>TCP</code>协议监听<code>80</code>端口（HTTP网站默认端口）的测试。 </li>
+</ol>
+<p>我们将稍后在<code>“rspec-syntax</code>”中进一步解释<code>RSpec DSL</code>以及测试语法结构。现在，只需要明白这段代码是用来测试某个服务监听了<code>80</code>端口就好。 要运行这段侧试代码，首先需要确保所有的<code>gem</code>文件在测试节点一都已经安装好。我们可以使用<code>kitchen setup</code>命令。现在运行<code>kitchen setup:</code> </p>
+<pre><code>$ kitchen setup
+-----&gt; Starting Kitchen (v2.3.3)
+-----&gt; Setting up &lt;default-centos65&gt;...
+       Finished setting up &lt;default-centos65&gt; (0m0.00s).
+-----&gt; Kitchen is finished. (0m0.73s)
+</code></pre>
+<p>一旦测试节点拥有所有的测试库就可以通过运行<code>kitchen verify</code>命令来运行侧试。诸 现在就试试。如果代码没有语法错误，输出应该显示网站正常运行井响应80端口： </p>
+<pre><code>$ kitchen verify
+-----&gt; Starting Kitchen (v2.3.3)
+-----&gt; Verifying &lt;default-centos65&gt;...
+       Preparing files for transfer
+-----&gt; Installing Busser (busser)
+       Fetching thor-0.19.0.gem
+       Fetching busser-0.7.1.gem
+       Successfully installed thor-0.19.0
+       Successfully installed busser-0.7.1
+       2 gems installed
+-----&gt; Installing Busser plugin: busser-serverspec
+       Plugin serverspec installed (version 0.5.10)
+-----&gt; Running postinstall for serverspec plugin
+       Suite path directory /tmp/verifier/suites does not exist, skipping.
+       Transferring files to &lt;default-centos65&gt;
+-----&gt; Running serverspec test suite
+-----&gt; Installing Serverspec..
+       Fetching rspec-expectations-3.9.0.gem
+       Fetching rspec-3.9.0.gem
+       Fetching multi_json-1.14.1.gem
+       Fetching net-scp-2.0.0.gem
+       Fetching rspec-mocks-3.9.0.gem
+       Fetching rspec-its-1.3.0.gem
+       Fetching net-ssh-5.2.0.gem
+       Fetching diff-lcs-1.3.gem
+       Fetching serverspec-2.41.5.gem
+       Fetching net-telnet-0.1.1.gem
+       Fetching specinfra-2.82.4.gem
+       Fetching sfl-2.3.gem
+-----&gt; serverspec installed (version 2.41.5)
+       /opt/chef/embedded/bin/ruby -I/tmp/verifier/suites/serverspec -I/tmp/verifier/gems/gems/rspec-support-3.9.0/lib:/tmp/verifier/gems/gems/rspec-core-3.9.0/lib /opt/chef/embedded/bin/rspec --pattern /tmp/verifier/suites/serverspec/\*\*/\*_spec.rb --color --format documentation --default-path /tmp/verifier/suites/serverspec
+
+       web site
+         responds on port 80
+
+       Finished in 0.05453 seconds (files took 0.27863 seconds to load)
+       1 example, 0 failures
+
+       Finished verifying &lt;default-centos65&gt; (0m14.66s).
+-----&gt; Kitchen is finished. (0m15.13s)
+</code></pre>
+<p>前面展示了你可以使用<code>RSpc DSL</code>测试代码来代替手动验证确保菜谱正确运作</p>
+<pre><code>$ kitchen login
+Last login: Mon Dec  9 10:01:56 2019 from 172.16.72.2
+Welcome to your Packer-built virtual machine.
+[vagrant@default-centos65 ~]$ sudo service httpd stop
+Stopping httpd:                                            [  OK  ]
+[vagrant@default-centos65 ~]$ exit
+logout
+Connection to 127.0.0.1 closed.
+</code></pre>
+<pre><code>$ kitchen verify
+-----&gt; Starting Kitchen (v2.3.3)
+-----&gt; Verifying &lt;default-centos65&gt;...
+       Preparing files for transfer
+-----&gt; Busser installation detected (busser)
+-----&gt; Busser plugin detected: busser-serverspec
+       Removing /tmp/verifier/suites/serverspec
+       Transferring files to &lt;default-centos65&gt;
+-----&gt; Running serverspec test suite
+       /opt/chef/embedded/bin/ruby -I/tmp/verifier/suites/serverspec -I/tmp/verifier/gems/gems/rspec-support-3.9.0/lib:/tmp/verifier/gems/gems/rspec-core-3.9.0/lib /opt/chef/embedded/bin/rspec --pattern /tmp/verifier/suites/serverspec/\*\*/\*_spec.rb --color --format documentation --default-path /tmp/verifier/suites/serverspec
+
+       web site
+         responds on port 80 (FAILED - 1)
+
+       Failures:
+
+         1) web site responds on port 80
+            Failure/Error: expect(port 80).to be_listening 'tcp'
+              expected Port &quot;80&quot; to be listening
+              /bin/sh -c netstat\ -tunl\ \|\ grep\ --\ :80\\\ 
+
+            # /tmp/verifier/suites/serverspec/default_spec.rb:7:in `block (2 levels) in &lt;top (required)&gt;'
+
+       Finished in 0.0632 seconds (files took 0.27264 seconds to load)
+       1 example, 1 failure
+
+       Failed examples:
+
+       rspec /tmp/verifier/suites/serverspec/default_spec.rb:6 # web site responds on port 80
+
+       /opt/chef/embedded/bin/ruby -I/tmp/verifier/suites/serverspec -I/tmp/verifier/gems/gems/rspec-support-3.9.0/lib:/tmp/verifier/gems/gems/rspec-core-3.9.0/lib /opt/chef/embedded/bin/rspec --pattern /tmp/verifier/suites/serverspec/\*\*/\*_spec.rb --color --format documentation --default-path /tmp/verifier/suites/serverspec failed
+       !!!!!! Ruby Script [/tmp/verifier/gems/gems/busser-serverspec-0.5.10/lib/busser/runner_plugin/../serverspec/runner.rb /tmp/verifier/suites/serverspec] exit code was 1
+&gt;&gt;&gt;&gt;&gt;&gt; ------Exception-------
+&gt;&gt;&gt;&gt;&gt;&gt; Class: Kitchen::ActionFailed
+&gt;&gt;&gt;&gt;&gt;&gt; Message: 1 actions failed.
+&gt;&gt;&gt;&gt;&gt;&gt;     Verify failed on instance &lt;default-centos65&gt;.  Please see .kitchen/logs/default-centos65.log for more details
+&gt;&gt;&gt;&gt;&gt;&gt; ----------------------
+&gt;&gt;&gt;&gt;&gt;&gt; Please see .kitchen/logs/kitchen.log for more details
+&gt;&gt;&gt;&gt;&gt;&gt; Also try running `kitchen diagnose --all` for configuration
+</code></pre>
+<p><strong>我们可以看到<code>Chef</code>发现<code>httpd</code>服务没有运行后将其开启</strong> </p>
+<pre><code>$ kitchen converge
+</code></pre>
+<pre><code>$ kitchen verify
+-----&gt; Starting Kitchen (v2.3.3)
+-----&gt; Setting up &lt;default-centos65&gt;...
+       Finished setting up &lt;default-centos65&gt; (0m0.00s).
+-----&gt; Verifying &lt;default-centos65&gt;...
+       Preparing files for transfer
+-----&gt; Busser installation detected (busser)
+-----&gt; Busser plugin detected: busser-serverspec
+       Removing /tmp/verifier/suites/serverspec
+       Transferring files to &lt;default-centos65&gt;
+-----&gt; Running serverspec test suite
+       /opt/chef/embedded/bin/ruby -I/tmp/verifier/suites/serverspec -I/tmp/verifier/gems/gems/rspec-support-3.9.0/lib:/tmp/verifier/gems/gems/rspec-core-3.9.0/lib /opt/chef/embedded/bin/rspec --pattern /tmp/verifier/suites/serverspec/\*\*/\*_spec.rb --color --format documentation --default-path /tmp/verifier/suites/serverspec
+
+       web site
+         responds on port 80
+
+       Finished in 0.03277 seconds (files took 0.2189 seconds to load)
+       1 example, 0 failures
+
+       Finished verifying &lt;default-centos65&gt; (0m1.07s).
+-----&gt; Kitchen is finished. (0m1.60s)
+</code></pre>
+<h2 id="3rspec-dsl"><strong>3、RSpec DSL语法</strong></h2>
+<p>在继续学习如何使用<code>Serverspec</code>之前，让我们先来看看<code>RSpec DSL</code>语法的基础，好让你了解<code>Serverspec</code>测试的语法基础。 </p>
+<p><code>RSpec DSL</code>使用<code>describe</code>代码块包含一组测试。每个<code>describe</code>代码块由以下格式定义： </p>
+<pre><code>describe '&lt;entity&gt;' do
+  &lt;tests here&gt;
+end
+</code></pre>
+<p><code>describe</code>代码块的用途是将测试根据意图分组并描述被测试的实体。每个分组的描述作为字符串传递给<code>describe</code>。这个字符串描述是给运行测试的人作为文档在测试输出中查看。我们使用以下<code>describe</code>代码块来注明正在测试我们的网站： </p>
+<pre><code>describe 'web site' do
+  &lt;tests here&gt;
+end
+</code></pre>
+<blockquote>
+<p>说明：RSpec DSL在幕后为这些代码块创建Ruby类为测试分组。 </p>
+</blockquote>
+<p>实际的测试代码在<code>describe</code>代码块里面的<code>it</code>代码块中定义，格式如下： </p>
+<pre><code>describe '&lt;entity&gt;' do
+  it '&lt;description&gt;'
+    &lt;examples here&gt;
+  end
+end
+</code></pre>
+<p><code>it</code>代码块也接受一个字符串参数来件为该具体的测试的文档</p>
+<p>提供字符串<code>responds on port 80</code>即来说明我们的测试检查网站是否在<code>80</code>端口下运行</p>
+<pre><code>describe 'web site' do
+  it 'responds on port 80' do
+    ...
+  end
+end
+</code></pre>
+<p>在<code>RSpec 3.0</code>（当前的Chf开发包及客户端包含的版本）中, 测试应该以<code>expect</code>格式写 </p>
+<pre><code>describe '&lt;entity&gt;' do
+  it '&lt;description&gt;'
+    expect(resource).to matcher matcher_parameter
+  end
+end
+</code></pre>
+<p>资源(<code>resource</code>)，也称主题(<code>subject</code>）或命令（<code>command</code>)，<strong>是<code>expect</code>代码块的第一个参数，它代表被测试的实体。诸如<code>Serverspec</code>和<code>ChefSpec</code>的测试框架提供特定的资源来 执行广泛的验证</strong>。</p>
+<p>匹配器（<code>matcher</code>）用来定义对于资源的等同或相反的期待值。它的格式以<code>expect(资源）.to</code> 来表示期待该资源等同于匹配器结果，以及以<code>expect（资源).not_to</code>表示期待该资源的结果相反于匹配器结果。</p>
+<p>在我们使用的测试框架中也提供有特定用途的匹配器。 我们使用<code>port</code>资源（传递<code>80</code>作为参数）和<code>be_listening</code>匹配器（传递<code>tcp</code> 作为参数）来检查网站是否在<code>80</code>端口通过<code>TCP</code>协议运行： </p>
+<pre><code>describe 'web site' do
+  it 'responsponds on port 80' do
+    expect(port 80).to be_listening 'tcp'
+  end
+end
+</code></pre>
+<p>如何知道类似<code>port</code>的资源和<code>be_listening</code>匹配器的存在呢?我们参考了<code>Serverspec</code>测试 框架的<code>Serverspec</code>文档（<code>http://serverspec.org</code>)，其中列举了它提供的资源和匹配器类。 在网页顶端点击<code>Resource Types</code>链接，你会看到指向<code>Serverspec</code>资源的链接</p>
+<p><img alt="Alt Image Text" src="../../images/14_6.png" title="body image" /></p>
+<p><img alt="Alt Image Text" src="../../images/14_7.png" title="body image" /></p>
+<p>图展示如何将旧文档提供的<code>sould</code>格式代码转换为<code>expect</code>格式。</p>
+<p><img alt="Alt Image Text" src="../../images/14_8.png" title="body image" /></p>
+<p>在<code>sould</code>格式中， 资源在<code>it</code>语句外部的<code>describe</code>语句中定义。</p>
+<p>在<code>expect</code>格式中，它以参数传递给<code>expect</code></p>
+<p><strong><code>should</code>格式中,<code>should</code>或<code>should not</code>用来表达预期结果应等同或相反</strong></p>
+<p><strong>在<code>expect</code>格式中，预期结果以<code>.to</code>或<code>.not_to</code>方法表达。最后，在<code>should</code>格式中，匹配器的参数传递进<code>.with()</code>方法, 而在<code>expect</code>格式中，它只是匹配一个参数</strong>。</p>
+<h2 id="4serverspec"><strong>4、Serverspec详解</strong></h2>
+<p>供多个侧试文件共享的代码可以移到<code>spec_helper.rb</code>文件中, 在本例中我们只有一个测试文件，但现在请假设我们有多个测试文件。 注意这个文件包含<code>default_spec.rb</code>文件的前。</p>
+<p>注意这个文件包含<code>default_spec.rb</code>文件前两行，如果我们有多个测试文件，这两行需要由所有测试执行进行，因此我们将其移到所有侧试共享的<code>spec_helper.rb</code>文件中以免需要重复多个测试文件中定义</p>
+<p><strong>`apache-test/test/integration/default/serverspec/spec_helper.rb</strong></p>
+<pre><code>require 'serverspec'
+
+set :backend, :exec
+</code></pre>
+<p>现在我们有了<code>spec_helper.rb</code>文件，修改<code>default_spec.rb</code>来使用<code>spec_helper</code>， 改变<code>require</code>语句并删除<code>set</code>语句， </p>
+<p><strong><code>/test/integration/default/serverspec/default_spec.rb</code></strong></p>
+<pre><code>require 'spec_helper'
+
+describe 'web site' do
+  it 'responds on port 80' do
+    expect(port 80).to be_listening 'tcp'
+  end
+end
+</code></pre>
+<p>虽然在我们的例子里使用<code>spec_helper.rb</code>有点多此一举，但希望你能理解这个文件的意图一在有多个测试文件的时候，它可以帮助你将共享代码存放到同一个文件中以免在所有测试文件中重复。 </p>
+<p>在测试代码中，你可以在每个<code>describe</code>代码块中包含多个测试，事实上在真实的环境中每个<code>describe</code>也通常有很多测试该主题的不同案例。让我们在<code>defauit_spec.rb</code>添加一个新的测试。</p>
+<p>虽然写测试验证了网站在<code>80</code>端口运行，但我们并没有验证网站的内容是正确的。让我们写一个测试来验证内容。</p>
+<p><strong>curl</strong></p>
+<p><img alt="Alt Image Text" src="../../images/14_9.png" title="body image" /></p>
+<p>如添加一个新的测试到<code>default_spec.rb</code>文件。通过运行<code>curl localhost</code>命令，你可以检查网站的HTML输出来验证它的正确性。 </p>
+<p>通过在<code>command</code>资源上使用<code>stdout</code>属性，我们可以查看<code>curl</code>命令返回的结果。根据约定， 程序将它们的输出生成到两个不同的标准文件句柄：<code>stdout</code>（正常程序输出）和<code>stderr</code>（错误输出）。这样，其他程序可以打开这些句柄来自动查看内容。</p>
+<p>我们的例子并不在意<code>stderr</code>中的错误信息，因为对于我们的侧试代码来讲，如果发生错误，得到一个<code>Ruby</code>异常就已经足够。在错误情况下，<code>Serverspec</code>自动生成这样的错误异常。在我们的测试代码中，只在意<code>stdout</code>中的内容。 </p>
+<p>运行<code>curl localhost:80</code>命令的结果以字符串返回。</p>
+<p>我们通过称为正则表达式的<code>Ruby</code>功能，让<code>RSpec</code>匹配器<code>match</code>来在<code>curl</code>的执行结果中搜索特定内容。在 Ruby中，包含正则表达式的字符串被正斜杠字符（<code>//</code>）而不是单引号（<code>''</code>）或双引号（<code>""</code>）引用。 </p>
+<p>正则表达式是一个特殊的字符串格式，用来指定搜索字符串。在本例中，我们使用正则表达式在输出中搜索字符串内容<code>eth1</code>。在设定网站内容的时候，我们将网络界面的字符串包含在页面内容中，如果页面内容不包含字符串<code>eth1</code>，则说明正确的内容未被渲染。 同时，检查<code>eth1</code>字符串同时保证我们的测试节点虚拟机启用了<code>eth1</code>适配器。 </p>
+<p><strong><code>apache-test/test/integration/default/serverspec/default_spec.rb</code></strong></p>
+<pre><code>require 'spec_helper'
+
+describe 'web site' do
+  it 'responds on port 80' do
+    expect(port 80).to be_listening 'tcp'
+  end
+
+  it 'returns eth1 in the HTML body' do
+    expect(command('curl localhost:80').stdout).to match /eth1/
+  end
+end
+</code></pre>
+<p>首先，使用<code>kitchen login</code>命令登录到测试节点，并运行和我们测试中同样的<code>curl localhost:80</code>命令。以下例子展示了输出结果。复制输出的结果并运行<code>exit</code>命令返回开发机器： </p>
+<pre><code>$ kitchen login
+Last login: Tue Dec 10 05:36:34 2019 from 172.16.72.2
+Welcome to your Packer-built virtual machine.
+[vagrant@default-centos65 ~]$ curl localhost:80
+&lt;html&gt;
+&lt;body&gt;
+&lt;pre&gt;&lt;code&gt;
+This site was set up by default-centos65
+My network addresses are:
+  * lo:
+      ::1
+  * eth0:
+      172.16.72.158
+  * eth1:
+      192.168.33.38
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/body&gt;
+&lt;/html&gt;[vagrant@default-centos65 ~]$ exit
+logout
+Connection to 127.0.0.1 closed.
+</code></pre>
+<p>https://rubular.com/</p>
+<p><img alt="Alt Image Text" src="../../images/14_10.png" title="body image" /></p>
+<p><img alt="Alt Image Text" src="../../images/14_11.png" title="body image" /></p>
+<pre><code>$ kitchen verify
+-----&gt; Starting Kitchen (v2.3.3)
+-----&gt; Verifying &lt;default-centos65&gt;...
+       Preparing files for transfer
+-----&gt; Busser installation detected (busser)
+-----&gt; Busser plugin detected: busser-serverspec
+       Removing /tmp/verifier/suites/serverspec
+       Transferring files to &lt;default-centos65&gt;
+-----&gt; Running serverspec test suite
+       /opt/chef/embedded/bin/ruby -I/tmp/verifier/suites/serverspec -I/tmp/verifier/gems/gems/rspec-support-3.9.0/lib:/tmp/verifier/gems/gems/rspec-core-3.9.0/lib /opt/chef/embedded/bin/rspec --pattern /tmp/verifier/suites/serverspec/\*\*/\*_spec.rb --color --format documentation --default-path /tmp/verifier/suites/serverspec
+
+       web site
+         responds on port 80
+         returns eth1 in the HTML body
+
+       Finished in 0.04039 seconds (files took 0.21886 seconds to load)
+       2 examples, 0 failures
+
+       Finished verifying &lt;default-centos65&gt; (0m1.05s).
+-----&gt; Kitchen is finished. (0m1.69s)
+</code></pre>
+<p><code>package</code>资源需要<code>Serverspec</code>来检测操作系统信息。展示了<code>Serverspec</code>网站中对 <code>service</code>资源的文档。它可以用来检测某个程序包是否已经安装。在幕后，它其实首先需要检测是什运行什么操作系统，然后使用相应的命令，比如在<code>RedHat</code>中的<code>rpm -q</code>或 <code>Ubuntu/Debian</code>中的<code>dpkg -query</code>查看程序是否已经安装。 </p>
+<p><img alt="Alt Image Text" src="../../images/14_12.png" title="body image" /></p>
+<p>在默认情况下，<code>Serverspec</code>试图自动检测操作系统，这在大多数<code>Linux</code>和<code>Unix</code>系统中没有 问题。然而在某些系统中，你需要通过<code>set</code>方法重写默认的操作系统设置。 </p>
+<p>如果测试代码需要在<code>Windows</code>下运行，就需要在<code>spec.rb</code>文件中添加以下代码，因为 <code>Serverspec</code>在我们写作本书时无法自动检测<code>Windows</code>操作系统。更多相关信息可以在 <code>Serverspec</code>文档中找到。 </p>
+<p><strong><code>/default/serverspec/default_spec.rb</code></strong></p>
+<pre><code>require 'spec_helper'
+
+describe 'web site' do
+  it 'responds on port 80' do
+    expect(port 80).to be_listening 'tcp'
+  end
+
+  it 'returns eth1 in the HTML body' do
+    expect(command('curl localhost:80').stdout).to match /eth1/
+  end
+
+  it 'has the apache web server installed' do
+    expect(package 'httpd').to be_installed
+  end
+end
+</code></pre>
+<pre><code>$ kitchen verify
+-----&gt; Starting Kitchen (v2.3.3)
+-----&gt; Verifying &lt;default-centos65&gt;...
+       Preparing files for transfer
+-----&gt; Busser installation detected (busser)
+-----&gt; Busser plugin detected: busser-serverspec
+       Removing /tmp/verifier/suites/serverspec
+       Transferring files to &lt;default-centos65&gt;
+-----&gt; Running serverspec test suite
+       /opt/chef/embedded/bin/ruby -I/tmp/verifier/suites/serverspec -I/tmp/verifier/gems/gems/rspec-support-3.9.0/lib:/tmp/verifier/gems/gems/rspec-core-3.9.0/lib /opt/chef/embedded/bin/rspec --pattern /tmp/verifier/suites/serverspec/\*\*/\*_spec.rb --color --format documentation --default-path /tmp/verifier/suites/serverspec
+
+       web site
+         responds on port 80
+         returns eth1 in the HTML body
+         has the apache web server installed
+
+       Finished in 0.10077 seconds (files took 0.25413 seconds to load)
+       3 examples, 0 failures
+
+       Finished verifying &lt;default-centos65&gt; (0m1.23s).
+-----&gt; Kitchen is finished. (0m1.87s)
+</code></pre>
+<p>如果需要告诉<code>Serverspec</code>我们具体运行的是哪个操作系统（<code>CentOS 6</code>)，我们可以添加 以下代码使用<code>set</code>关键字，</p>
+<p><code>set :os, :family =&gt; 'redhat', :release =&gt; 6</code></p>
+<pre><code>require 'spec_helper'
+
+set :os, :family =&gt; 'redhat', :release =&gt; 6
+
+describe 'web site' do
+  it 'responds on port 80' do
+    expect(port 80).to be_listening 'tcp'
+  end
+
+  it 'returns eth1 in the HTML body' do
+    expect(command('curl localhost:80').stdout).to match /eth1/
+  end
+
+  it 'has the apache web server installed' do
+    expect(package 'httpd').to be_installed
+  end
+end
+</code></pre>
+<p><code>kitchen test</code>命令可以按顺序执行以下全部命令： </p>
+<ol>
+<li>kitchen destroy (if necessary)</li>
+<li>kitchen create</li>
+<li>kitchen converge</li>
+<li>kitchen setup</li>
+<li>kitchen verify</li>
+<li>kitchen destroy</li>
+</ol>
+<p>你正在撰写测试代码的时候往往并不想使用这个命令，因为往往还需要频繁登录到测 试节点上调试以及寻找测试中的问题。但等于写完所有测试后，在<code>Jenkins</code>等类似自动化系统中设定运行这些测试的时候，<code>kitchen test</code>是一个方便的命令，可以用来清除现有环境、创建虚拟机、运行测试并在运行后再次清理环境。</p>
+<p>同时，在撰写测试后并将代码井入版本控制系统之前，在全新的环境运行一次<code>kitchen test</code>这也是一个不错的主意。</p>
+<p>现在运行    kitchen test    命令。结束后它会自动删除我们的测试环境，因为它自动运行以上五个命令：  </p>
+<pre><code>$ kitchen test
+-----&gt; Starting Kitchen (v2.3.3)
+-----&gt; Cleaning up any prior instances of &lt;default-centos65&gt;
+-----&gt; Destroying &lt;default-centos65&gt;...
+       ==&gt; default: Stopping the VMware VM...
+       ==&gt; default: Deleting the VM...
+       Vagrant instance &lt;default-centos65&gt; destroyed.
+       Finished destroying &lt;default-centos65&gt; (0m22.79s).
+-----&gt; Testing &lt;default-centos65&gt;
+-----&gt; Creating &lt;default-centos65&gt;...
+       Bringing machine 'default' up with 'vmware_desktop' provider...
+       ==&gt; default: Cloning VMware VM: 'learningchef/centos65'. This can take some time...
+       ==&gt; default: Checking if box 'learningchef/centos65' version '1.0.7' is up to date...
+       ==&gt; default: Verifying vmnet devices are healthy...
+       ==&gt; default: Preparing network adapters...
+       WARNING: The VMX file for this box contains a setting that is automatically overwritten by Vagrant
+       WARNING: when started. Vagrant will stop overwriting this setting in an upcoming release which may
+       WARNING: prevent proper networking setup. Below is the detected VMX setting:
+       WARNING: 
+       WARNING:   ethernet0.pcislotnumber = &quot;33&quot;
+       WARNING: 
+       WARNING: If networking fails to properly configure, it may require this VMX setting. It can be manually
+       WARNING: applied via the Vagrantfile:
+       WARNING: 
+       WARNING:   Vagrant.configure(2) do |config|
+       WARNING:     config.vm.provider :vmware_desktop do |vmware|
+       WARNING:       vmware.vmx[&quot;ethernet0.pcislotnumber&quot;] = &quot;33&quot;
+       WARNING:     end
+       WARNING:   end
+       WARNING: 
+       WARNING: For more information: https://www.vagrantup.com/docs/vmware/boxes.html#vmx-whitelisting
+       ==&gt; default: Fixed port collision for 22 =&gt; 2222. Now on port 2201.
+       ==&gt; default: Starting the VMware VM...
+       ==&gt; default: Waiting for the VM to receive an address...
+       ==&gt; default: Forwarding ports...
+           default: -- 22 =&gt; 2201
+       ==&gt; default: Waiting for machine to boot. This may take a few minutes...
+           default: SSH address: 127.0.0.1:2201
+           default: SSH username: vagrant
+           default: SSH auth method: private key
+           default: 
+           default: Vagrant insecure key detected. Vagrant will automatically replace
+           default: this with a newly generated keypair for better security.
+           default: 
+           default: Inserting generated public key within guest...
+           default: Removing insecure key from the guest if it's present...
+           default: Key inserted! Disconnecting and reconnecting using new SSH key...
+       ==&gt; default: Machine booted and ready!
+       ==&gt; default: Setting hostname...
+       ==&gt; default: Configuring network adapters within the VM...
+       ==&gt; default: Machine not provisioned because `--no-provision` is specified.
+       [SSH] Established
+       Vagrant instance &lt;default-centos65&gt; created.
+       Finished creating &lt;default-centos65&gt; (0m44.58s).
+-----&gt; Converging &lt;default-centos65&gt;...
+       Preparing files for transfer
+$$$$$$ You must set your run_list in your Policyfile instead of kitchen config. The run_list in your config will be ignored.
+$$$$$$ Ignored run_list: [&quot;recipe[apache-test::default]&quot;]
+       Installing cookbooks for Policyfile /Users/.../Devops_sap/Chef_Doc/learningchef/chap12/apache-test/Policyfile.rb using `chef install`
+       Installing cookbooks from lock
+       Installing apache-test 0.1.0
+       Updating policy lock using `chef update`
+       Attributes already up to date
+       Building policy apache-test
+       Expanded run list: recipe[apache-test::default]
+       Caching Cookbooks...
+       Installing apache-test &gt;= 0.0.0 from path
+
+       Lockfile written to /Users/.../Devops_sap/Chef_Doc/learningchef/chap12/apache-test/Policyfile.lock.json
+       Policy revision id: ade7da2f2a1dcabbfcf963ab2cf6bd1157b44c9782565bcc6194ab8faf6d018c
+       Preparing dna.json
+       Exporting cookbook dependencies from Policyfile /var/folders/r7/nml_dsbn44gcd2jlqh7s2w940000gn/T/default-centos65-sandbox-20191210-14778-1x4b0g2...
+       Exported policy 'apache-test' to /var/folders/r7/nml_dsbn44gcd2jlqh7s2w940000gn/T/default-centos65-sandbox-20191210-14778-1x4b0g2
+
+       To converge this system with the exported policy, run:
+         cd /var/folders/r7/nml_dsbn44gcd2jlqh7s2w940000gn/T/default-centos65-sandbox-20191210-14778-1x4b0g2
+         chef-client -z
+       Removing non-cookbook files before transfer
+       Preparing validation.pem
+       Preparing client.rb
+-----&gt; Installing Chef install only if missing package
+       Downloading https://omnitruck.chef.io/install.sh to file /tmp/install.sh
+       Trying wget...
+       Trying curl...
+       Download complete.
+       el 6 x86_64
+       Getting information for chef stable  for el...
+       downloading https://omnitruck.chef.io/stable/chef/metadata?v=&amp;p=el&amp;pv=6&amp;m=x86_64
+         to file /tmp/install.sh.3296/metadata.txt
+       trying wget...
+       trying curl...
+       sha1     c332e5aef6cf70d1df1e1786926c474eedae1dc2
+       sha256   ddb6e94a65568e6247aa335ef7d2dd69c300c9d2e2df098997b08cf9f6f0c473
+       url      https://packages.chef.io/files/stable/chef/15.5.17/el/6/chef-15.5.17-1.el6.x86_64.rpm
+       version  15.5.17
+       downloaded metadata file looks valid...
+       downloading https://packages.chef.io/files/stable/chef/15.5.17/el/6/chef-15.5.17-1.el6.x86_64.rpm
+         to file /tmp/install.sh.3296/chef-15.5.17-1.el6.x86_64.rpm
+       trying wget...
+       trying curl...
+       Comparing checksum with sha256sum...
+
+       WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
+
+       You are installing a package without a version pin.  If you are installing
+       on production servers via an automated process this is DANGEROUS and you will
+       be upgraded without warning on new releases, even to new major releases.
+       Letting the version float is only appropriate in desktop, test, development or
+       CI/CD environments.
+
+       WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
+
+       Installing chef 
+       installing with rpm...
+       warning: /tmp/install.sh.3296/chef-15.5.17-1.el6.x86_64.rpm: Header V4 DSA/SHA1 Signature, key ID 83ef826a: NOKEY
+       Preparing...                ########################################### [100%]
+          1:chef                   ########################################### [100%]
+       Thank you for installing Chef Infra Client! For help getting started visit https://learn.chef.io
+       Transferring files to &lt;default-centos65&gt;
+       +---------------------------------------------+
+       ✔ 2 product licenses accepted.
+       +---------------------------------------------+
+       Starting Chef Infra Client, version 15.5.17
+       Creating a new client identity for default-centos65 using the validator key.
+       Using policy 'apache-test' at revision 'ade7da2f2a1dcabbfcf963ab2cf6bd1157b44c9782565bcc6194ab8faf6d018c'
+       resolving cookbooks for run list: [&quot;apache-test::default@0.1.0 (daed588)&quot;]
+       Synchronizing Cookbooks:
+         - apache-test (0.1.0)
+       Installing Cookbook Gems:
+       Compiling Cookbooks...
+       Converging 3 resources
+       Recipe: apache-test::default
+         * yum_package[httpd] action install
+           - install version 0:2.2.15-69.el6.centos.x86_64 of package httpd
+         * service[httpd] action enable
+           - enable service service[httpd]
+         * service[httpd] action start
+           - start service service[httpd]
+         * template[/var/www/html/index.html] action create
+           - create new file /var/www/html/index.html
+           - update content in file /var/www/html/index.html from none to e9c94f
+           --- /var/www/html/index.html 2019-12-10 06:36:06.112501991 +0000
+           +++ /var/www/html/.chef-index20191210-3421-xm9pxz.html       2019-12-10 06:36:06.112501991 +0000
+           @@ -1 +1,15 @@
+           +&lt;html&gt;
+           +&lt;body&gt;
+           +&lt;pre&gt;&lt;code&gt;
+           +This site was set up by default-centos65
+           +My network addresses are:
+           +  * lo:
+           +      ::1
+           +  * eth0:
+           +      172.16.72.159
+           +  * eth1:
+           +      192.168.33.38
+           +&lt;/code&gt;&lt;/pre&gt;
+           +&lt;/body&gt;
+           +&lt;/html&gt;
+           - change mode from '' to '0644'
+
+       Running handlers:
+       Running handlers complete
+       Chef Infra Client finished, 4/4 resources updated in 55 seconds
+       Downloading files from &lt;default-centos65&gt;
+       Finished converging &lt;default-centos65&gt; (1m33.79s).
+-----&gt; Setting up &lt;default-centos65&gt;...
+       Finished setting up &lt;default-centos65&gt; (0m0.00s).
+-----&gt; Verifying &lt;default-centos65&gt;...
+       Preparing files for transfer
+-----&gt; Installing Busser (busser)
+       Fetching thor-0.19.0.gem
+       Fetching busser-0.7.1.gem
+       Successfully installed thor-0.19.0
+       Successfully installed busser-0.7.1
+       2 gems installed
+-----&gt; Installing Busser plugin: busser-serverspec
+       Plugin serverspec installed (version 0.5.10)
+-----&gt; Running postinstall for serverspec plugin
+       Suite path directory /tmp/verifier/suites does not exist, skipping.
+       Transferring files to &lt;default-centos65&gt;
+-----&gt; Running serverspec test suite
+-----&gt; Installing Serverspec..
+       Fetching rspec-expectations-3.9.0.gem
+       Fetching rspec-3.9.0.gem
+       Fetching multi_json-1.14.1.gem
+       Fetching diff-lcs-1.3.gem
+       Fetching rspec-mocks-3.9.0.gem
+       Fetching rspec-its-1.3.0.gem
+       Fetching net-ssh-5.2.0.gem
+       Fetching net-scp-2.0.0.gem
+       Fetching serverspec-2.41.5.gem
+       Fetching net-telnet-0.1.1.gem
+       Fetching specinfra-2.82.4.gem
+       Fetching sfl-2.3.gem
+-----&gt; serverspec installed (version 2.41.5)
+       /opt/chef/embedded/bin/ruby -I/tmp/verifier/suites/serverspec -I/tmp/verifier/gems/gems/rspec-support-3.9.0/lib:/tmp/verifier/gems/gems/rspec-core-3.9.0/lib /opt/chef/embedded/bin/rspec --pattern /tmp/verifier/suites/serverspec/\*\*/\*_spec.rb --color --format documentation --default-path /tmp/verifier/suites/serverspec
+
+       web site
+         responds on port 80
+         returns eth1 in the HTML body
+         has the apache web server installed
+
+       Finished in 0.03509 seconds (files took 0.23573 seconds to load)
+       3 examples, 0 failures
+
+       Finished verifying &lt;default-centos65&gt; (0m15.53s).
+-----&gt; Destroying &lt;default-centos65&gt;...
+       ==&gt; default: Stopping the VMware VM...
+       ==&gt; default: Deleting the VM...
+       Vagrant instance &lt;default-centos65&gt; destroyed.
+       Finished destroying &lt;default-centos65&gt; (0m21.31s).
+       Finished testing &lt;default-centos65&gt; (3m18.00s).
+-----&gt; Kitchen is finished. (3m18.69s)
+</code></pre>
+<h2 id="5foodcritic"><strong>5、使用<code>Foodcritic</code>进行自动化测试</strong></h2>
+<p><code>Severspec</code>是一个用于执行菜谱的点对点测试的非常强大的工具。然而，执行全部测试可能需要较长时间，而有些错误可以在执行这类测试之前更快发现。有一个称为<code>Foodcritic</code>的工具可以很快提供有限的反馈。 </p>
+<p><code>Foodcritic</code>被设计为在写Chef代码时使用，它甚至可以集成到编辑器中。在写<code>Chef</code>代码的时候， <code>Foodcritic</code>可以给你提供快速的关于代码风格的反馈，让你通过定义规则（<code>rules</code>) 来指定理想的代码风格。  </p>
+<p><a href="http://www.foodcritic.io/">foodcritic.io</a></p>
+<p><code>Foodcritic</code>命令需要在开发机器上执行，而不是测试节点，因此非常快。可以现在就试试。确保。<code>apache-test</code>菜谱是当前工作目录，然后运行以下命令。 </p>
+<p><img alt="Alt Image Text" src="../../images/14_13.png" title="body image" /></p>
+<p><strong>Chef Development Kit:</strong></p>
+<pre><code>$ foodcritic .
+</code></pre>
+<p><strong>Chef Client:</strong></p>
+<pre><code>$ foodcritic .
+FC008: Generated cookbook metadata needs updating: ./metadata.rb:2
+FC008: Generated cookbook metadata needs updating: ./metadata.rb:3
+</code></pre>
+<pre><code>$ foodcritic .
+Checking 3 files
+x.x
+FC008: Generated cookbook metadata needs updating: ./metadata.rb:2
+FC008: Generated cookbook metadata needs updating: ./metadata.rb:3
+FC064: Ensure issues_url is set in metadata: ./metadata.rb:1
+FC065: Ensure source_url is set in metadata: ./metadata.rb:1
+FC067: Ensure at least one platform supported in metadata: ./metadata.rb:1
+FC078: Ensure cookbook shared under an OSI-approved open source license: ./metadata.rb:1
+FC093: Generated README text needs updating: ./README.md:1
+</code></pre>
+<pre><code>$ foodcritic .
+Checking 3 files
+x..
+FC064: Ensure issues_url is set in metadata: ./metadata.rb:1
+FC065: Ensure source_url is set in metadata: ./metadata.rb:1
+FC067: Ensure at least one platform supported in metadata: ./metadata.rb:1
+FC078: Ensure cookbook shared under an OSI-approved open source license: ./metadata.rb:1
+</code></pre>
+<h2 id="6chefspec"><strong>6、使用<code>ChefSpec</code>进行自动化测试</strong></h2>
+<p>另一个可以帮助在开发周期早期进行测试的工具是<code>ChefSpec</code>, 你甚至可以在写代码前就先完成测试。</p>
+<p><code>ChefSpec</code>可以用来生成可运行的文档（<code>runnable documentation</code>). 它要用途是帮助你更好地组织代码以及完善文档。 </p>
+<p>同时，<code>ChefSpec</code>测试有时也能在你更改代码的时候帮助发现问题。而且，以测试驱动的<code>Chef</code>代码往往具备更高的质量。 </p>
+<p>和<code>Serverspec</code>类似，<code>ChefSpec</code>基于RSpec. <code>ChefSpec</code>使用<code>RSpec</code>的<code>describe</code>格式来创建可运行的文档。<code>ChefSpec</code>文档所用的格式和<code>Serverspec</code>的稍有不同，如下所示： </p>
+<pre><code>describe '&lt;recipe_name&gt;' do
+  &lt;perform in-memory Chef run&gt;
+  &lt;examples here&gt;
+end
+</code></pre>
+<p>例如，你会使用以下<code>describe</code>代码块来包含针对<code>apache-test::default</code>菜谱的测试： </p>
+<pre><code>describe 'apache-test::default' do
+  ...
+end
+</code></pre>
+<p>要执行一次驻内存的<code>Chef</code>运行，需要使用<code>chef-spec gem</code>提供的类核方法，添加以下语句 到<code>describe</code>格式中。在本例中，要测试<code>apache-test::default</code>菜谱，就可以使用以下代 码： </p>
+<pre><code>require 'chefspec'
+
+describe 'apache::default' do
+  chef_run = ChefSpec::Runner.new.converge('apache-test::default')
+  &lt;descriptions here&gt;
+end
+</code></pre>
+<p><code>ChefSpec</code>使用类似<code>Serverspec</code>的<code>expect</code>格式。<code>ChefSpec</code>拥有其自己的资源命令及匹配器。以下这个例子可以展示<code>ChefSpec</code>检查我们的<code>Chef</code>代码，看是否已经安装<code>httpd</code>程序 包： </p>
+<pre><code>require 'chefspec'
+
+describe 'apache::default' do
+  chef_run = ChefSpec::Runner.new.converge('apache-test::default')
+
+  it 'installs apache2' do
+    expect(chef_run).to install_package('httpd')
+  end
+end
+</code></pre>
+<p>记住，这些测试代码只是用来作为可运行的文档使用的。这里的<code>expect</code>语句并不会在驻内存的<code>Chef</code>运行时执行<code>httpd</code>程序包安装过程。<code>ChefSpec</code>只是通过驻内存的<code>Chef</code>运行来验证菜谱语法结构；</p>
+<p>在本例中，确保<code>Chef</code>代码指示<code>Chef</code>安装这个程序包。简而言之，此类测试主要用来作为可运行的代码文档测试你的<code>Chef</code>代码包含预期的内容；而<code>Serverspec</code>测试则用来真正在和生产环境类似的虚拟机中运行<code>Chef</code>并测试运行结果是否与预期相符。 </p>
+<p>在<code>expect</code>格式中使用的<code>ChefSpec</code>的资源命令通常是驻内存<code>Chef</code>运行的结果。</p>
+<p><code>ChefSpec</code>的匹配器的资源可以在其<a href="https://docs.chef.io/chefspec.html">https://docs.chef.io/chefspec.html</a>找到， </p>
+<p><img alt="Alt Image Text" src="../../images/14_14.png" title="body image" /></p>
+<h3 id="chefspec">**撰写你的第一个<code>ChefSpec</code>测试 **</h3>
+<p>让我们来写一些ChefSpec代码。我们将使用<code>install package</code>匹配器， <code>ChefSpec</code>测试的默认位置是菜谱目录下的<code>spec</code>目录。确保<code>apache-test</code>菜谱目录是当前的 工作目录，然后在该目录下创建一个<code>spec</code>目录： </p>
+<p>创建<code>default_spec.rb</code>文件。包含<code>ChefSpec</code>代码的文件根据约定应以<code>＊_spec.rb</code>结尾。 </p>
+<p><strong><code>spec/default_spec.rb</code></strong></p>
+<pre><code>require 'chefspec'
+
+describe 'apache-test::default' do
+  chef_run = ChefSpec::Runner.new.converge('apache-test::default')
+
+  it 'installs apache2' do
+    expect(chef_run).to install_package('httpd')
+  end
+end
+</code></pre>
+<pre><code>$ rspec --color
+.
+
+Finished in 0.00042 seconds (files took 1.12 seconds to load)
+1 example, 0 failures
+</code></pre>
+<p>当rspec运行时，<code>ChefSpec</code>检查<code>Chef</code>代码并确保它包含<code>package</code>资源来安装<code>httpd</code>程序包。 如果<code>ChefSpec</code>确认代码中包含这些内容，测试则通过，你可以在刚刚的rspec命令结果 中看到测试成功通过。 </p>
+<h2 id="7let"><strong>7、使用Let进行惰性求值</strong></h2>
+<p>我们需要再介绍一个属于<code>Rspec</code>核心的语法：使用<code>let</code>方法进行惰性求值。图展示了 <code>ChefSpec</code>如何使用let方法来缓存<code>Che-fSpec::Runner</code>对象的结果。 </p>
+<p><img alt="Alt Image Text" src="../../images/14_15.png" title="body image" /></p>
+<p>调用<code>ChefSpec::Runner</code>是一个相对比较占用资源的行为。<code>let(）</code>方法将<code>ChefSpec::Runner</code> 的计算延迟到它第一次被使用时才发生而不是当其被引用时，因此我们将这种机制称为 “惰性求值”。</p>
+<p>使用let(）方法允许<code>RSpec将ChefSpec::Runner</code>的结果缓存，并在同一个测试中多次用到时直接使用其值。 再者，<code>let(）</code>语句允许你只指定正在测试的配方单一次，对比以下的不使用<code>let</code>以及使用<code>let</code>一的例子，注意在使用<code>le</code>t时，<code>ChefSpec::Runner</code>使用一个<code>described_recipe</code>宏来计算配方单名字而无须重复指定。这是个很小的优化，但挺有用的。 </p>
+<p><strong>Without let:</strong></p>
+<pre><code>require 'chefspec'
+
+describe 'apache::default' do
+  chef_run = ChefSpec::Runner.new.converge('apache-test::default')
+
+  it 'installs apache2' do
+    expect(chef_run).to install_package('httpd')
+  end
+end
+</code></pre>
+<p><strong>With let:</strong></p>
+<pre><code>require 'chefspec'
+
+describe 'apache::default' do
+  let (:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }
+
+  it 'installs apache2' do
+    expect(chef_run).to install_package('httpd')
+  end
+end
+</code></pre>
+<p><strong><code>apache-test/spec/default_spec.rb</code></strong></p>
+<pre><code>require 'chefspec'
+
+describe 'apache-test::default' do
+  let (:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }
+
+  it 'installs apache2' do
+    expect(chef_run).to install_package('httpd')
+  end
+end
+</code></pre>
+<pre><code>$ rspec --color
+.
+
+Finished in 0.00042 seconds (files took 1.12 seconds to load)
+1 example, 0 failures
+</code></pre>
+<h2 id="8"><strong>8、生成一份测试覆盖报告</strong></h2>
+<p>另外一个有用的<code>ChefSpec</code>的帮助方法是<code>ChefSpec::Coverage.report!</code>。</p>
+<p>它会生成一份列 表告诉你哪些配方单中使用的资源被测试覆盖，哪些没有。你可以用这份报告来引导测 试。 </p>
+<p>编辑<code>default-spec.rb</code>，<strong><code>at_exit</code></strong>方法是<code>Ruby</code>核心的一部分，允许你在程序退出时运行一段指定的代码。在本例中，我们希望运行<code>ChefSpec::Coverage.report！</code>方法。</p>
+<p>方法名字中的感叹号（<code>!</code>）是一个Ruby的约定，告诉开发者这个方法是危险的。在本例中，危险意味着<code>ChefSpec::Coverage.report！</code>必须在所有测试运行完成后再运行，并且每次程序运行时只能运行一次。我们使用<code>at_exit</code>来确保<code>report！</code>只在所有测试运行结束后运行一次。 </p>
+<p><strong><code>apache-test/spec/default_spec.rb</code></strong></p>
+<pre><code>require 'chefspec'
+
+at_exit { ChefSpec::Coverage.report! }
+
+describe 'apache-test::default' do
+  let (:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }
+
+  it 'installs apache2' do
+    expect(chef_run).to install_package('httpd')
+  end
+end
+</code></pre>
+<pre><code>$ rspec --color
+.
+
+Finished in 0.00337 seconds (files took 1.11 seconds to load)
+1 example, 0 failures
+
+ChefSpec Coverage report generated...
+
+  Total Resources:   3
+  Touched Resources: 1
+  Touch Coverage:    33.33%
+
+Untouched Resources:
+
+  service[httpd]                     /recipes/default.rb:12
+  template[/var/www/html/index.html]   /recipes/default.rb:16
+</code></pre>
+<h2 id="9spec_helperrb"><strong>9、在<code>spec_helper.rb</code>中共享测试代码</strong></h2>
+<p>和<code>Serverspec</code>类似，<code>ChefSpec</code>也支持将通用的代码共享在<code>spec_helper.rb</code>文件中。 
+和前面<code>ServerSpec</code>中的例子一样，这里我们需要假设有多个测试文件，然后移动一些共享的代码到<code>spec_helper.rb</code>。 </p>
+<p>用所示的内容创建<code>spec/spec_helper.rb</code>文件。我们将<code>require</code>和<code>at_exit</code>移到这个共享文件中。 </p>
+<p><strong><code>spec/spec_helper.rb</code></strong></p>
+<pre><code>require 'chefspec'
+
+at_exit { ChefSpec::Coverage.report! }
+</code></pre>
+<p><strong><code>apache-test/spec/default_spec.rb</code></strong></p>
+<pre><code>require 'spec_helper'
+
+describe 'apache-test::default' do
+  let (:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }
+
+  it 'installs apache2' do
+    expect(chef_run).to install_package('httpd')
+  end
+end
+</code></pre>
+<pre><code>$ rspec --color
+.
+
+Finished in 0.00337 seconds (files took 1.11 seconds to load)
+1 example, 0 failures
+
+ChefSpec Coverage report generated...
+
+  Total Resources:   3
+  Touched Resources: 1
+  Touch Coverage:    33.33%
+
+Untouched Resources:
+
+  service[httpd]                     /recipes/default.rb:12
+  template[/var/www/html/index.html]   /recipes/default.rb:16
+</code></pre>
+<h3 id="testing-your-automation-code-vagrant-version"><strong>Testing Your Automation Code (Vagrant Version)</strong></h3>
+<p><a href="https://www.slideshare.net/misheska/testing-your-automation-code-vagrant-version-v02">https://www.slideshare.net/misheska/testing-your-automation-code-vagrant-version-v02</a></p>
+<h2 id="10"><strong>10、本节小结</strong></h2>
+<ul>
+<li>重温Apache菜谱 </li>
+<li>使用<code>Serverspec</code>进行自动化测试</li>
+<li><code>RSpec DSL</code>语法 </li>
+<li>使用<code>Foodcritic</code>进行自动化测试 </li>
+<li>使用<code>ChefSpec</code>进行自动化测试</li>
+<li>使用<code>Let</code>进行惰性求值 </li>
+<li>在<code>spec_helper.rb</code>中共享测试代码</li>
+</ul>
+<pre><code># chef client
+$ sudo gem install foodcritic --no-ri --no-rdoc
+$ sudo gem install chefspec --no-ri --no-rdoc
+
+$ chef generate template index.html
+$ kitchen verify
+$ kitchen test
+
+$ foodcritic .
+$ rspec --color
+</code></pre>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.78eede0e.min.js"></script>
+      
+    
+  </body>
+</html>

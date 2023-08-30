@@ -1,0 +1,3316 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's Chef&Ansible Automation 技术与实战教程">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../9terraform_local/">
+      
+      
+        <link rel="next" href="../11tf_adv_exam/">
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.5">
+    
+    
+      
+        <title>Terraform(Troubleshooting/Data Sources/Existing Resource) - Jacob Chef&Ansible Automation Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0e669242.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#terraform-advancedtroubleshootingdata-sourcesexisting-resource" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-header__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob Chef&Ansible Automation Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Terraform(Troubleshooting/Data Sources/Existing Resource)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-nav__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob Chef&Ansible Automation Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Chef
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Chef
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef 介绍和安装
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Ruby和Chef语法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 如何写 Chef 配方 & chef-apply
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 用Test Kitchen管理沙盒测试环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 用 Chef 户端管理节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 撰写和使用菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial7_attributes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第七节 Chef 属性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第八节 Chef 服务器同时管理多个节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第九节 社区以及Chef-Client菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial10_zero/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十节 Chef zero
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial11_databag/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十一节 数概包Databag
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十二节 角色
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial13_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十三节 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial14_test/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十四节 测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial15_term/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十五节 词汇表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial16_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十六节 Chef Tutorial Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Opt & Adv
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Opt & Adv
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef Roles
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Cookbook Versioning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 How to Perform Chef Knife SSL Check and Fetch to Verify Certificate
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 12 Chef Knife Cookbook Command Examples
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_op1_kinfe_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 knife search
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 Chef Quick CheatSheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Cookbook Sample LAMP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Cookbook Sample LAMP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Creating My First Chef Cookbook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Creating LAMP Chef Cookbook Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Ansible
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Ansible
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/1ansible_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L1 Ansible Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/2ansible_over_install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L2 Ansible Install(MacOs) and Environment Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/3play_task/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L3 Task Execution management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/4Ansible_variables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L4 Ansible Variable Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/5Complex_roles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L5 Managing complex playbooks with roles and ansible galaxy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/6Secret_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L6 Working with Secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/7Network_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L7 Network Management with Ansible
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/8idempotentence/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L8 Idempotentence with Ansible play
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/9Ansible_interview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L9 Ansible Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/10Ansible_learn_ppt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L10 Ansible 自动化运维工具PPT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/11Ansible_task1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L11 任务中心之Ansible基础篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/12Ansible_task2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L12 任务中心之Ansible进阶篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/13Ansible_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L13 Ansible 面试知识点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/14Ansible_containerd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L14 Ansible Role批量部署Containerd服务
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            HashiCorp Certified Terraform Associate
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1hashicorp_certified_terraform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate Learning Path
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2terraform_cs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Cheat Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3terraform_lock/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    .terraform.lock.hcl 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4terraform_var/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    terraform.tfvars 与 variables.tf 的区别
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5terraform_random/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform: Random 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6terraform_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Top Terraform Interview Questions and Answers (2022)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7terraform_provider/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform provider update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8terraform_docker_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform install Jenkins in Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9terraform_local/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    解决Terraform初始化慢~配置本地离线源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Terraform(Troubleshooting/Data Sources/Existing Resource)
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Terraform(Troubleshooting/Data Sources/Existing Resource)
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-troubleshooting-terraform" class="md-nav__link">
+    1 Troubleshooting Terraform
+  </a>
+  
+    <nav class="md-nav" aria-label="1 Troubleshooting Terraform">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type-of-errors-in-terraform" class="md-nav__link">
+    Type of Errors in Terraform
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-error" class="md-nav__link">
+    Command Error
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#syntax-validation" class="md-nav__link">
+    Syntax Validation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#provider-validation-and-deployment-errors" class="md-nav__link">
+    Provider Validation and Deployment Errors
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verbose-logging" class="md-nav__link">
+    Verbose Logging
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-taints" class="md-nav__link">
+    Resource Taints
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crash-log" class="md-nav__link">
+    Crash Log
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-using-data-sources-and-templates" class="md-nav__link">
+    2 Using Data Sources and Templates
+  </a>
+  
+    <nav class="md-nav" aria-label="2 Using Data Sources and Templates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-sources" class="md-nav__link">
+    Data Sources
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consul-data-source" class="md-nav__link">
+    Consul Data Source
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-as-resource" class="md-nav__link">
+    Template as resource
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-working-with-existing-resources" class="md-nav__link">
+    3 Working with Existing Resources
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-workspaces-and-collaboration" class="md-nav__link">
+    Using Workspaces and Collaboration
+  </a>
+  
+    <nav class="md-nav" aria-label="Using Workspaces and Collaboration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#state-as-data-source" class="md-nav__link">
+    State as Data Source
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-import-command" class="md-nav__link">
+    The Import Command
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11tf_adv_exam/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Exam(Backend/Command/Script/Others)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12terraform_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12 Adding Terraform to a CI/CD Pipeline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13terraform_cmt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Integrating with Configuration Managers(Anisble)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Puppet Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Puppet Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/1pp_overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Puppet - Overview & Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/2pp_install_config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2 Puppet - 安装, 配置以及验证
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/3pp_coding_style/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3 Puppet - 编码风格
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/4pp_key_comps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4 Puppet - 核心模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/5pp_resource/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5 Puppet - 资源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/6pp_tmp_cls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6 Puppet - 模板 & 类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/7pp_func/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7 Puppet - Function
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/8pp_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8 Puppet - 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/9app_type_pr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9 Puppet - 类型和提供者
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/10pp_api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10 Puppet - RESTful API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/11pp_proj1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11 Puppet - Live Project 1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ArgoCD Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            ArgoCD Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_argocd/1Intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Introduction to Continuous Delivery
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-troubleshooting-terraform" class="md-nav__link">
+    1 Troubleshooting Terraform
+  </a>
+  
+    <nav class="md-nav" aria-label="1 Troubleshooting Terraform">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type-of-errors-in-terraform" class="md-nav__link">
+    Type of Errors in Terraform
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-error" class="md-nav__link">
+    Command Error
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#syntax-validation" class="md-nav__link">
+    Syntax Validation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#provider-validation-and-deployment-errors" class="md-nav__link">
+    Provider Validation and Deployment Errors
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verbose-logging" class="md-nav__link">
+    Verbose Logging
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-taints" class="md-nav__link">
+    Resource Taints
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crash-log" class="md-nav__link">
+    Crash Log
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-using-data-sources-and-templates" class="md-nav__link">
+    2 Using Data Sources and Templates
+  </a>
+  
+    <nav class="md-nav" aria-label="2 Using Data Sources and Templates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-sources" class="md-nav__link">
+    Data Sources
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consul-data-source" class="md-nav__link">
+    Consul Data Source
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-as-resource" class="md-nav__link">
+    Template as resource
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-working-with-existing-resources" class="md-nav__link">
+    3 Working with Existing Resources
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-workspaces-and-collaboration" class="md-nav__link">
+    Using Workspaces and Collaboration
+  </a>
+  
+    <nav class="md-nav" aria-label="Using Workspaces and Collaboration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#state-as-data-source" class="md-nav__link">
+    State as Data Source
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-import-command" class="md-nav__link">
+    The Import Command
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="terraform-advancedtroubleshootingdata-sourcesexisting-resource"><strong>Terraform Advanced(Troubleshooting/Data Sources/Existing Resource)</strong></h1>
+<h2 id="1-troubleshooting-terraform"><strong>1 Troubleshooting Terraform</strong></h2>
+<h3 id="overview"><strong>Overview</strong></h3>
+<ul>
+<li>Validating configurations</li>
+<li>Enable verbose logging</li>
+<li>Resource taints</li>
+<li>Crash logs</li>
+</ul>
+<p><strong>Example: Application Update</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap5_10_1.png" title="Body image" /></p>
+<h3 id="type-of-errors-in-terraform"><strong>Type of Errors in Terraform</strong></h3>
+<p><strong>Command error / Syntax validation / Provider
+validation /  Deployment error / Panic!</strong></p>
+<ul>
+<li>The first is a <strong>command error</strong>， so this is simply an error that happens when you're using the command line, and there are definitelv ways to troubleshoot that error.</li>
+<li>There's <strong>syntax validation</strong>, and this is the process by which Terraform validates the HashiCorp configuration language that you've laid out for your configuration and also some of the logic within that configuration</li>
+<li><strong>Provider validation</strong> , when Terraform runs its <strong>plan</strong> process, the provider has to agree with what's in that configuration. Now, even if the provider agrees, when we get to the apply stage, <strong>sometimes deployment errors happen</strong></li>
+<li>Things like resource taints.</li>
+<li>Sometimes <strong>Terraform just breaks</strong>.</li>
+</ul>
+<h3 id="command-error"><strong>Command Error</strong></h3>
+<ul>
+<li>Happens at the command line</li>
+<li>Bad CLI syntax or arguments</li>
+<li>Use the help argument</li>
+<li>Read the docs</li>
+</ul>
+<p><strong>Example: test Terraform file</strong></p>
+<p><strong><code>s3.tf</code></strong></p>
+<pre><code>#### S3 buckets
+variable &quot;aws_bucket_prefix&quot; {
+  type    = strings
+  #type = string
+
+  default = &quot;jack&quot;
+}
+
+resource &quot;random_integer&quot; &quot;rand&quot; {
+  min = 10000
+  max = 99999
+}
+
+locals {
+  bucket_name         = &quot;${var.aws_bucket_prefix}_${random_integer.rand.result}&quot;
+  #bucket_name         = &quot;${var.aws_bucket_prefix}-${random_integer.rand.result}&quot;
+}
+
+resource &quot;aws_s3_bucket&quot; &quot;logs_bucket&quot; {
+  bucket        = local.bucket_name
+  acl           = &quot;private&quot;
+  force_destroy = true
+
+  versioning {
+    enabled = true
+  }
+
+}
+
+#### Instance profiles
+
+resource &quot;aws_iam_instance_profile&quot; &quot;asg&quot; {
+
+  lifecycle {
+    create_before_destroy = false
+  }
+
+  name = &quot;${terraform.workspace}_asg_profile_bug&quot;
+  role = &quot;aws_iam_role.asg.name&quot;
+  #role = aws_iam_role.asg.name
+}
+
+#### Instance roles
+
+resource &quot;aws_iam_role&quot; &quot;asg&quot; {
+  name = &quot;${terraform.workspace}_asg_role&quot;
+  path = &quot;/&quot;
+
+  assume_role_policy = &lt;&lt;EOF
+{
+  &quot;Version&quot;: &quot;2012-10-17&quot;,
+  &quot;Statement&quot;: [
+    {
+      &quot;Action&quot;: &quot;sts:AssumeRole&quot;,
+      &quot;Principal&quot;: {
+        &quot;Service&quot;: &quot;ec2.amazonaws.com&quot;
+      },
+      &quot;Effect&quot;: &quot;Allow&quot;,
+      &quot;Sid&quot;: &quot;&quot;
+    }
+  ]
+}
+  EOF
+}
+
+#### S3 policies
+
+resource &quot;aws_iam_role_policy&quot; &quot;asg&quot; {
+  name = &quot;${terraform.workspace}-jack-primary-rds&quot;
+  role = aws_iam_role.asg.ids
+  #role = aws_iam_role.asg.id
+
+  policy = &lt;&lt;-EOF
+  {
+    &quot;Version&quot;: &quot;2012-10-17&quot;,
+    &quot;Statement&quot;: [
+      {
+        &quot;Action&quot;: [
+          &quot;s3:*&quot;
+        ],
+        &quot;Effect&quot;: &quot;Allow&quot;,
+        &quot;Resource&quot;: [
+                &quot;arn:aws:s3:::${local.bucket_name}&quot;,
+                &quot;arn:aws:s3:::${local.bucket_name}/*&quot;
+            ]
+      }
+    ]
+  }
+  EOF
+}
+</code></pre>
+<pre><code>terraform init -h
+</code></pre>
+<p><strong>Try to run terraform init with a bad command switch</strong></p>
+<pre><code>terraform init -backend-confi=&quot;path=applications/state/primary&quot;
+# Report Error. -backend-confi
+</code></pre>
+<pre><code>terraform init -backend-config=&quot;path=applications/state/primary&quot;
+Initializine provider plugins.
+- Checkine for available provider plugins...
+- Downloading plugin for provider &quot;aws&quot; (hashicorp/aws) 2.70.0.
+</code></pre>
+<h3 id="syntax-validation"><strong>Syntax Validation</strong></h3>
+<ul>
+<li>Terraform init first</li>
+<li>Checks syntax and logic</li>
+<li>Does not check state</li>
+<li>Manual or automatic</li>
+<li>Automation checks</li>
+</ul>
+<p><strong>Validating the syntax of HashiCorp</strong></p>
+<p>configuration language, it's actually validating some of the logic in the providers, you're using in your configuration and we'll see how that works, it's simply checking the configuration itself,</p>
+<p>The validation run can happen manually or automatically </p>
+<pre><code>terraform validate
+
+Error: Invalid type specification
+
+    on s3.tf line 3, in variable &quot;aws_bucket_prefix&quot; :
+    3: type = strings
+The keyword &quot;strings&quot; is not a valid type specification.
+</code></pre>
+<pre><code>terraform validate
+
+Error: Unsupported attribute
+
+    on s3.tf line 65, in resource &quot;aws_iam_role_policy&quot; &quot;asg&quot;
+    65:  role = aws_iam_role.asg.ids
+
+This object has no argument, nested block, or exported attribute named &quot;ids&quot;
+Did you mean &quot;id&quot;?
+</code></pre>
+<pre><code>### Try to run terraform validate 
+terraform validate
+
+terraform fmt
+
+### Fix issues and run again
+terraform validate
+</code></pre>
+<h3 id="provider-validation-and-deployment-errors">Provider Validation and Deployment Errors</h3>
+<ul>
+<li>Happens during plan or apply</li>
+<li>Read the error message, then read it again</li>
+<li>Enable logging for more detail</li>
+<li>Use taint to destroy bad resources</li>
+</ul>
+<pre><code>terraform workspace select development
+Switched to workspace &quot;development&quot;
+
+terraform plan -out dev.tfplan
+</code></pre>
+<pre><code>bucket_name         = &quot;${var.aws_bucket_prefix}_${random_integer.rand.result}&quot;
+</code></pre>
+<ul>
+<li><code>"${var.aws_bucket_prefix}_$**</code>: They cannot include an <strong>underscore</strong>, and that's why we got an error.</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap5_10_2.png" title="Body image" /></p>
+<p><img alt="Alt Image Text" src="../../images/chap5_10_3.png" title="Body image" /></p>
+<pre><code>Error: Error creating S3 bucket: InvalidBucketName: The specified bucket is not valid.
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap5_10_4.png" title="Body image" /></p>
+<pre><code>Error: Error creating IAM instance profile development asg profile: EntityAlreadyExists: Instance
+Profile development_asg_profile already exists.
+</code></pre>
+<h3 id="verbose-logging"><strong>Verbose Logging</strong></h3>
+<ul>
+<li>Exposes Terraform actions</li>
+<li>Enabled through <code>TF_LOG</code></li>
+<li>Write to file with <code>TF_LOG_PATH</code></li>
+<li>Trace is most verbose</li>
+<li>Useful in automation</li>
+</ul>
+<p>Terraform takes are being exposed at different levels depending on what type of verbose logging you enable.</p>
+<p>The way that you enable it is by setting the environment variable <strong><code>TF_LOG</code> to one of a number of different settings</strong>. You can also write this logging out to a file by setting the environment variable <code>TF_LOG_PATH</code>, and that has to be the full path to a file, not just a directory. </p>
+<p>That's where it will <strong>write the data from the logging</strong> variable <code>TF_LOG_PATH</code>, and <strong>that has to be the full path to a file</strong>,</p>
+<p>As far as different levels of logging, the most verbose is called <strong>trace, and then there's debug, info, warn, and error</strong>.</p>
+<p>Generally speaking, you want to set it to something like <strong>info or warn</strong>, because trace and debug are incredibly verbose.</p>
+<p><strong>Example</strong></p>
+<blockquote>
+<p>you may want a report of everything that Terraform did at a particular information level. So you can set <code>TF_LOG</code> as part of your automation process, and set <code>TF_LOG_PATH</code> to store that information in a file.</p>
+</blockquote>
+<pre><code># Mac or Linux
+export TF_LOG=INFO
+
+# PowerShell
+$env:TF_LOG=&quot;INFO&quot;
+</code></pre>
+<pre><code>### Fix issues and run again
+terraform plan -out dev.tfplan
+terraform apply &quot;dev.tfplan&quot;
+</code></pre>
+<pre><code>resource &quot;aws_iam_instance_profile&quot; &quot;asg&quot; {
+
+  lifecycle {
+    create_before_destroy = false
+  }
+
+  name = &quot;${terraform.workspace}_asg_profile_bug&quot;
+  role = &quot;aws_iam_role.asg.name&quot;
+  #role = aws_iam_role.asg.name
+}
+</code></pre>
+<h3 id="resource-taints"><strong>Resource Taints</strong></h3>
+<ul>
+<li>Marks a resource for recreation</li>
+<li><strong>Terraform will taint automatically</strong></li>
+<li>Identify resources by address</li>
+<li>Resources can be untainted as well</li>
+</ul>
+<p>Resource taints are a way to <strong>force the recreation of a resource</strong>. It basically tells Terraform <strong>recreate that resource for me</strong> because there's something is wrong with it. </p>
+<p>Terraform will taint things automatically if it knows they weren't created successfully. You can also taint something manually and you identify that object by its address within Terraform. </p>
+<p><strong>Taint and Untaint Command</strong></p>
+<pre><code># Command syntax
+terraform taint [options] address
+
+# Example single resource
+terraform taint aws_instance.example
+
+# Example module or collection
+terraform taint aws_instance.collection[0]
+terraform taint module.asg.aws_instance.example
+
+#Untaint syntax
+terraform untaint [options] address
+
+# Example single resource
+terraform untaint aws_instance.example
+</code></pre>
+<pre><code>### Taint asg and try to destroy
+terraform state list
+terraform taint aws_autoscaling_group.webapp_asg
+terraform taint aws_autoscaling_policy.scale_down
+terraform taint aws_autoscaling_policy.scale_up
+terraform taint aws_cloudwatch_metric_alarm.scale_down_alarm
+terraform taint aws_cloudwatch_metric_alarm.scale_up_alarm
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap5_10_5.png" title="Body image" /></p>
+<p>In our case, the autoscaling policies and CloudWatch metric alarms are both associated with that autoscaling group so those need to be tainted and recreated as well.</p>
+<pre><code>Error: Error creating AutoScaling Group: AlreadyExists: AutoScalingGroup by this name already exists
+• A group with the name ddt webapp asg-development already exists
+</code></pre>
+<pre><code>#create before destroy
+</code></pre>
+<p>The lifecycle setting, it should now destroy it before it tries to create </p>
+<h3 id="crash-log"><strong>Crash Log</strong></h3>
+<ul>
+<li>Generated when Terraform panics</li>
+<li>Caused by Terraform or provider</li>
+<li>Similar to trace logging</li>
+<li>Open an issue on GitHub</li>
+</ul>
+<pre><code>terraform init -from-module=&quot;../toplevel&quot;
+
+
+SECURITY WARNING: the
+&quot;crash.log&quot; file that was created may contain
+sensitive information that must be redacted before it is safe to share
+on the issue tracker
+[1]: https://github.com/hashicorp/terraform/issues
+
+TERRAFORM CRASH 
+</code></pre>
+<h2 id="2-using-data-sources-and-templates"><strong>2 Using Data Sources and Templates</strong></h2>
+<h3 id="data-sources"><strong>Data Sources</strong></h3>
+<ul>
+<li>Glue for multiple configurations</li>
+<li>Resources are data sources</li>
+<li>Providers have data sources</li>
+<li>
+<p><strong>Alternate data sources</strong></p>
+<ul>
+<li>Templates</li>
+<li>HTTP</li>
+<li>External</li>
+<li>Consul</li>
+</ul>
+</li>
+<li>
+<p><strong>HTTP Data Source</strong></p>
+</li>
+</ul>
+<pre><code># Example data source
+data &quot;http&quot; &quot;my_ip&quot;
+{
+    url = &quot;http: //ifconfig.me&quot;
+}
+
+# Using the response
+data.http.my_ip.body
+</code></pre>
+<h3 id="consul-data-source"><strong>Consul Data Source</strong></h3>
+<pre><code># Consul data source
+
+data &quot;consul_keys&quot; &quot;networking&quot; {
+
+    key { 
+        name = &quot;vpc_cidr_range&quot;
+        path = &quot;networking/config/vpc/cidr_range&quot;
+        default = &quot;10.0.0.0/16&quot;
+    }
+}
+
+# Using the response
+data.consul_keys.networking.var.vpc_cidr_range
+</code></pre>
+<p>Consul Setup</p>
+<p><img alt="Alt Image Text" src="../../images/chap5_10_6.png" title="Body image" /></p>
+<p><code>consul/primary-2.json</code></p>
+<pre><code>{
+    &quot;cidr_block&quot;: &quot;10.0.0.0/16&quot;,
+    &quot;subnet_count&quot;: &quot;3&quot;
+}
+</code></pre>
+<p><strong><code>networking/backend.tf</code></strong></p>
+<pre><code>terraform {
+  backend &quot;consul&quot; {
+    address = &quot;127.0.0.1:8500&quot;
+    scheme  = &quot;http&quot;
+  }
+}
+</code></pre>
+<p><strong><code>networking/variables.tf</code></strong></p>
+<pre><code>##################################################################################
+# VARIABLES
+##################################################################################
+
+variable &quot;region&quot; {
+  default = &quot;us-east-1&quot;
+}
+
+variable &quot;consul_address&quot; {
+  type        = string
+  description = &quot;Address of Consul server&quot;
+  default     = &quot;127.0.0.1&quot;
+}
+
+variable &quot;consul_port&quot; {
+  type        = number
+  description = &quot;Port Consul server is listening on&quot;
+  default     = &quot;8500&quot;
+}
+
+variable &quot;consul_datacenter&quot; {
+  type        = string
+  description = &quot;Name of the Consul datacenter&quot;
+  default     = &quot;dc1&quot;
+}
+</code></pre>
+<p><strong><code>networking/resources.tf</code></strong></p>
+<pre><code>##################################################################################
+# CONFIGURATION - added for Terraform 0.14
+##################################################################################
+
+terraform {
+  required_providers {
+    aws = {
+      source  = &quot;hashicorp/aws&quot;
+      version = &quot;~&gt;3.0&quot;
+    }
+    consul = {
+      source  = &quot;hashicorp/consul&quot;
+      version = &quot;~&gt;2.0&quot;
+    }
+  }
+}
+
+##################################################################################
+# PROVIDERS
+##################################################################################
+
+provider &quot;aws&quot; {
+  profile = &quot;deep-dive&quot;
+  region  = var.region
+}
+
+provider &quot;consul&quot; {
+  address    = &quot;${var.consul_address}:${var.consul_port}&quot;
+  datacenter = var.consul_datacenter
+}
+
+##################################################################################
+# DATA
+##################################################################################
+
+data &quot;aws_availability_zones&quot; &quot;available&quot; {}
+
+data &quot;consul_keys&quot; &quot;networking&quot; {
+  key {
+    name = &quot;networking&quot;
+    path = &quot;networking/configuration/jack-primary/net_info&quot;
+  }
+}
+
+##################################################################################
+# LOCALS
+##################################################################################
+
+locals {
+  cidr_block      = jsondecode(data.consul_keys.networking.var.networking)[&quot;cidr_block&quot;]
+  private_subnets = jsondecode(data.consul_keys.networking.var.networking)[&quot;private_subnets&quot;]
+  public_subnets  = jsondecode(data.consul_keys.networking.var.networking)[&quot;public_subnets&quot;]
+  subnet_count    = jsondecode(data.consul_keys.networking.var.networking)[&quot;subnet_count&quot;]
+}
+
+##################################################################################
+# RESOURCES
+##################################################################################
+
+# NETWORKING #
+module &quot;vpc&quot; {
+  source  = &quot;terraform-aws-modules/vpc/aws&quot;
+  version = &quot;~&gt;2.0&quot;
+
+  name = &quot;jack-primary&quot;
+
+  cidr            = local.cidr_block
+  azs             = slice(data.aws_availability_zones.available.names, 0, local.subnet_count)
+  private_subnets = local.private_subnets
+  public_subnets  = local.public_subnets
+
+  enable_nat_gateway = false
+
+  create_database_subnet_group = false
+
+
+  tags = {
+    Environment = &quot;Production&quot;
+    Team        = &quot;Network&quot;
+  }
+}
+</code></pre>
+<p>Read from consul</p>
+<pre><code>locals {
+  cidr_block      = jsondecode(data.consul_keys.networking.var.networking)[&quot;cidr_block&quot;]
+</code></pre>
+<p><strong>Let's set the Consul token</strong></p>
+<pre><code># Let's set the Consul token
+# Replace SECRETID_VALUE with secret ID
+# Linux and MacOS
+export CONSUL_HTTP_TOKEN=SECRETID_VALUE
+
+# Windows
+$env:CONSUL_HTTP_TOKEN=&quot;SECRETID_VALUE&quot;
+
+# Write the configuration data for jack-primary config
+consul kv put networking/configuration/jack-primary/net_info @jack-primary.json
+consul kv put networking/configuration/jack-primary/common_tags @common-tags.json
+
+## Now go up and into the networking folder
+cd ..\networking
+
+## We're going to initialize the Terraform config to use the Consul backend
+terraform init -backend-config=&quot;path=networking/state/jack-primary&quot;
+
+# Verify our state is loaded
+terraform state list
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap5_10_7.png" title="Body image" /></p>
+<h3 id="template-as-resource"><strong>Template as resource</strong></h3>
+<ul>
+<li>Manipulation of strings</li>
+<li>Overloaded term<ul>
+<li>Quoted strings</li>
+<li>Heredoc syntax</li>
+<li>Provider</li>
+<li>Function</li>
+</ul>
+</li>
+<li>Interpolation and directives</li>
+</ul>
+<p><strong>Simple interpolation</strong></p>
+<pre><code>&quot;S{var.prefix}-app&quot;
+</code></pre>
+<p><strong>Conditional directive</strong></p>
+<pre><code>&quot;%{ if var.prefix != &quot;&quot;}S(var.prefix}-app%{ else }generic-app%{ endif }&quot;
+</code></pre>
+<p><strong>Collection directive with heredoc</strong></p>
+<pre><code>&lt;&lt;EOT
+%{ for name in local.names }
+${name}-app
+%{ endfor }
+FOT
+</code></pre>
+<p><strong>Template Syntax In-line</strong></p>
+<pre><code># Template data source
+data &quot;template_file&quot; &quot;example&quot; {
+    count = &quot;2&quot;
+  template = &quot;$${var1}-$${current_count}&quot;
+
+  vars = {
+        var1 = var.some_string
+        current_count = count.index
+}
+</code></pre>
+<p>Using the template</p>
+<pre><code>data.template_file.example.rendered
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap5_10_8.png" title="Body image" /></p>
+<pre><code># Template configuration
+data &quot;template_file&quot; &quot;peer-role&quot;{
+    template = file(&quot;peer_policy.txt&quot;)
+    vars = { 
+            vpc_arn = var.vpc_arn
+    }
+}
+</code></pre>
+<p><strong>Or templatefile function</strong></p>
+<pre><code>templatefile(&quot;peer_policy.txt&quot;, { vpc arn = var.vpc arn } )
+</code></pre>
+<p><strong>Example: Networking projects</strong></p>
+<p><strong><code>networking/templates.tf</code></strong></p>
+<pre><code>data &quot;template_file&quot; &quot;public_cidrsubnet&quot; {
+  count = local.subnet_count
+
+  template = &quot;$${cidrsubnet(vpc_cidr,8,current_count)}&quot;
+
+  vars = {
+    vpc_cidr      = local.cidr_block
+    current_count = count.index
+  }
+}
+
+data &quot;template_file&quot; &quot;private_cidrsubnet&quot; {
+  count = local.subnet_count
+
+  template = &quot;$${cidrsubnet(vpc_cidr,8,current_count)}&quot;
+
+  vars = {
+    vpc_cidr      = local.cidr_block
+    current_count = count.index + 10
+  }
+}
+</code></pre>
+<blockquote>
+<p>What cidrsubnet does, is it takes a CIDR range and then, it adds whatever, number comes in the second argument to that CIDR range.</p>
+</blockquote>
+<p><strong><code>networking/resource.tf</code></strong></p>
+<pre><code>##################################################################################
+# CONFIGURATION - added for Terraform 0.14
+##################################################################################
+
+terraform {
+  required_providers {
+    aws = {
+      source  = &quot;hashicorp/aws&quot;
+      version = &quot;~&gt;3.0&quot;
+    }
+    consul = {
+      source  = &quot;hashicorp/consul&quot;
+      version = &quot;~&gt;2.0&quot;
+    }
+  }
+}
+
+##################################################################################
+# PROVIDERS
+##################################################################################
+
+provider &quot;aws&quot; {
+  profile = &quot;deep-dive&quot;
+  region  = var.region
+}
+
+provider &quot;consul&quot; {
+  address    = &quot;${var.consul_address}:${var.consul_port}&quot;
+  datacenter = var.consul_datacenter
+}
+
+##################################################################################
+# DATA
+##################################################################################
+
+data &quot;aws_availability_zones&quot; &quot;available&quot; {}
+
+data &quot;consul_keys&quot; &quot;networking&quot; {
+  key {
+    name = &quot;networking&quot;
+    path = &quot;networking/configuration/jack-primary/net_info&quot;
+  }
+
+  key {
+    name = &quot;common_tags&quot;
+    path = &quot;networking/configuration/jack-primary/common_tags&quot;
+  }
+}
+
+##################################################################################
+# LOCALS
+##################################################################################
+
+locals {
+  cidr_block   = jsondecode(data.consul_keys.networking.var.networking)[&quot;cidr_block&quot;]
+  subnet_count = jsondecode(data.consul_keys.networking.var.networking)[&quot;subnet_count&quot;]
+  common_tags  = jsondecode(data.consul_keys.networking.var.common_tags)
+}
+
+##################################################################################
+# RESOURCES
+##################################################################################
+
+# NETWORKING #
+module &quot;vpc&quot; {
+  source  = &quot;terraform-aws-modules/vpc/aws&quot;
+  version = &quot;~&gt;2.0&quot;
+
+  name = &quot;jack-primary&quot;
+
+  cidr            = local.cidr_block
+  azs             = slice(data.aws_availability_zones.available.names, 0, local.subnet_count)
+  private_subnets = data.template_file.private_cidrsubnet.*.rendered
+  public_subnets  = data.template_file.public_cidrsubnet.*.rendered
+
+  enable_nat_gateway = false
+
+  create_database_subnet_group = false
+
+
+  tags = local.common_tags
+}
+</code></pre>
+<pre><code>private_subnets = data.template_file.private_cidrsubnet.*.rendered
+public_subnets  = data.template_file.public_cidrsubnet.*.rendered
+</code></pre>
+<p><strong>Run the example</strong></p>
+<pre><code>## We're going to initialize the Terraform config to use the Consul backend
+terraform init -backend-config=&quot;path=networking/state/jack-primary&quot;
+
+# Verify our state is loaded
+terraform state list
+
+# Now we'll run a plan using the values stored in Consul.
+# All the tags should be updated
+terraform plan -out config.tfplan
+
+terraform apply config.tfplan
+</code></pre>
+<h2 id="3-working-with-existing-resources"><strong>3 Working with Existing Resources</strong></h2>
+<p><img alt="Alt Image Text" src="../../images/chap5_10_9.png" title="Body image" /></p>
+<pre><code>##################################################################################
+# CONFIGURATION - added for Terraform 0.14
+##################################################################################
+
+terraform {
+  required_providers {
+    aws = {
+      source  = &quot;hashicorp/aws&quot;
+      version = &quot;~&gt;3.0&quot;
+    }
+  }
+}
+
+##################################################################################
+# PROVIDERS
+##################################################################################
+
+provider &quot;aws&quot; {
+  profile = &quot;deep-dive&quot;
+  region  = var.region
+}
+
+##################################################################################
+# DATA
+##################################################################################
+
+data &quot;aws_availability_zones&quot; &quot;available&quot; {}
+
+##################################################################################
+# RESOURCES
+##################################################################################
+
+# NETWORKING #
+module &quot;vpc&quot; {
+  source  = &quot;terraform-aws-modules/vpc/aws&quot;
+  version = &quot;~&gt;2.0&quot;
+
+  name = &quot;jack-primary&quot;
+
+  cidr            = var.cidr_block
+  azs             = slice(data.aws_availability_zones.available.names, 0, var.subnet_count)
+  private_subnets = var.private_subnets
+  public_subnets  = var.public_subnets
+
+  enable_nat_gateway = false
+
+  create_database_subnet_group = false
+
+
+  tags = {
+    Environment = &quot;Production&quot;
+    Team        = &quot;Network&quot;
+  }
+}
+</code></pre>
+<h2 id="using-workspaces-and-collaboration"><strong>Using Workspaces and Collaboration</strong></h2>
+<ul>
+<li>Common configuration</li>
+<li>Individual state data instance</li>
+<li>Multiple environments</li>
+<li>terraform.workspace</li>
+</ul>
+<p><strong>Consul Setup</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap5_10_11.png" title="Body image" /></p>
+<h3 id="state-as-data-source"><strong>State as Data Source</strong></h3>
+<pre><code>data &quot;terraform_remote state&quot; &quot;networking&quot;
+{
+    backend = &quot;consul&quot;
+    config = {
+        path    = var.network_path
+        address = var.consul_address
+        scheme  = var. consul_scheme
+  }
+}
+</code></pre>
+<h3 id="the-import-command"><strong>The Import Command</strong></h3>
+<pre><code># Command syntax
+terraform import [options] ADDR ID
+
+# ADDR - configuration resource identifier
+# EX. - module.vpc.aws_subnet.public[2]
+
+# ID - provider specific resource identifier
+# EX.- subnet-ad536afg9
+
+# Importing a subnet into a configuration
+
+terraform import -var-file=&quot;terraform.tfvars&quot; \
+module.vpc.aws_subnet.public[2] subnet-ad536afg9
+</code></pre>
+<p><strong><code>datasources.tf</code></strong></p>
+<pre><code>##################################################################################
+# DATA SOURCES
+##################################################################################
+
+data &quot;consul_keys&quot; &quot;applications&quot; {
+  key {
+    name = &quot;applications&quot;
+    path = terraform.workspace == &quot;default&quot; ? &quot;applications/configuration/globo-primary/app_info&quot; : &quot;applications/configuration/globo-primary/${terraform.workspace}/app_info&quot;
+  }
+
+  key {
+    name = &quot;common_tags&quot;
+    path = &quot;applications/configuration/globo-primary/common_tags&quot;
+  }
+}
+
+data &quot;terraform_remote_state&quot; &quot;networking&quot; {
+  backend = &quot;consul&quot;
+
+  config = {
+    address = &quot;127.0.0.1:8500&quot;
+    scheme  = &quot;http&quot;
+    path    = terraform.workspace == &quot;default&quot; ? &quot;networking/state/globo-primary&quot; : &quot;networking/state/globo-primary-env:${terraform.workspace}&quot;
+  }
+}
+
+data &quot;aws_ami&quot; &quot;aws_linux&quot; {
+  most_recent = true
+  owners      = [&quot;amazon&quot;]
+
+  filter {
+    name   = &quot;name&quot;
+    values = [&quot;amzn-ami-hvm-20*&quot;]
+  }
+
+  filter {
+    name   = &quot;architecture&quot;
+    values = [&quot;x86_64&quot;]
+  }
+
+  filter {
+    name   = &quot;virtualization-type&quot;
+    values = [&quot;hvm&quot;]
+  }
+
+  filter {
+    name   = &quot;root-device-type&quot;
+    values = [&quot;ebs&quot;]
+  }
+}
+</code></pre>
+<p><strong><code>resources.tf</code></strong></p>
+<pre><code>#Based on the work from https://github.com/arbabnazar/terraform-ansible-aws-vpc-ha-wordpress
+
+##################################################################################
+# CONFIGURATION - added for Terraform 0.14
+##################################################################################
+
+terraform {
+  required_providers {
+    aws = {
+      source  = &quot;hashicorp/aws&quot;
+      version = &quot;~&gt;3.0&quot;
+    }
+    consul = {
+      source  = &quot;hashicorp/consul&quot;
+      version = &quot;~&gt;2.0&quot;
+    }
+  }
+}
+
+##################################################################################
+# PROVIDERS
+##################################################################################
+
+provider &quot;aws&quot; {
+  profile = &quot;deep-dive&quot;
+  region  = var.region
+}
+
+provider &quot;consul&quot; {
+  address    = &quot;${var.consul_address}:${var.consul_port}&quot;
+  datacenter = var.consul_datacenter
+}
+
+##################################################################################
+# LOCALS
+##################################################################################
+
+locals {
+  asg_instance_size = jsondecode(data.consul_keys.applications.var.applications)[&quot;asg_instance_size&quot;]
+  asg_max_size      = jsondecode(data.consul_keys.applications.var.applications)[&quot;asg_max_size&quot;]
+  asg_min_size      = jsondecode(data.consul_keys.applications.var.applications)[&quot;asg_min_size&quot;]
+  rds_storage_size  = jsondecode(data.consul_keys.applications.var.applications)[&quot;rds_storage_size&quot;]
+  rds_engine        = jsondecode(data.consul_keys.applications.var.applications)[&quot;rds_engine&quot;]
+  rds_version       = jsondecode(data.consul_keys.applications.var.applications)[&quot;rds_version&quot;]
+  rds_instance_size = jsondecode(data.consul_keys.applications.var.applications)[&quot;rds_instance_size&quot;]
+  rds_multi_az      = jsondecode(data.consul_keys.applications.var.applications)[&quot;rds_multi_az&quot;]
+  rds_db_name       = jsondecode(data.consul_keys.applications.var.applications)[&quot;rds_db_name&quot;]
+
+  common_tags = merge(jsondecode(data.consul_keys.applications.var.common_tags),
+    {
+      Environment = terraform.workspace
+    }
+  )
+}
+
+##################################################################################
+# RESOURCES
+##################################################################################
+
+resource &quot;aws_launch_configuration&quot; &quot;webapp_lc&quot; {
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  name_prefix   = &quot;${terraform.workspace}-ddt-lc-&quot;
+  image_id      = data.aws_ami.aws_linux.id
+  instance_type = local.asg_instance_size
+
+  security_groups = [
+    aws_security_group.webapp_http_inbound_sg.id,
+    aws_security_group.webapp_ssh_inbound_sg.id,
+    aws_security_group.webapp_outbound_sg.id,
+  ]
+
+  user_data                   = file(&quot;./templates/userdata.sh&quot;)
+  associate_public_ip_address = true
+}
+
+resource &quot;aws_elb&quot; &quot;webapp_elb&quot; {
+  name    = &quot;ddt-webapp-elb-${terraform.workspace}&quot;
+  subnets = data.terraform_remote_state.networking.outputs.public_subnets
+
+  listener {
+    instance_port     = 80
+    instance_protocol = &quot;http&quot;
+    lb_port           = 80
+    lb_protocol       = &quot;http&quot;
+  }
+
+  health_check {
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 3
+    target              = &quot;HTTP:80/&quot;
+    interval            = 10
+  }
+
+  security_groups = [aws_security_group.webapp_http_inbound_sg.id]
+
+  tags = local.common_tags
+}
+
+resource &quot;aws_autoscaling_group&quot; &quot;webapp_asg&quot; {
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  vpc_zone_identifier   = data.terraform_remote_state.networking.outputs.public_subnets
+  name                  = &quot;ddt_webapp_asg-${terraform.workspace}&quot;
+  max_size              = local.asg_max_size
+  min_size              = local.asg_min_size
+  wait_for_elb_capacity = local.asg_min_size
+  force_delete          = true
+  launch_configuration  = aws_launch_configuration.webapp_lc.id
+  load_balancers        = [aws_elb.webapp_elb.name]
+
+  dynamic &quot;tag&quot; {
+    for_each = local.common_tags
+    content {
+      key                 = tag.key
+      value               = tag.value
+      propagate_at_launch = true
+    }
+  }
+}
+
+#
+# Scale Up Policy and Alarm
+#
+resource &quot;aws_autoscaling_policy&quot; &quot;scale_up&quot; {
+  name                   = &quot;ddt_asg_scale_up-${terraform.workspace}&quot;
+  scaling_adjustment     = 2
+  adjustment_type        = &quot;ChangeInCapacity&quot;
+  cooldown               = 300
+  autoscaling_group_name = aws_autoscaling_group.webapp_asg.name
+}
+
+resource &quot;aws_cloudwatch_metric_alarm&quot; &quot;scale_up_alarm&quot; {
+  alarm_name                = &quot;ddt-high-asg-cpu-${terraform.workspace}&quot;
+  comparison_operator       = &quot;GreaterThanThreshold&quot;
+  evaluation_periods        = &quot;2&quot;
+  metric_name               = &quot;CPUUtilization&quot;
+  namespace                 = &quot;AWS/EC2&quot;
+  period                    = &quot;120&quot;
+  statistic                 = &quot;Average&quot;
+  threshold                 = &quot;80&quot;
+  insufficient_data_actions = []
+
+  dimensions = {
+    AutoScalingGroupName = aws_autoscaling_group.webapp_asg.name
+  }
+
+  alarm_description = &quot;EC2 CPU Utilization&quot;
+  alarm_actions     = [aws_autoscaling_policy.scale_up.arn]
+}
+
+#
+# Scale Down Policy and Alarm
+#
+resource &quot;aws_autoscaling_policy&quot; &quot;scale_down&quot; {
+  name                   = &quot;ddt_asg_scale_down-${terraform.workspace}&quot;
+  scaling_adjustment     = -1
+  adjustment_type        = &quot;ChangeInCapacity&quot;
+  cooldown               = 600
+  autoscaling_group_name = aws_autoscaling_group.webapp_asg.name
+}
+
+resource &quot;aws_cloudwatch_metric_alarm&quot; &quot;scale_down_alarm&quot; {
+  alarm_name                = &quot;ddt-low-asg-cpu-${terraform.workspace}&quot;
+  comparison_operator       = &quot;LessThanThreshold&quot;
+  evaluation_periods        = &quot;5&quot;
+  metric_name               = &quot;CPUUtilization&quot;
+  namespace                 = &quot;AWS/EC2&quot;
+  period                    = &quot;120&quot;
+  statistic                 = &quot;Average&quot;
+  threshold                 = &quot;30&quot;
+  insufficient_data_actions = []
+
+  dimensions = {
+    AutoScalingGroupName = aws_autoscaling_group.webapp_asg.name
+  }
+
+  alarm_description = &quot;EC2 CPU Utilization&quot;
+  alarm_actions     = [aws_autoscaling_policy.scale_down.arn]
+}
+
+## Database Config 
+
+resource &quot;aws_db_subnet_group&quot; &quot;db_subnet_group&quot; {
+  name       = &quot;${terraform.workspace}-ddt-rds-subnet-group&quot;
+  subnet_ids = data.terraform_remote_state.networking.outputs.private_subnets
+}
+
+resource &quot;aws_db_instance&quot; &quot;rds&quot; {
+  identifier             = &quot;${terraform.workspace}-ddt-rds&quot;
+  allocated_storage      = local.rds_storage_size
+  engine                 = local.rds_engine
+  engine_version         = local.rds_version
+  instance_class         = local.rds_instance_size
+  multi_az               = local.rds_multi_az
+  name                   = &quot;${terraform.workspace}${local.rds_db_name}&quot;
+  username               = var.rds_username
+  password               = var.rds_password
+  db_subnet_group_name   = aws_db_subnet_group.db_subnet_group.id
+  vpc_security_group_ids = [aws_security_group.rds_sg.id]
+  skip_final_snapshot    = true
+
+  tags = local.common_tags
+}
+</code></pre>
+<p><strong><code>security_groups.tf</code></strong></p>
+<pre><code>##################################################################################
+# RESOURCES
+##################################################################################
+
+resource &quot;aws_security_group&quot; &quot;webapp_http_inbound_sg&quot; {
+  name        = &quot;demo_webapp_http_inbound&quot;
+  description = &quot;Allow HTTP from Anywhere&quot;
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = &quot;tcp&quot;
+    cidr_blocks = [&quot;0.0.0.0/0&quot;]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = &quot;-1&quot;
+    cidr_blocks = [&quot;0.0.0.0/0&quot;]
+  }
+
+  vpc_id = data.terraform_remote_state.networking.outputs.vpc_id
+
+  tags = {
+    Name = &quot;terraform_demo_webapp_http_inbound&quot;
+  }
+}
+
+resource &quot;aws_security_group&quot; &quot;webapp_ssh_inbound_sg&quot; {
+  name        = &quot;demo_webapp_ssh_inbound&quot;
+  description = &quot;Allow SSH from certain ranges&quot;
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = &quot;tcp&quot;
+    cidr_blocks = [var.ip_range]
+  }
+
+  vpc_id = data.terraform_remote_state.networking.outputs.vpc_id
+
+  tags = merge(local.common_tags, {
+    Name = &quot;terraform_demo_webapp_ssh_inbound&quot;
+  })
+}
+
+resource &quot;aws_security_group&quot; &quot;webapp_outbound_sg&quot; {
+  name        = &quot;demo_webapp_outbound&quot;
+  description = &quot;Allow outbound connections&quot;
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = &quot;-1&quot;
+    cidr_blocks = [&quot;0.0.0.0/0&quot;]
+  }
+
+  vpc_id = data.terraform_remote_state.networking.outputs.vpc_id
+
+  tags = merge(local.common_tags, {
+    Name = &quot;terraform_demo_webapp_outbound&quot;
+  })
+}
+
+resource &quot;aws_security_group&quot; &quot;rds_sg&quot; {
+  name        = &quot;demo_rds_inbound&quot;
+  description = &quot;Allow inbound from web tier&quot;
+  vpc_id      = data.terraform_remote_state.networking.outputs.vpc_id
+
+  tags = {
+    Name = &quot;demo_rds_inbound&quot;
+  }
+
+  // allows traffic from the SG itself
+  ingress {
+    from_port = 0
+    to_port   = 0
+    protocol  = &quot;-1&quot;
+    self      = true
+  }
+
+  // allow traffic for TCP 3306
+  ingress {
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = &quot;tcp&quot;
+    security_groups = [aws_security_group.webapp_http_inbound_sg.id]
+  }
+
+  // outbound internet access
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = &quot;-1&quot;
+    cidr_blocks = [&quot;0.0.0.0/0&quot;]
+  }
+}
+</code></pre>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.78eede0e.min.js"></script>
+      
+    
+  </body>
+</html>

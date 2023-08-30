@@ -1,0 +1,3768 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's Chef&Ansible Automation 技术与实战教程">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../chef_tutorial7_attributes/">
+      
+      
+        <link rel="next" href="../chef_tutorial9/">
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.5">
+    
+    
+      
+        <title>第八节 Chef 服务器同时管理多个节点 - Jacob Chef&Ansible Automation Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0e669242.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chef" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-header__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob Chef&Ansible Automation Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第八节 Chef 服务器同时管理多个节点
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-nav__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob Chef&Ansible Automation Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Chef
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Chef
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef 介绍和安装
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Ruby和Chef语法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 如何写 Chef 配方 & chef-apply
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 用Test Kitchen管理沙盒测试环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 用 Chef 户端管理节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 撰写和使用菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial7_attributes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第七节 Chef 属性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    第八节 Chef 服务器同时管理多个节点
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    第八节 Chef 服务器同时管理多个节点
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1chef-server" class="md-nav__link">
+    1、手动安装chef-Server
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-chef" class="md-nav__link">
+    2、使用菜谱来自动化安装企业 Chef 服务器
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3idempotence" class="md-nav__link">
+    3、幂等性简介(Idempotence)
+  </a>
+  
+    <nav class="md-nav" aria-label="3、幂等性简介(Idempotence)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chefrpm" class="md-nav__link">
+    第一个重复安装的问题是Chef开发者使用从一个远程下载到本地的rpm安装包时常见的问题。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#executechefexecute" class="md-nav__link">
+    解决第二个execute资源该复执行命令的问题相对复杂一些。可以使用Chef内建的资源完成任务时就不要使用execute资源，因为你需要负责控制幂等性。
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4chef" class="md-nav__link">
+    4、配置企业Chef服务器
+  </a>
+  
+    <nav class="md-nav" aria-label="4、配置企业Chef服务器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-chef-serverchef-manage" class="md-nav__link">
+    4-1 新的菜谱chef-server和chef-manage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2-rsa" class="md-nav__link">
+    4-2 RSA钥匙对儿
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    5、测试连接
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6chef-client" class="md-nav__link">
+    6、准备一个新节点(chef-client)
+  </a>
+  
+    <nav class="md-nav" aria-label="6、准备一个新节点(chef-client)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-1" class="md-nav__link">
+    6-1 在沙盒环境中创建节点
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7chef" class="md-nav__link">
+    7、Chef服务器同时管理多个节点
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8chef-workstationchef-workstation" class="md-nav__link">
+    8、手动安装chef-workstation(chef-workstation)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9chef" class="md-nav__link">
+    9、使用菜谱来自动化安装企业Chef服务器
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10idempotence" class="md-nav__link">
+    10、幂等性简介(Idempotence)
+  </a>
+  
+    <nav class="md-nav" aria-label="10、幂等性简介(Idempotence)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chefrpm_1" class="md-nav__link">
+    第一个重复安装的问题是Chef开发者使用从一个远程下载到本地的rpm安装包时常见的问题。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#executechefexecute_1" class="md-nav__link">
+    解决第二个execute资源该复执行命令的问题相对复杂一些。可以使用Chef内建的资源完成任务时就不要使用execute资源，因为你需要负责控制幂等性。
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11chef" class="md-nav__link">
+    11、配置企业Chef服务器
+  </a>
+  
+    <nav class="md-nav" aria-label="11、配置企业Chef服务器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-1-chef-serverchef-manage" class="md-nav__link">
+    11-1 新的菜谱chef-server和chef-manage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-2-rsa" class="md-nav__link">
+    11-2 RSA钥匙对儿
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-3" class="md-nav__link">
+    11-3 测试连接
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    12、准备一个新节点
+  </a>
+  
+    <nav class="md-nav" aria-label="12、准备一个新节点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#12-1" class="md-nav__link">
+    12-1 在沙盒环境中创建节点
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13knife" class="md-nav__link">
+    13、用Knife启动并准备节点
+  </a>
+  
+    <nav class="md-nav" aria-label="13、用Knife启动并准备节点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-two-without-key" class="md-nav__link">
+    option two： without key
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vagrant-haltvagrantfile" class="md-nav__link">
+    可以用vagrant halt（Vagrantfile路径内）去停掉这些虚拟机
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14chef-solochef" class="md-nav__link">
+    14、用Chef Solo配置Chef服务器
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15" class="md-nav__link">
+    15、本节小结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第九节 社区以及Chef-Client菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial10_zero/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十节 Chef zero
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial11_databag/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十一节 数概包Databag
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十二节 角色
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial13_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十三节 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial14_test/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十四节 测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial15_term/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十五节 词汇表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial16_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十六节 Chef Tutorial Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Opt & Adv
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Opt & Adv
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef Roles
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Cookbook Versioning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 How to Perform Chef Knife SSL Check and Fetch to Verify Certificate
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 12 Chef Knife Cookbook Command Examples
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_op1_kinfe_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 knife search
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 Chef Quick CheatSheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Cookbook Sample LAMP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Cookbook Sample LAMP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Creating My First Chef Cookbook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Creating LAMP Chef Cookbook Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Ansible
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Ansible
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/1ansible_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L1 Ansible Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/2ansible_over_install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L2 Ansible Install(MacOs) and Environment Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/3play_task/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L3 Task Execution management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/4Ansible_variables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L4 Ansible Variable Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/5Complex_roles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L5 Managing complex playbooks with roles and ansible galaxy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/6Secret_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L6 Working with Secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/7Network_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L7 Network Management with Ansible
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/8idempotentence/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L8 Idempotentence with Ansible play
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/9Ansible_interview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L9 Ansible Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/10Ansible_learn_ppt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L10 Ansible 自动化运维工具PPT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/11Ansible_task1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L11 任务中心之Ansible基础篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/12Ansible_task2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L12 任务中心之Ansible进阶篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/13Ansible_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L13 Ansible 面试知识点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/14Ansible_containerd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L14 Ansible Role批量部署Containerd服务
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            HashiCorp Certified Terraform Associate
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/1hashicorp_certified_terraform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate Learning Path
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/2terraform_cs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Cheat Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/3terraform_lock/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    .terraform.lock.hcl 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/4terraform_var/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    terraform.tfvars 与 variables.tf 的区别
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/5terraform_random/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform: Random 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/6terraform_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Top Terraform Interview Questions and Answers (2022)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/7terraform_provider/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform provider update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/8terraform_docker_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform install Jenkins in Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/9terraform_local/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    解决Terraform初始化慢~配置本地离线源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/10terraform_adv/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform(Troubleshooting/Data Sources/Existing Resource)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/11tf_adv_exam/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Exam(Backend/Command/Script/Others)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/12terraform_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12 Adding Terraform to a CI/CD Pipeline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/13terraform_cmt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Integrating with Configuration Managers(Anisble)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Puppet Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Puppet Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/1pp_overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Puppet - Overview & Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/2pp_install_config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2 Puppet - 安装, 配置以及验证
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/3pp_coding_style/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3 Puppet - 编码风格
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/4pp_key_comps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4 Puppet - 核心模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/5pp_resource/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5 Puppet - 资源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/6pp_tmp_cls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6 Puppet - 模板 & 类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/7pp_func/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7 Puppet - Function
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/8pp_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8 Puppet - 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/9app_type_pr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9 Puppet - 类型和提供者
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/10pp_api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10 Puppet - RESTful API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/11pp_proj1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11 Puppet - Live Project 1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ArgoCD Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            ArgoCD Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_argocd/1Intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Introduction to Continuous Delivery
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1chef-server" class="md-nav__link">
+    1、手动安装chef-Server
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-chef" class="md-nav__link">
+    2、使用菜谱来自动化安装企业 Chef 服务器
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3idempotence" class="md-nav__link">
+    3、幂等性简介(Idempotence)
+  </a>
+  
+    <nav class="md-nav" aria-label="3、幂等性简介(Idempotence)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chefrpm" class="md-nav__link">
+    第一个重复安装的问题是Chef开发者使用从一个远程下载到本地的rpm安装包时常见的问题。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#executechefexecute" class="md-nav__link">
+    解决第二个execute资源该复执行命令的问题相对复杂一些。可以使用Chef内建的资源完成任务时就不要使用execute资源，因为你需要负责控制幂等性。
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4chef" class="md-nav__link">
+    4、配置企业Chef服务器
+  </a>
+  
+    <nav class="md-nav" aria-label="4、配置企业Chef服务器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-chef-serverchef-manage" class="md-nav__link">
+    4-1 新的菜谱chef-server和chef-manage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2-rsa" class="md-nav__link">
+    4-2 RSA钥匙对儿
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    5、测试连接
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6chef-client" class="md-nav__link">
+    6、准备一个新节点(chef-client)
+  </a>
+  
+    <nav class="md-nav" aria-label="6、准备一个新节点(chef-client)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-1" class="md-nav__link">
+    6-1 在沙盒环境中创建节点
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7chef" class="md-nav__link">
+    7、Chef服务器同时管理多个节点
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8chef-workstationchef-workstation" class="md-nav__link">
+    8、手动安装chef-workstation(chef-workstation)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9chef" class="md-nav__link">
+    9、使用菜谱来自动化安装企业Chef服务器
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10idempotence" class="md-nav__link">
+    10、幂等性简介(Idempotence)
+  </a>
+  
+    <nav class="md-nav" aria-label="10、幂等性简介(Idempotence)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chefrpm_1" class="md-nav__link">
+    第一个重复安装的问题是Chef开发者使用从一个远程下载到本地的rpm安装包时常见的问题。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#executechefexecute_1" class="md-nav__link">
+    解决第二个execute资源该复执行命令的问题相对复杂一些。可以使用Chef内建的资源完成任务时就不要使用execute资源，因为你需要负责控制幂等性。
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11chef" class="md-nav__link">
+    11、配置企业Chef服务器
+  </a>
+  
+    <nav class="md-nav" aria-label="11、配置企业Chef服务器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-1-chef-serverchef-manage" class="md-nav__link">
+    11-1 新的菜谱chef-server和chef-manage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-2-rsa" class="md-nav__link">
+    11-2 RSA钥匙对儿
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-3" class="md-nav__link">
+    11-3 测试连接
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    12、准备一个新节点
+  </a>
+  
+    <nav class="md-nav" aria-label="12、准备一个新节点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#12-1" class="md-nav__link">
+    12-1 在沙盒环境中创建节点
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13knife" class="md-nav__link">
+    13、用Knife启动并准备节点
+  </a>
+  
+    <nav class="md-nav" aria-label="13、用Knife启动并准备节点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-two-without-key" class="md-nav__link">
+    option two： without key
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vagrant-haltvagrantfile" class="md-nav__link">
+    可以用vagrant halt（Vagrantfile路径内）去停掉这些虚拟机
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14chef-solochef" class="md-nav__link">
+    14、用Chef Solo配置Chef服务器
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15" class="md-nav__link">
+    15、本节小结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="chef"><strong>第八节 Chef 服务器同时管理多个节点</strong></h1>
+<ul>
+<li>使用菜谱来自动化安装企业<code>Chef</code>服务器 </li>
+<li>幂等性简介(<code>Idempotence</code>)</li>
+<li>配置企业<code>Chef</code>服务器 </li>
+<li>准备一个新节点(<code>chef-client</code>)</li>
+<li>用<code>Knife</code>启动并准备节点</li>
+<li>用<code>Chef Solo</code>配置<code>Chef</code>服务器 </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/8_1.png" title="body image" /></p>
+<p><code>Chef</code>服务器是你基础架构配置数据的中央存储。它存储并索引菜谱、环境、模板、元数 据、文件和分布策略。<code>Chef</code>服务器包含所有其管理的机器的信息、。 </p>
+<p><strong><code>Chef</code>服务器同时包含一个页面服务器， 菜谱存储， 网页界面， 消息队列以及后端数据库</strong></p>
+<p><img alt="Alt Image Text" src="../../images/8_2.png" title="body image" /></p>
+<p><strong>网络胭务器</strong> </p>
+<p><code>nginx</code>网络服务器是个简单的反向代理服务器．<code>Chef</code>服务器用它作为前端的界面，它同时为<code>chef</code>服务器提供负载平衡。所有到<code>Chef</code>服务器的<code>API</code>请求都通过<code>nginx</code>服务器来路由。 </p>
+<p><strong>WebUI</strong></p>
+<p><code>WebUI</code>是面向用户的网页应用程序，为用户提供一个从网页上与<code>Chef</code>服务器交互的界面。它是个<code>Ruby on Rails</code>应用程序</p>
+<p><strong><code>Chef</code>务器(<code>Erchef</code>)</strong> </p>
+<p><code>Erehef</code>是<code>Chef</code>服务器负责处理<code>API</code>请求的组件。 <code>Chef</code>服务器用户<code>Erlang</code>编程语言写，支持高井发和高可靠性。<code>Erehef</code>是<code>Chef</code>服务器的核心<code>API</code></p>
+<p><strong><code>Bookshelf</code></strong></p>
+<p><code>Bookshelf</code>是所有<code>Chef</code>菜谱和菜谱内容(比如文件、模板， 定义元数据和配方单）的中央存储。<code>Bookshelf</code>是一个平坦的文们数据库, 井特意存储于<code>Chef</code>服务器的索引之外 </p>
+<p><strong>搜索索引</strong> </p>
+<p>搜索索引是个<code>Apache Solr</code>服务器， 它负责内部和外部许多<code>API</code>请求的索引和搜索。搜索索引服务和外界交互的组件叫<code>chef-solr</code> 它提供<code>Restful</code>的<code>API</code> </p>
+<p><strong>消息队列</strong> </p>
+<p>此队列系统处理所有被发送到搜索索引的消息。这些队列由开源的<code>RabbitMQ</code>队列系统管理。<code>chef-expander</code>从消息对列中获取消息， 然后发送至搜索索引。 </p>
+<p><strong>数据库</strong></p>
+<p><code>Chef</code>使用<code>PostgreSQL</code>来存储数据。在<code>Chef 11</code>之前, 主要数据库为<code>CouchDB</code>但后来 由于<code>CouchDB</code>的伸缩性问题<code>PostgreSQL</code>代替</p>
+<p>How to Install Enterprise Chef Server Manually</p>
+<h2 id="1chef-server"><strong>1、手动安装<code>chef-Server</code></strong></h2>
+<p>Go to <a href="http://www.getchef.com/contact/on-premises">http://www.getchef.com/contact/on-premises</a> and provide your contact information to receive download details and installation instructions for Enterprise Chef Server.</p>
+<p><img alt="Alt Image Text" src="../../images/8_3.png" title="body image" /></p>
+<h2 id="2-chef"><strong>2、使用菜谱来自动化安装企业 Chef 服务器</strong></h2>
+<p>假设你有足够的系统资源在本地安装企业<code>Chef</code>服务器以及配置一个测试试节点，创建一个<code>enterprise-chef</code>(chef-workstation)菜谱来安装企业<code>Chef</code>服务器。</p>
+<p>为了和托管企业Chef保持一致，创建<code>chef-repo/cookbooks</code>目录并在目录中创建<code>enterprise</code>菜谱。顶级的<code>chef-repo</code>目录可以存放管理企业<code>Chef</code>所需要的除菜谱以外的其他文件。因为你会使用若干个菜谱，所以这里建议将<code>enterprise</code>菜谱存放在<code>chef-repo/cookbooks</code>子目录内。 创建<code>chef-repo/cookbooks</code>目录并将它作为当前工作目录。 </p>
+<p><strong>Linux/Mac OS X:</strong></p>
+<pre><code>$ mkdir -p chef-repo/cookbooks
+$ cd chef-repo/cookbooks
+</code></pre>
+<p>然后通过<code>chef generate cookbook</code>或<code>knife cookbook</code> 菜谱（取决于你使用<code>Chef</code>开发包还是Chef客户端）。 </p>
+<p><strong>Chef Development Kit:</strong></p>
+<pre><code>$ chef generate cookbook enterprise-chef
+$ cd enterprise-chef
+</code></pre>
+<p><strong>Chef Client:</strong></p>
+<pre><code>$ knife cookbook create enterprise-chef --cookbook-path .
+$ cd enterprise-chef
+$ kitchen init --create-gemfile
+$ bundle install
+</code></pre>
+<p><strong><code>enterprise-chef/kitchen.yml</code></strong></p>
+<pre><code>---
+driver:
+  name: vagrant
+  provider: vmware_desktop
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: centos65
+    driver:
+      box: learningchef/centos65
+      box_url: learningchef/centos65
+      network:
+      - [&quot;private_network&quot;, {ip: &quot;192.168.33.34&quot;}]
+      customize:
+        memory: 1536
+
+suites:
+  - name: default
+    run_list:
+      - recipe[enterprise-chef::default]
+    attributes:
+</code></pre>
+<p>Chef Development Kit:</p>
+<pre><code>$ chef generate attribute default
+</code></pre>
+<p>Chef Client:</p>
+<pre><code>$ touch attributes/default.rb
+</code></pre>
+<p><strong><code>attributes/default.rb</code></strong></p>
+<p>old:</p>
+<pre><code>default['enterprise-chef']['url'] = \
+'https://s3.amazonaws.com/opscode-private-chef/el/6/x86_64/'\
+'private-chef-11.1.8-1.el6.x86_64.rpm'
+</code></pre>
+<p>new chef-server-core:</p>
+<pre><code>default['enterprise-chef']['url'] = 'https://packages.chef.io/files/stable/chef-server/13.1.13/el/6/chef-server-core-13.1.13-1.el6.x86_64.rpm'
+</code></pre>
+<p>new chef Management Console:</p>
+<p><a href="https://downloads.chef.io/manage">https://downloads.chef.io/manage</a></p>
+<pre><code>default['enterprise-chef']['url'] = 'https://packages.chef.io/files/stable/chef-manage/2.5.16/el/6/chef-manage-2.5.16-1.el6.x86_64.rpm'
+</code></pre>
+<p><strong>finall version</strong></p>
+<pre><code>default['enterprise-chef']['url'] = 'https://packages.chef.io/files/stable/chef-manage/2.5.16/el/6/chef-manage-2.5.16-1.el6.x86_64.rpm
+</code></pre>
+<p><strong><code>/enterprise-chef/recipes/default.rb</code></strong></p>
+<pre><code>#
+# Cookbook:: enterprise-chef
+# Recipe:: default
+#
+# Copyright:: 2019, The Authors, All Rights Reserved.
+
+package_url = node['enterprise-chef']['url']
+package_name = ::File.basename(package_url)
+package_local_path = &quot;#{Chef::Config[:file_cache_path]}/#{package_name}&quot;
+
+# omnibus_package is remote (i.e., a URL) let's download it
+remote_file package_local_path do
+  source package_url
+end
+
+package package_local_path
+
+# reconfigure the installation
+# execute 'private-chef-ctl reconfigure'
+execute 'chef-server-ctl reconfigure --chef-license=accept'
+# &quot;--chef-license=accept&quot;
+# STDOUT: Chef Infra Server cannot execute without accepting the license
+</code></pre>
+<p>如果不想在菜谱中总是使用<code>node['enterprise-chef']['url'］</code>这样长的变量，可以将其 存储在一个短的本地变量中，比如：</p>
+<pre><code>package_url = node['enterprise-chef']['url']
+</code></pre>
+<p>记住，在<code>Chef</code>配方单中，你可以使用Ruby编程语言提供的任何功能。<strong>例如，可以使用<code>::File.basename(）</code> 方法来从下载<code>URL</code>中提取安装包的名字。</strong>  </p>
+<p>在这个例子中，安装包的名字是URL中最后一个斜杠后的组件：<code>'private-chef-11.1.8-1.el6.x86_64.rpm</code> 如果想进一步了解<code>Ruby</code>的<code>::File</code>类，可以访问<code>Ruby</code>核心<code>API</code>文档</p>
+<pre><code>package_name = ::File.basename(package_url)
+</code></pre>
+<p>不幸的是，我们熟悉的<code>package</code>资源并不接受通过指定远程<code>URL</code>来安装程序包，所以这里要介绍一个新的资源:<code>remote_file</code>资源。</p>
+<p><strong><code>remote_file</code>资源提供从远程下载文件的功能我们在此要通过<code>remote_file</code>资源从远程<code>URL</code> 下载安装包，并用<code>package</code>资源安装本地的安装包。</strong></p>
+<p>我们需要先将安装包下载到一个临时位置。与其使用固定的临时下载位置 (如<code>"/tmp"</code>)，不如用<code>Chef</code>提供的一个你可以使用的变量：<code>Chef::Config[:file_cache_path]</code>。通过这个变量，<code>Chef</code>绝对定最佳的临时存储位置。将所要的临时存储位置作为参数传递给<code>remote_file</code>，并将远程<code>URL</code>作为<code>source</code>属性传递 </p>
+<p>在执行<code>chef-server-ctl reconfigure</code>前，我们需要介绍另一个新的资源：<code>execute</code>资 源。有时，无法找到一个现有的资源满足自己需求时，你可以使用<code>execute</code>资源来执行任意命令。你只需要将想执行的命令字符串传递至<code>execute</code>资源。 </p>
+<pre><code>$ kitchen list
+Instance          Driver   Provisioner  Verifier  Transport  Last Action    Last Error
+default-centos65  Vagrant  ChefSolo     Busser    Ssh        &lt;Not Created&gt;  &lt;None&gt;
+
+$ kitchen converge default-centos65
+
+$ kitchen list
+Instance          Driver   Provisioner  Verifier  Transport  Last Action  Last Error
+default-centos65  Vagrant  ChefZero     Busser    Ssh        Converged    &lt;None&gt;
+
+$  kitchen login default-centos65
+Last login: Sun Dec  1 09:07:26 2019 from 172.16.72.2
+Welcome to your Packer-built virtual machine.
+
+$ rpm -q chef-server-core
+chef-server-core-13.1.13-1.el6.x86_64
+
+[vagrant@default-centos65 ~]$ exit
+logout
+Connection to 127.0.0.1 closed.
+</code></pre>
+<h2 id="3idempotence"><strong>3、幂等性简介(Idempotence)</strong></h2>
+<p>虽然我们写的配方单作为第一个版本一可以达成我们的目的，但它并不幂等。</p>
+<p>幂等的<code>Chef</code>代码意味着你可以重复运行无数次而结果完全一样，并不会因为运行多次而产生不同的效果。几乎所有默一认的<code>Chef</code>资源都保证幂等性，唯一的例外是<code>execute</code>资源。 </p>
+<p><code>execute</code>资源一般并不幂等，因为大多数命令行工具假设操作它的人了解系统的现状。 比如，假设<code>/learningchef/files1.txt</code>文件存在，以下<code>mv</code>命令在第一次运行时有效，但在第二次运行时会失败： </p>
+<pre><code>$ mv /learningchef/file1.txt /file1.txt
+</code></pre>
+<p>测试<code>Chef</code>配方单是否幂等的一个好方法是运行<code>kitchen converge</code>两次。一次运行没有产生任何动作时，运行的结果应该显示<code>0</code>个资源被更新。 </p>
+<p><strong>Does our recipe pass the idempotency test? Sadly, no. Here’s a sampling of the output from an initial kitchen converge:</strong></p>
+<pre><code>$ kitchen converge default-centos65
+...
+ Installing Cookbook Gems:
+       Compiling Cookbooks...
+       Converging 3 resources
+       Recipe: enterprise-chef::default
+         * remote_file[/tmp/kitchen/cache/chef-server-core-13.1.13-1.el6.x86_64.rpm] action create (up to date)
+         * yum_package[/tmp/kitchen/cache/chef-server-core-13.1.13-1.el6.x86_64.rpm] action install (up to date)
+         * execute[chef-server-ctl reconfigure --chef-license=accept] action run
+           - execute chef-server-ctl reconfigure --chef-license=accept
+
+       Running handlers:
+       Running handlers complete
+       Chef Infra Client finished, 1/3 resources updated in 04 minutes 51 seconds
+       Downloading files from &lt;default-centos65&gt;
+       Finished converging &lt;default-centos65&gt; (5m4.35s).
+</code></pre>
+<p>以下是第二次运行的输出<code>Chef</code>认为它仍然需要吏新资源<code>3</code>个资源中的<code>2</code>个在第二次运行时被更新。如果配方<strong>幂等</strong>，<strong>我们应该看到<code>0</code>个资源被更新<code>Chef</code>应该检查系统状态确定没有需要更新的资源</strong>； </p>
+<pre><code>$ kitchen converge
+...
+ Converging 3 resources
+       Recipe: enterprise-chef::default
+         * remote_file[/tmp/kitchen/cache/chef-server-core-13.1.13-1.el6.x86_64.rpm] action create (up to date)
+         * yum_package[/tmp/kitchen/cache/chef-server-core-13.1.13-1.el6.x86_64.rpm] action install (up to date)
+         * execute[chef-server-ctl reconfigure --chef-license=accept] action run
+           - execute chef-server-ctl reconfigure --chef-license=accept
+
+       Running handlers:
+       Running handlers complete
+       Chef Infra Client finished, 1/3 resources updated in 53 seconds
+       Downloading files from &lt;default-centos65&gt;
+       Finished converging &lt;default-centos65&gt; (1m7.63s).
+-----&gt; Kitchen is finished. (1m8.27s)
+
+</code></pre>
+<p><strong>像前面提及的一样, 大多数默认<code>Chef</code>资源是具备幂等性。注意<code>remote_file</code>。资源是幂等的。从输出可以看到它汇报了（up to date)。 <code>package</code>资源通常也是幂等的</strong>.</p>
+<p>在本例中．我们故意创造了一些清境使其在<code>RedHat</code>系列系统中出现一些幂等性问题，后面将展示如何解决。 </p>
+<p>在第二次通过<code>kitchen converge</code>执行<code>Chef</code>运行，我们发现一些<code>package</code>和<code>execute</code>资源的幂等性问题。 </p>
+<ol>
+<li>重新安装<code>rpm</code>安装包，可有可无。 </li>
+<li>再次执行<code>chef-server一ctl reconfigure</code>命令。 </li>
+</ol>
+<p>让我们解决这些代码中的幂等性问题，最后版本的完全幂等的<code>Chef</code>代码</p>
+<h4 id="chefrpm">第一个重复安装的问题是<code>Chef</code>开发者使用从一个远程下载到本地的<code>rpm</code>安装包时常见的问题。</h4>
+<p><strong>与其只是将一个远程下载的<code>rpm</code>传递给<code>package</code>资源，还不如通过<code>provider</code>属性告诉 <code>package</code>资源使用<code>Chef::Provider::Package::Rpm</code>提供者。同时需要制定安装包名字字符串和通过<code>source</code>属性指定本地的安装包地址</strong>： </p>
+<pre><code>package package_name do
+  source package_local_path
+  provider Chef::Provider::Package::Rpm
+end
+</code></pre>
+<p><strong>可以使用<code>rpm_package</code>对<code>package</code>资源指定 <code>Chef::Provider::Package::Rpm</code>提供者提供者</strong>。</p>
+<p>以下代码等同于以上</p>
+<pre><code>rpm_package package_name do
+  source package_local_path
+end
+</code></pre>
+<h4 id="executechefexecute">解决第二个<code>execute</code>资源该复执行命令的问题相对复杂一些。可以使用<code>Chef</code>内建的资源完成任务时就不要使用<code>execute</code>资源，因为你需要负责控制幂等性。</h4>
+<p><strong>解决这个问题的一个方法是使用<code>not_if</code>来保护<code>execute</code>资源。这样在<code>not_if</code>中指定的测试会先执行，如果测试成功，证明系统已经在理想状态下，则不需要做任何事情</strong>。</p>
+<p>在本例中，我们可以使用这种方法测试<code>chef-server</code>安装包是否已经安装。如下所示，我们在<code>execute</code>资源中添加<code>not_if</code>语句。<code>not_if</code>会测试其中的命令的退出代码是否0, 如果是<code>execute</code>资源就不做任何事情 </p>
+<pre><code>execute &quot;chef-server-ctl reconfigure&quot; do
+  not_if &quot;rpm -q chef-server&quot;
+end
+</code></pre>
+<p>虽然可以这样解决幂等性问题，但并不是特别理想。你需要找到合适的方法来判定<code>Chef</code>服务器是否已经成功安装，而我们例子中的方法并不是那么可靠。另外一种解决这有问题的方法是只有在前面所做的<code>package</code>资源安装执行的时候才使用<code>execute</code>资源执行若令否则不执行<code>execute</code>资源。可以通过<code>notifies</code>语句来通知执行其他资源。 </p>
+<p><strong>要想使用<code>notifies</code>，我们需要对为此，<code>execute</code>资源语句做一些改变</strong>。</p>
+<p><strong>首先，需要使其在独立处理时不做任何事情，我们可以添加<code>action :nothing</code>属胜</strong>。</p>
+<p>然后，我们需要将其运行命令移到<code>command</code>属性中，从而在其他资源中通过更短的名字来通知此资源。默认情况下，被传人<code>execute</code>资源的<code>name</code>属性被作为<code>command</code>属胜使用。</p>
+<p>当我们想用一行代码来运行一个命令时，这样做很好，但想在其他资源中通知这个资源时则不是最理想的方法，因为你需要在其他资源中指定整个命令。现在我对<code>execute</code>资源做出以下改变： </p>
+<pre><code># reconfigure the installation
+execute 'reconfigure-chef-server' do
+  command 'chef-server-ctl reconfigure'
+  action :nothing
+end
+</code></pre>
+<p>然后在<code>package</code>资源中添加<code>notifies</code>属性，如下所示。</p>
+<ul>
+<li><code>notifies</code>属性接受三个参数<strong>动作、要通知的资源的名字和执行动作的时间</strong>。</li>
+</ul>
+<p><strong>如以下代码所，我们想通知<code>execute[reconfigure-chef-server]</code>资源执行<code>:run</code>动作，并立即执行。</strong></p>
+<pre><code>#
+# Cookbook:: enterprise-chef
+# Recipe:: default
+#
+# Copyright:: 2019, The Authors, All Rights Reserved.
+
+package_url = node['enterprise-chef']['url']
+package_name = ::File.basename(package_url)
+package_local_path = &quot;#{Chef::Config[:file_cache_path]}/#{package_name}&quot;
+
+# omnibus_package is remote (i.e., a URL) let's download it
+# 从一个远程位置（比如网站）传输一个文件 remote_file
+remote_file package_local_path do
+  source package_url
+end
+
+# 用操作系统提供的程序安装管理器安装一个程序包
+package package_name do
+  source package_local_path
+  provider Chef::Provider::Package::Rpm
+  notifies :run, 'execute[reconfigure-chef-server]', :immediately
+# notifies :before, :delayed, :immediate, :immediately
+end
+
+# reconfigure the installation
+# execute actions: &quot;:nothing&quot; and &quot;:run&quot;
+execute 'reconfigure-chef-server' do
+  command 'private-chef-ctl reconfigure'
+  action :nothing
+end
+</code></pre>
+<p><strong>使用这个版本的代码再次运行<code>kitchen converge</code>.井在输出中注意它汇报的是<code>0</code>个资源被更新</strong>：</p>
+<pre><code>$ kitchen converge
+ Compiling Cookbooks...
+       Converging 3 resources
+       Recipe: enterprise-chef::default
+         * remote_file[/tmp/kitchen/cache/chef-server-core-13.1.13-1.el6.x86_64.rpm] action create (up to date)
+         * yum_package[chef-server-core-13.1.13-1.el6.x86_64.rpm] action install (up to date)
+         * execute[reconfigure-chef-server] action nothing (skipped due to action :nothing)
+
+       Running handlers:
+       Running handlers complete
+       Chef Infra Client finished, 0/3 resources updated in 04 seconds
+       Downloading files from &lt;default-centos65&gt;
+       Finished converging &lt;default-centos65&gt; (0m18.04s).
+</code></pre>
+<p>这是我们期待的结果，<code>Chef</code>没有执行任何资源对系统作出任何改变： </p>
+<p>在日常工作中，在部署到生产环境之前，始终要检查配方单是否幂等。在本例中，如果我们将第一个版本的配方单部署到生产环境，一般来讲在生产环境中的节点上<code>Chef-client</code>会定期运行（比如每15分钟），所有在运行清单中拥有此配方单的节点将每15分钟重新安装一次<code>Chef</code>服务器！ </p>
+<h2 id="4chef"><strong>4、配置企业Chef服务器</strong></h2>
+<p>如果成功安装<code>Chef</code>服务器，就可以在浏览器中使用你在<code>kitehen.yml</code>中设定的<code>private network ip</code>地址访问服务器管理网页。</p>
+<p><img alt="Alt Image Text" src="../../images/8_4.png" title="body image" /></p>
+<p><a href="https://downloads.chef.io/manage">Chef Manage</a></p>
+<h3 id="4-1-chef-serverchef-manage"><strong>4-1 新的菜谱chef-server和chef-manage</strong></h3>
+<p><strong><code>/enterprise-chef/attributes/default.rb</code></strong></p>
+<pre><code>default['chefserver']['url'] = 'https://packages.chef.io/files/stable/chef-server/13.1.13/el/6/chef-server-core-13.1.13-1.el6.x86_64.rpm'
+default['chefmanage']['url'] = 'https://packages.chef.io/files/stable/chef-manage/2.5.16/el/6/chef-manage-2.5.16-1.el6.x86_64.rpm'
+</code></pre>
+<p><strong><code>/enterprise-chef/recipes/manage.rb</code></strong></p>
+<pre><code>## Install chef manage
+
+package_url = node['chefmanage']['url']
+package_name = ::File.basename(package_url)
+package_local_path = &quot;#{Chef::Config[:file_cache_path]}/#{package_name}&quot;
+
+# omnibus_package is remote (i.e., a URL) let's download it
+# 从一个远程位置（比如网站）传输一个文件 remote_file
+remote_file package_local_path do
+  source package_url
+end
+
+# 用操作系统提供的程序安装管理器安装一个程序包
+package package_name do
+  source package_local_path
+  provider Chef::Provider::Package::Rpm
+  notifies :run, 'execute[reconfigure-chef-manage]', :immediately
+# notifies :before, :delayed, :immediate, :immediately
+end
+
+# reconfigure the installation
+# execute actions: &quot;:nothing&quot; and &quot;:run&quot;
+execute 'reconfigure-chef-manage' do
+  command 'chef-server-ctl install chef-manage'
+  command 'chef-manage-ctl reconfigure --accept-license'
+  # action :nothing
+  action :run
+end
+</code></pre>
+<p><strong><code>/enterprise-chef/recipes/default.rb</code></strong></p>
+<pre><code>## Install chef server and then install  chef manage
+
+package_url = node['chefserver']['url']
+package_name = ::File.basename(package_url)
+package_local_path = &quot;#{Chef::Config[:file_cache_path]}/#{package_name}&quot;
+
+# omnibus_package is remote (i.e., a URL) let's download it
+# 从一个远程位置（比如网站）传输一个文件 remote_file
+remote_file package_local_path do
+  source package_url
+end
+
+# 用操作系统提供的程序安装管理器安装一个程序包
+package package_name do
+  source package_local_path
+  provider Chef::Provider::Package::Rpm
+  notifies :run, 'execute[reconfigure-chef-server]', :immediately
+# notifies :before, :delayed, :immediate, :immediately
+end
+
+# reconfigure the installation
+# execute actions: &quot;:nothing&quot; and &quot;:run&quot;
+execute 'reconfigure-chef-server' do
+  # command 'chef-server-ctl install chef-manage'
+  command 'chef-server-ctl reconfigure --chef-license=accept'
+  # command 'chef-manage-ctl reconfigure'
+  # action :run
+  action :nothing
+end
+
+include_recipe 'enterprise-chef::manage'
+
+include_recipe 'enterprise-chef::adduser'
+include_recipe 'enterprise-chef::addorganization'
+</code></pre>
+<p>在我们的例子中，使用了<code>192.168.33.34</code>作为地址, 访问这个地址，在忽略关于<code>SSL</code>证书的警告之后，点击<code>Sign up</code>（注册）链接，如图提示你注册一个用户账户。填人相关信息，然后单击<code>Submit</code>（提交）按钮。</p>
+<p><img alt="Alt Image Text" src="../../images/8_5.png" title="body image" /></p>
+<p><img alt="Alt Image Text" src="../../images/8_6.png" title="body image" /></p>
+<p>我们在用户账户中使用的值，当然，你使用的值会完全不一样 点击<code>Submit</code>按钮企业<code>Chef</code>的网页<code>UI</code>会告诉你下一步将创建一个组织。单击<code>Create（创建）</code>链接创建一个组织.</p>
+<p>如图所示 组织代表公司或组织。<code>Chef</code>使用你指定的组织名称作为与<code>Chef</code>服务器验证组织身份的ID.图展示的是我们的设定中填写的组织信息。</p>
+<p><img alt="Alt Image Text" src="../../images/8_7.png" title="body image" /></p>
+<p><img alt="Alt Image Text" src="../../images/8_8.png" title="body image" /></p>
+<pre><code>chef generate recipe adduser
+</code></pre>
+<p><strong><code>/enterprise-chef/recipes/adduser.rb</code></strong></p>
+<pre><code>execute 'Add-chef-server-newuser' do
+    # command 'chef-server-ctl user-delete admin'
+    command 'chef-server-ctl user-create admin John Smith john_smith@example.com password --filename=/tmp/admin.pem'
+    action :run
+    # action: nothing
+end
+</code></pre>
+<ul>
+<li>username: admin</li>
+<li>password: password</li>
+</ul>
+<p><strong><code>/enterprise-chef/recipes/addorganization.rb</code></strong></p>
+<pre><code>#
+# Cookbook:: enterprise-chef
+# Recipe:: adduser
+#
+# Copyright:: 2019, The Authors, All Rights Reserved.
+
+execute 'Add-chef-server-organization' do
+    # command 'chef-server-ctl org-delete ja'
+    command 'chef-server-ctl org-create  ja &quot;Ja-Chef, Inc&quot; --association_user admin --filename=/tmp/ja-validator.pem'
+    # action :run
+    action :run
+end
+
+# Create organization
+# ja Ja-Chef, Inc
+# --association_user admin
+
+* username: ja
+* password: Ja-Chef
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/8_9.png" title="body image" /></p>
+<p>单击<code>Create Organization</code>（创建组织）按钮后，提示你保存两个文件：<strong>一个验证密钥和一 个<code>knife</code>配置文件</strong>，</p>
+<p><strong>创建组织</strong></p>
+<p><img alt="Alt Image Text" src="../../images/8_10.png" title="body image" /></p>
+<p><strong>选择组织</strong></p>
+<p><img alt="Alt Image Text" src="../../images/8_11.png" title="body image" /></p>
+<p><strong>下载秘钥(chef-repo)</strong></p>
+<p><img alt="Alt Image Text" src="../../images/8_12.png" title="body image" /></p>
+<p><code>kitchen login</code> to download <code>/tmp/ja-validator.pem</code></p>
+<pre><code>$ kitchen login
+Last login: Mon Dec  2 05:53:46 2019 from 172.16.72.2
+Welcome to your Packer-built virtual machine.
+[vagrant@default-centos65 ~]$ cd /tmp/
+[vagrant@default-centos65 tmp]$ ls -la
+total 72
+drwxrwxrwt.  8 root          root           4096 Dec  2 05:47 .
+dr-xr-xr-x. 22 root          root           4096 Dec  1 10:24 ..
+drwxrwxrwt   2 root          root           4096 Dec  1 10:24 .ICE-unix
+srwxrwxrwx   1 opscode-pgsql opscode-pgsql     0 Dec  2 05:31 .s.PGSQL.5432
+-rw-------   1 opscode-pgsql opscode-pgsql    63 Dec  2 05:31 .s.PGSQL.5432.lock
+-rw-r--r--   1 root          root           1678 Dec  2 05:47 admin.pem
+drwxr-xr-x   3 opscode       opscode        4096 Dec  1 11:29 bundler
+drwxr-xr-x   2 opscode       opscode        4096 Dec  1 11:31 hsperfdata_opscode
+-rw-r--r--   1 root          root          23248 Dec  1 10:25 install.sh
+-rw-r--r--   1 root          root           1678 Dec  2 05:47 ja-validator.pem
+drwxrwxr-x   7 vagrant       vagrant        4096 Dec  1 10:30 kitchen
+-rw-r--r--   1 root          root            368 Dec  1 10:25 stderr
+drwx------   2 root          root           4096 Dec  1 10:25 vmware-root
+drwx------   2 root          root           4096 Dec  1 10:25 vmware-root_1102-273056232
+</code></pre>
+<p>这三个文件都下载好后, 回到<code>chef-repo</code>目录将其作为当前目录， 然后创建一个<code>cehf-repo/.chef</code>子目录。 完成后, 你的<code>chef-repo</code>目录的结构如下所示</p>
+<pre><code>$ tree -a chef-repo/
+chef-repo/
+├── .chef
+│   ├── admin.pem
+│   ├── ja-validator.pem
+│   └── knife.rb
+├── .gitignore
+├── README.md
+├── cookbooks
+│   ├── chefignore
+│   └── starter
+│       ├── attributes
+│       │   └── default.rb
+│       ├── files
+│       │   └── default
+│       │       └── sample.txt
+│       ├── metadata.rb
+│       ├── recipes
+│       │   └── default.rb
+│       └── templates
+│           └── default
+│               └── sample.erb
+└── roles
+    └── starter.rb
+
+10 directories, 12 files
+
+</code></pre>
+<ul>
+<li><code>&lt;usernamee&gt;.pem</code>文件是用来向<code>Chef</code>服务器验证你用户身份的密钥。要把它视作密码井且 不要修改文件内容。 </li>
+<li><code>&lt;organization&gt;.pem</code>文件是用来向<code>Chef</code>服务器验证组织身份的密钥。也要把创见为密码，但要共享给组织内所有的<code>Chef</code>开发者。任何需要访问<code>Chef</code>的组织内邹人员都需要这个文件。不要更改文件内容。 </li>
+</ul>
+<h3 id="4-2-rsa"><strong>4-2 <code>RSA</code>钥匙对儿</strong></h3>
+<p><code>Chef</code>的<code>pem</code>文件包含注册过程中生成的<code>RSA</code>私钥。<code>Chef</code>为你的组织生成一个<code>RSA</code>钥匙对儿公钥存储在企业<code>Chef</code>在服务器上并在程序向<code>Chef</code>服务器发送诗求时用来验证组织的身份 </p>
+<p>不像<code>.pem</code>文件，<code>knife</code>文件可以更改或自定义。<code>knife.rb</code>文件是一个<code>Ruby</code>文件，执行命令时读取这个文件 </p>
+<pre><code>$ knife client list
+ERROR: SSL Validation failure connecting to host: default-centos65.vagrantup.com - SSL_connect returned=1 errno=0 state=error: certificate verify failed (self signed certificate)
+ERROR: Could not establish a secure connection to the server.
+Use `knife ssl check` to troubleshoot your SSL configuration.
+If your server uses a self-signed certificate, you can use
+`knife ssl fetch` to make knife trust the server's certificates.
+
+Original Exception: OpenSSL::SSL::SSLError: SSL Error connecting to https://default-centos
+</code></pre>
+<pre><code>current_dir = File.dirname(__FILE__)
+log_level                :info
+log_location             STDOUT
+node_name                &quot;admin&quot;
+client_key               &quot;#{current_dir}/admin.pem&quot;
+chef_server_url          &quot;https://default-centos65.vagrantup.com/organizations/ja&quot;
+cookbook_path            [&quot;#{current_dir}/../cookbooks&quot;]
+ssl_verify_mode          :verify_none 
+</code></pre>
+<p>我们例子中的<code>chef_server_url</code>使用了假的<code>DNS</code>主机名<code>default-centos65.vagrantup.com</code>因为这是<code>vagrant</code>设定的主机名。如果你试图访问<code>"https://default-centos65.vagrantup.com/organizations/ja"</code>,会发现它是无效的</p>
+<p><code>Chef</code>服务器需要机器拥有能够正确解析的完整域名（FQDN)。在生产环境中应该在安装<code>chef</code>服务器之前在域名(<code>DNS</code>)服务器中设定<code>Chef</code>的主机名。在我们的实验中为方便起见让我们把<code>default-centos65.vagrantup.com</code>加到机器的本地<code>host</code>数据库 </p>
+<p>运行以下命令向<code>host</code>数据添加内容。</p>
+<p><strong>Linux/Mac OS X:</strong></p>
+<pre><code>$ sudo sh -c &quot;echo '192.168.33.34 default-centos65.vagrantup.com' &gt;&gt; /etc/hosts&quot; 
+</code></pre>
+<p>现在, 如果你在浏览器中访问<code>https://default-centos65.vagrantup.com</code>, 主机会认为它是一个有效的地址 </p>
+<p>可以在<code>knife.rb</code>中添加其他设置，比如<code>EC2</code>的用户信息、代理信息、加密数据包设定等你和你组织内其他成员的<code>knife.rb</code>会有所不同，很多内容是针对用户和所用的开发机器的。除非将密码或访问密钥存储在<code>knife.rb</code>配置文件中，否则不需将其视为密码． </p>
+<h2 id="5"><strong>5、测试连接</strong></h2>
+<p>在<code>Chef</code>目录下运行以下命令。打开命令行程序并将<code>chef-repo</code>做为当前工作目录 </p>
+<pre><code>$ cd ~/chef-repo
+</code></pre>
+<p>现在， 你可以使用<code>knife</code> (<code>Chef</code>服务器的命令行工具）来测试你和<code>Chef</code>服务器的连接和 身份验证。</p>
+<p>在写作本书时，<code>Chef</code>尚未提供一个专门用来”测试连接“的命令。然而，通过询问<code>Chef</code>服务器来列举客户端，我们可以验证以下几点 </p>
+<ul>
+<li>网络可以连接到服务器。 </li>
+<li>验证文件都在正确的位置。 </li>
+<li><code>Chef</code>读卖取验证文件。 </li>
+<li>开发工作站可以收到来自<code>Chef</code>服务器的反馈。 </li>
+</ul>
+<p>在命令行程序中运行<code>knife client list</code>命令，你会见到以下输出： </p>
+<pre><code>$ knife client list
+ja-validator
+</code></pre>
+<p>如果你遇到错误，可以检查以下项目。</p>
+<ol>
+<li>确认你可以从网页浏览器访问命令  </li>
+<li>确认你在<code>chef-repo</code>目录内运行命令。 </li>
+<li>确认<code>.chef</code>目录包含两个<code>.pem</code>文件以及一个<code>knife.rb</code>文件。 </li>
+<li>确认你的身份验证文件拥有正确的文件权限（只有用户可读）。 </li>
+</ol>
+<p>如果确认以上都设定正确但仍然无法连接到<code>Chef</code>服务器，</p>
+<p>验证开发机器可以连接到<code>Chef</code>服务器之后，让我们创建另一个菜谱，使测试节点可注册并交由Chef服务器管理。 </p>
+<h2 id="6chef-client"><strong>6、准备一个新节点(chef-client)</strong></h2>
+<p><code>Chef</code>用"Bootstraping" 这个术语来指代将一个远程系统谁务好由<code>chef</code>来管理的过程。</p>
+<p>这个过程包括在节点上安装<code>Chef</code>客户端井将其与<code>Chef</code>服务器注册。在此， 我们<code>bootstrap</code>翻译为“准备”， 但由于在真实环掩和此准备过程通常是节点启动后的第一项任务， 所以<code>bootstrap</code>节点, 也经常可以理解为启动新的节点 </p>
+<h3 id="6-1"><strong>6-1 在沙盒环境中创建节点</strong></h3>
+<p>跟我们, 类似让我们使用<code>Test Kitchen</code>来定义一个项目在沙盒环境中创想一个节点</p>
+<p>在与先前创建的<code>chef server</code>目录平行的位界创建个<code>node</code>目录,这其实部署菜谱， 只是一个
+是<code>Test Kitchen</code>项目， 但将其位于<code>chef-Server</code>的平行位置有助于我们来回切换． </p>
+<p>创建<code>~/chef-repo/cookbooks/node</code>目录, 并将其作为当前工作目录 </p>
+<pre><code>$ cd ~/chef-repo/cookbooks
+$ mkdir node
+$ cd node
+</code></pre>
+<pre><code>$ knife client list
+ja-validator
+</code></pre>
+<h2 id="7chef"><strong>7、Chef服务器同时管理多个节点</strong></h2>
+<p><img alt="Alt Image Text" src="../../images/8_1.png" title="body image" /></p>
+<p><code>Chef</code>服务器是你基础架构配置数据的中央存储。它存储并索引菜谱、环境、模板、元数 据、文件和分布策略。<code>Chef</code>服务器包含所有其管理的机器的信息、。 </p>
+<p><strong><code>Chef</code>服务器同时包含一个页面服务器， 菜谱存储， 网页界面， 消息队列以及后端数据库</strong></p>
+<p><img alt="Alt Image Text" src="../../images/8_2.png" title="body image" /></p>
+<p><strong>网络胭务器</strong> </p>
+<p><code>nginx</code>网络服务器是个简单的反向代理服务器．<code>Chef</code>服务器用它作为前端的界面，它同时为<code>chef</code>服务器提供负载平衡。所有到<code>Chef</code>服务器的<code>API</code>请求都通过<code>nginx</code>服务器来路由。 </p>
+<p><strong>WebUI</strong></p>
+<p><code>WebUI</code>是面向用户的网页应用程序，为用户提供一个从网页上与<code>Chef</code>服务器交互的界面。它是个<code>Ruby on Rails</code>应用程序</p>
+<p><strong><code>Chef</code>务器(<code>Erchef</code>)</strong> </p>
+<p><code>Erehef</code>是<code>Chef</code>服务器负责处理<code>API</code>请求的组件。 <code>Chef</code>服务器用户<code>Erlang</code>编程语言写，支持高井发和高可靠性。<code>Erehef</code>是<code>Chef</code>服务器的核心<code>API</code></p>
+<p><strong><code>Bookshelf</code></strong></p>
+<p><code>Bookshelf</code>是所有<code>Chef</code>菜谱和菜谱内容(比如文件、模板， 定义元数据和配方单）的中央存储。<code>Bookshelf</code>是一个平坦的文们数据库, 井特意存储于<code>Chef</code>服务器的索引之外 </p>
+<p><strong>搜索索引</strong> </p>
+<p>搜索索引是个<code>Apache Solr</code>服务器， 它负责内部和外部许多<code>API</code>请求的索引和搜索。搜索索引服务和外界交互的组件叫<code>chef-solr</code> 它提供<code>Restful</code>的<code>API</code> </p>
+<p><strong>消息队列</strong> </p>
+<p>此队列系统处理所有被发送到搜索索引的消息。这些队列由开源的<code>RabbitMQ</code>队列系统管理。<code>chef-expander</code>从消息对列中获取消息， 然后发送至搜索索引。 </p>
+<p><strong>数据库</strong></p>
+<p><code>Chef</code>使用<code>PostgreSQL</code>来存储数据。在<code>Chef 11</code>之前, 主要数据库为<code>CouchDB</code>但后来 由于<code>CouchDB</code>的伸缩性问题<code>PostgreSQL</code>代替</p>
+<p>How to Install Enterprise Chef Server Manually</p>
+<h2 id="8chef-workstationchef-workstation"><strong>8、手动安装<code>chef-workstation</code>(chef-workstation)</strong></h2>
+<p>Go to <a href="https://downloads.chef.io/chef-workstation/#mac_os_x">https://downloads.chef.io/chef-workstation/#mac_os_x</a> and provide your contact information to receive download details and installation instructions for Enterprise Chef Server.</p>
+<p><img alt="Alt Image Text" src="../../images/8_3.png" title="body image" /></p>
+<h2 id="9chef"><strong>9、使用菜谱来自动化安装企业<code>Chef</code>服务器</strong></h2>
+<p>假设你有足够的系统资源在本地安装企业<code>Chef</code>服务器以及配置一个测试试节点，创建一个<code>enterprise-chef</code>(chef-workstation)菜谱来安装企业<code>Chef</code>服务器。</p>
+<p>为了和托管企业Chef保持一致，创建<code>chef-repo/cookbooks</code>目录并在目录中创建<code>enterprise</code>菜谱。顶级的<code>chef-repo</code>目录可以存放管理企业<code>Chef</code>所需要的除菜谱以外的其他文件。因为你会使用若干个菜谱，所以这里建议将<code>enterprise</code>菜谱存放在<code>chef-repo/cookbooks</code>子目录内。 创建<code>chef-repo/cookbooks</code>目录并将它作为当前工作目录。 </p>
+<p><strong>Linux/Mac OS X:</strong></p>
+<pre><code>$ mkdir -p chef-repo/cookbooks
+$ cd chef-repo/cookbooks
+</code></pre>
+<p>然后通过<code>chef generate cookbook</code>或<code>knife cookbook</code> 菜谱（取决于你使用<code>Chef</code>开发包还是Chef客户端）。 </p>
+<p><strong>Chef Development Kit:</strong></p>
+<pre><code>$ chef generate cookbook enterprise-chef
+$ cd enterprise-chef
+</code></pre>
+<p><strong>Chef Client:</strong></p>
+<pre><code>$ knife cookbook create enterprise-chef --cookbook-path .
+$ cd enterprise-chef
+$ kitchen init --create-gemfile
+$ bundle install
+</code></pre>
+<p><strong><code>enterprise-chef/kitchen.yml</code></strong></p>
+<pre><code>---
+driver:
+  name: vagrant
+  provider: vmware_desktop
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: centos65
+    driver:
+      box: learningchef/centos65
+      box_url: learningchef/centos65
+      network:
+      - [&quot;private_network&quot;, {ip: &quot;192.168.33.34&quot;}]
+      customize:
+        memory: 1536
+
+suites:
+  - name: default
+    run_list:
+      - recipe[enterprise-chef::default]
+    attributes:
+</code></pre>
+<p>Chef Development Kit:</p>
+<pre><code>$ chef generate attribute default
+</code></pre>
+<p>Chef Client:</p>
+<pre><code>$ touch attributes/default.rb
+</code></pre>
+<p><strong><code>attributes/default.rb</code></strong></p>
+<p>old:</p>
+<pre><code>default['enterprise-chef']['url'] = \
+'https://s3.amazonaws.com/opscode-private-chef/el/6/x86_64/'\
+'private-chef-11.1.8-1.el6.x86_64.rpm'
+</code></pre>
+<p>new chef-server-core:</p>
+<pre><code>default['enterprise-chef']['url'] = 'https://packages.chef.io/files/stable/chef-server/13.1.13/el/6/chef-server-core-13.1.13-1.el6.x86_64.rpm'
+</code></pre>
+<p>new chef Management Console:</p>
+<p><a href="https://downloads.chef.io/manage">https://downloads.chef.io/manage</a></p>
+<pre><code>default['enterprise-chef']['url'] = 'https://packages.chef.io/files/stable/chef-manage/2.5.16/el/6/chef-manage-2.5.16-1.el6.x86_64.rpm'
+</code></pre>
+<p><strong>finall version</strong></p>
+<pre><code>default['enterprise-chef']['url'] = 'https://packages.chef.io/files/stable/chef-manage/2.5.16/el/6/chef-manage-2.5.16-1.el6.x86_64.rpm
+</code></pre>
+<p><strong><code>/enterprise-chef/recipes/default.rb</code></strong></p>
+<pre><code>#
+# Cookbook:: enterprise-chef
+# Recipe:: default
+#
+# Copyright:: 2019, The Authors, All Rights Reserved.
+
+package_url = node['enterprise-chef']['url']
+package_name = ::File.basename(package_url)
+package_local_path = &quot;#{Chef::Config[:file_cache_path]}/#{package_name}&quot;
+
+# omnibus_package is remote (i.e., a URL) let's download it
+remote_file package_local_path do
+  source package_url
+end
+
+package package_local_path
+
+# reconfigure the installation
+# execute 'private-chef-ctl reconfigure'
+execute 'chef-server-ctl reconfigure --chef-license=accept'
+# &quot;--chef-license=accept&quot;
+# STDOUT: Chef Infra Server cannot execute without accepting the license
+</code></pre>
+<p>如果不想在菜谱中总是使用<code>node['enterprise-chef']['url'］</code>这样长的变量，可以将其 存储在一个短的本地变量中，比如：</p>
+<pre><code>package_url = node['enterprise-chef']['url']
+</code></pre>
+<p>记住，在<code>Chef</code>配方单中，你可以使用Ruby编程语言提供的任何功能。<strong>例如，可以使用<code>::File.basename(）</code> 方法来从下载<code>URL</code>中提取安装包的名字。</strong>  </p>
+<p>在这个例子中，安装包的名字是URL中最后一个斜杠后的组件：<code>'private-chef-11.1.8-1.el6.x86_64.rpm</code> 如果想进一步了解<code>Ruby</code>的<code>::File</code>类，可以访问<code>Ruby</code>核心<code>API</code>文档</p>
+<pre><code>package_name = ::File.basename(package_url)
+</code></pre>
+<p>不幸的是，我们熟悉的<code>package</code>资源并不接受通过指定远程<code>URL</code>来安装程序包，所以这里要介绍一个新的资源:<code>remote_file</code>资源。</p>
+<p><strong><code>remote_file</code>资源提供从远程下载文件的功能我们在此要通过<code>remote_file</code>资源从远程<code>URL</code> 下载安装包，并用<code>package</code>资源安装本地的安装包。</strong></p>
+<p>我们需要先将安装包下载到一个临时位置。与其使用固定的临时下载位置 (如<code>"/tmp"</code>)，不如用<code>Chef</code>提供的一个你可以使用的变量：<code>Chef::Config[:file_cache_path]</code>。通过这个变量，<code>Chef</code>绝对定最佳的临时存储位置。将所要的临时存储位置作为参数传递给<code>remote_file</code>，并将远程<code>URL</code>作为<code>source</code>属性传递 </p>
+<p>在执行<code>chef-server-ctl reconfigure</code>前，我们需要介绍另一个新的资源：<code>execute</code>资 源。有时，无法找到一个现有的资源满足自己需求时，你可以使用<code>execute</code>资源来执行任意命令。你只需要将想执行的命令字符串传递至<code>execute</code>资源。 </p>
+<pre><code>$ kitchen list
+Instance          Driver   Provisioner  Verifier  Transport  Last Action    Last Error
+default-centos65  Vagrant  ChefSolo     Busser    Ssh        &lt;Not Created&gt;  &lt;None&gt;
+
+$ kitchen converge default-centos65
+
+$ kitchen list
+Instance          Driver   Provisioner  Verifier  Transport  Last Action  Last Error
+default-centos65  Vagrant  ChefZero     Busser    Ssh        Converged    &lt;None&gt;
+
+$  kitchen login default-centos65
+Last login: Sun Dec  1 09:07:26 2019 from 172.16.72.2
+Welcome to your Packer-built virtual machine.
+
+$ rpm -q chef-server-core
+chef-server-core-13.1.13-1.el6.x86_64
+
+[vagrant@default-centos65 ~]$ exit
+logout
+Connection to 127.0.0.1 closed.
+</code></pre>
+<h2 id="10idempotence"><strong>10、幂等性简介(Idempotence)</strong></h2>
+<p>虽然我们写的配方单作为第一个版本一可以达成我们的目的，但它并不幂等。</p>
+<p>幂等的<code>Chef</code>代码意味着你可以重复运行无数次而结果完全一样，并不会因为运行多次而产生不同的效果。几乎所有默一认的<code>Chef</code>资源都保证幂等性，唯一的例外是<code>execute</code>资源。 </p>
+<p><code>execute</code>资源一般并不幂等，因为大多数命令行工具假设操作它的人了解系统的现状。 比如，假设<code>/learningchef/files1.txt</code>文件存在，以下<code>mv</code>命令在第一次运行时有效，但在第二次运行时会失败： </p>
+<pre><code>$ mv /learningchef/file1.txt /file1.txt
+</code></pre>
+<p>测试<code>Chef</code>配方单是否幂等的一个好方法是运行<code>kitchen converge</code>两次。一次运行没有产生任何动作时，运行的结果应该显示<code>0</code>个资源被更新。 </p>
+<p><strong>Does our recipe pass the idempotency test? Sadly, no. Here’s a sampling of the output from an initial kitchen converge:</strong></p>
+<pre><code>$ kitchen converge default-centos65
+...
+ Installing Cookbook Gems:
+       Compiling Cookbooks...
+       Converging 3 resources
+       Recipe: enterprise-chef::default
+         * remote_file[/tmp/kitchen/cache/chef-server-core-13.1.13-1.el6.x86_64.rpm] action create (up to date)
+         * yum_package[/tmp/kitchen/cache/chef-server-core-13.1.13-1.el6.x86_64.rpm] action install (up to date)
+         * execute[chef-server-ctl reconfigure --chef-license=accept] action run
+           - execute chef-server-ctl reconfigure --chef-license=accept
+
+       Running handlers:
+       Running handlers complete
+       Chef Infra Client finished, 1/3 resources updated in 04 minutes 51 seconds
+       Downloading files from &lt;default-centos65&gt;
+       Finished converging &lt;default-centos65&gt; (5m4.35s).
+</code></pre>
+<p>以下是第二次运行的输出<code>Chef</code>认为它仍然需要吏新资源<code>3</code>个资源中的<code>2</code>个在第二次运行时被更新。如果配方<strong>幂等</strong>，<strong>我们应该看到<code>0</code>个资源被更新<code>Chef</code>应该检查系统状态确定没有需要更新的资源</strong>； </p>
+<pre><code>$ kitchen converge
+...
+ Converging 3 resources
+       Recipe: enterprise-chef::default
+         * remote_file[/tmp/kitchen/cache/chef-server-core-13.1.13-1.el6.x86_64.rpm] action create (up to date)
+         * yum_package[/tmp/kitchen/cache/chef-server-core-13.1.13-1.el6.x86_64.rpm] action install (up to date)
+         * execute[chef-server-ctl reconfigure --chef-license=accept] action run
+           - execute chef-server-ctl reconfigure --chef-license=accept
+
+       Running handlers:
+       Running handlers complete
+       Chef Infra Client finished, 1/3 resources updated in 53 seconds
+       Downloading files from &lt;default-centos65&gt;
+       Finished converging &lt;default-centos65&gt; (1m7.63s).
+-----&gt; Kitchen is finished. (1m8.27s)
+
+</code></pre>
+<p><strong>像前面提及的一样, 大多数默认<code>Chef</code>资源是具备幂等性。注意<code>remote_file</code>。资源是幂等的。从输出可以看到它汇报了（up to date)。 <code>package</code>资源通常也是幂等的</strong>.</p>
+<p>在本例中．我们故意创造了一些清境使其在<code>RedHat</code>系列系统中出现一些幂等性问题，后面将展示如何解决。 </p>
+<p>在第二次通过<code>kitchen converge</code>执行<code>Chef</code>运行，我们发现一些<code>package</code>和<code>execute</code>资源的幂等性问题。 </p>
+<ol>
+<li>重新安装<code>rpm</code>安装包，可有可无。 </li>
+<li>再次执行<code>chef-server一ctl reconfigure</code>命令。 </li>
+</ol>
+<p>让我们解决这些代码中的幂等性问题，最后版本的完全幂等的<code>Chef</code>代码</p>
+<h4 id="chefrpm_1">第一个重复安装的问题是<code>Chef</code>开发者使用从一个远程下载到本地的<code>rpm</code>安装包时常见的问题。</h4>
+<p><strong>与其只是将一个远程下载的<code>rpm</code>传递给<code>package</code>资源，还不如通过<code>provider</code>属性告诉 <code>package</code>资源使用<code>Chef::Provider::Package::Rpm</code>提供者。同时需要制定安装包名字字符串和通过<code>source</code>属性指定本地的安装包地址</strong>： </p>
+<pre><code>package package_name do
+  source package_local_path
+  provider Chef::Provider::Package::Rpm
+end
+</code></pre>
+<p><strong>可以使用<code>rpm_package</code>对<code>package</code>资源指定 <code>Chef::Provider::Package::Rpm</code>提供者提供者</strong>。</p>
+<p>以下代码等同于以上</p>
+<pre><code>rpm_package package_name do
+  source package_local_path
+end
+</code></pre>
+<h4 id="executechefexecute_1">解决第二个<code>execute</code>资源该复执行命令的问题相对复杂一些。可以使用<code>Chef</code>内建的资源完成任务时就不要使用<code>execute</code>资源，因为你需要负责控制幂等性。</h4>
+<p><strong>解决这个问题的一个方法是使用<code>not_if</code>来保护<code>execute</code>资源。这样在<code>not_if</code>中指定的测试会先执行，如果测试成功，证明系统已经在理想状态下，则不需要做任何事情</strong>。</p>
+<p>在本例中，我们可以使用这种方法测试<code>chef-server</code>安装包是否已经安装。如下所示，我们在<code>execute</code>资源中添加<code>not_if</code>语句。<code>not_if</code>会测试其中的命令的退出代码是否0, 如果是<code>execute</code>资源就不做任何事情 </p>
+<pre><code>execute &quot;chef-server-ctl reconfigure&quot; do
+  not_if &quot;rpm -q chef-server&quot;
+end
+</code></pre>
+<p>虽然可以这样解决幂等性问题，但并不是特别理想。你需要找到合适的方法来判定<code>Chef</code>服务器是否已经成功安装，而我们例子中的方法并不是那么可靠。另外一种解决这有问题的方法是只有在前面所做的<code>package</code>资源安装执行的时候才使用<code>execute</code>资源执行若令否则不执行<code>execute</code>资源。可以通过<code>notifies</code>语句来通知执行其他资源。 </p>
+<p><strong>要想使用<code>notifies</code>，我们需要对为此，<code>execute</code>资源语句做一些改变</strong>。</p>
+<p><strong>首先，需要使其在独立处理时不做任何事情，我们可以添加<code>action :nothing</code>属胜</strong>。</p>
+<p>然后，我们需要将其运行命令移到<code>command</code>属性中，从而在其他资源中通过更短的名字来通知此资源。默认情况下，被传人<code>execute</code>资源的<code>name</code>属性被作为<code>command</code>属胜使用。</p>
+<p>当我们想用一行代码来运行一个命令时，这样做很好，但想在其他资源中通知这个资源时则不是最理想的方法，因为你需要在其他资源中指定整个命令。现在我对<code>execute</code>资源做出以下改变： </p>
+<pre><code># reconfigure the installation
+execute 'reconfigure-chef-server' do
+  command 'chef-server-ctl reconfigure'
+  action :nothing
+end
+</code></pre>
+<p>然后在<code>package</code>资源中添加<code>notifies</code>属性，如下所示。</p>
+<ul>
+<li><code>notifies</code>属性接受三个参数<strong>动作、要通知的资源的名字和执行动作的时间</strong>。</li>
+</ul>
+<p><strong>如以下代码所，我们想通知<code>execute[reconfigure-chef-server]</code>资源执行<code>:run</code>动作，并立即执行。</strong></p>
+<pre><code>#
+# Cookbook:: enterprise-chef
+# Recipe:: default
+#
+# Copyright:: 2019, The Authors, All Rights Reserved.
+
+package_url = node['enterprise-chef']['url']
+package_name = ::File.basename(package_url)
+package_local_path = &quot;#{Chef::Config[:file_cache_path]}/#{package_name}&quot;
+
+# omnibus_package is remote (i.e., a URL) let's download it
+# 从一个远程位置（比如网站）传输一个文件 remote_file
+remote_file package_local_path do
+  source package_url
+end
+
+# 用操作系统提供的程序安装管理器安装一个程序包
+package package_name do
+  source package_local_path
+  provider Chef::Provider::Package::Rpm
+  notifies :run, 'execute[reconfigure-chef-server]', :immediately
+# notifies :before, :delayed, :immediate, :immediately
+end
+
+# reconfigure the installation
+# execute actions: &quot;:nothing&quot; and &quot;:run&quot;
+execute 'reconfigure-chef-server' do
+  command 'private-chef-ctl reconfigure'
+  action :nothing
+end
+</code></pre>
+<p><strong>使用这个版本的代码再次运行<code>kitchen converge</code>.井在输出中注意它汇报的是<code>0</code>个资源被更新</strong>：</p>
+<pre><code>$ kitchen converge
+ Compiling Cookbooks...
+       Converging 3 resources
+       Recipe: enterprise-chef::default
+         * remote_file[/tmp/kitchen/cache/chef-server-core-13.1.13-1.el6.x86_64.rpm] action create (up to date)
+         * yum_package[chef-server-core-13.1.13-1.el6.x86_64.rpm] action install (up to date)
+         * execute[reconfigure-chef-server] action nothing (skipped due to action :nothing)
+
+       Running handlers:
+       Running handlers complete
+       Chef Infra Client finished, 0/3 resources updated in 04 seconds
+       Downloading files from &lt;default-centos65&gt;
+       Finished converging &lt;default-centos65&gt; (0m18.04s).
+</code></pre>
+<p>这是我们期待的结果，<code>Chef</code>没有执行任何资源对系统作出任何改变： </p>
+<p>在日常工作中，在部署到生产环境之前，始终要检查配方单是否幂等。在本例中，如果我们将第一个版本的配方单部署到生产环境，一般来讲在生产环境中的节点上<code>Chef-client</code>会定期运行（比如每15分钟），所有在运行清单中拥有此配方单的节点将每15分钟重新安装一次<code>Chef</code>服务器！ </p>
+<h2 id="11chef"><strong>11、配置企业Chef服务器</strong></h2>
+<p>如果成功安装<code>Chef</code>服务器，就可以在浏览器中使用你在<code>kitehen.yml</code>中设定的<code>private network ip</code>地址访问服务器管理网页。</p>
+<p><img alt="Alt Image Text" src="../../images/8_4.png" title="body image" /></p>
+<p><a href="https://downloads.chef.io/manage">Chef Manage</a></p>
+<h3 id="11-1-chef-serverchef-manage"><strong>11-1 新的菜谱<code>chef-server</code>和<code>chef-manage</code></strong></h3>
+<p><strong><code>/enterprise-chef/attributes/default.rb</code></strong></p>
+<pre><code>default['chefserver']['url'] = 'https://packages.chef.io/files/stable/chef-server/13.1.13/el/6/chef-server-core-13.1.13-1.el6.x86_64.rpm'
+default['chefmanage']['url'] = 'https://packages.chef.io/files/stable/chef-manage/2.5.16/el/6/chef-manage-2.5.16-1.el6.x86_64.rpm'
+</code></pre>
+<p><strong><code>/enterprise-chef/recipes/manage.rb</code></strong></p>
+<pre><code>## Install chef manage
+
+package_url = node['chefmanage']['url']
+package_name = ::File.basename(package_url)
+package_local_path = &quot;#{Chef::Config[:file_cache_path]}/#{package_name}&quot;
+
+# omnibus_package is remote (i.e., a URL) let's download it
+# 从一个远程位置（比如网站）传输一个文件 remote_file
+remote_file package_local_path do
+  source package_url
+end
+
+# 用操作系统提供的程序安装管理器安装一个程序包
+package package_name do
+  source package_local_path
+  provider Chef::Provider::Package::Rpm
+  notifies :run, 'execute[reconfigure-chef-manage]', :immediately
+# notifies :before, :delayed, :immediate, :immediately
+end
+
+# reconfigure the installation
+# execute actions: &quot;:nothing&quot; and &quot;:run&quot;
+execute 'reconfigure-chef-manage' do
+  command 'chef-server-ctl install chef-manage'
+  command 'chef-manage-ctl reconfigure --accept-license'
+  # action :nothing
+  action :run
+end
+</code></pre>
+<p><strong><code>/enterprise-chef/recipes/default.rb</code></strong></p>
+<pre><code>## Install chef server and then install  chef manage
+
+package_url = node['chefserver']['url']
+package_name = ::File.basename(package_url)
+package_local_path = &quot;#{Chef::Config[:file_cache_path]}/#{package_name}&quot;
+
+# omnibus_package is remote (i.e., a URL) let's download it
+# 从一个远程位置（比如网站）传输一个文件 remote_file
+remote_file package_local_path do
+  source package_url
+end
+
+# 用操作系统提供的程序安装管理器安装一个程序包
+package package_name do
+  source package_local_path
+  provider Chef::Provider::Package::Rpm
+  notifies :run, 'execute[reconfigure-chef-server]', :immediately
+# notifies :before, :delayed, :immediate, :immediately
+end
+
+# reconfigure the installation
+# execute actions: &quot;:nothing&quot; and &quot;:run&quot;
+execute 'reconfigure-chef-server' do
+  # command 'chef-server-ctl install chef-manage'
+  command 'chef-server-ctl reconfigure --chef-license=accept'
+  # command 'chef-manage-ctl reconfigure'
+  # action :run
+  action :nothing
+end
+
+include_recipe 'enterprise-chef::manage'
+
+include_recipe 'enterprise-chef::adduser'
+include_recipe 'enterprise-chef::addorganization'
+</code></pre>
+<p>在我们的例子中，使用了<code>192.168.33.34</code>作为地址, 访问这个地址，在忽略关于<code>SSL</code>证书的警告之后，点击<code>Sign up</code>（注册）链接，如图提示你注册一个用户账户。填人相关信息，然后单击<code>Submit</code>（提交）按钮。</p>
+<p><img alt="Alt Image Text" src="../../images/8_5.png" title="body image" /></p>
+<p><img alt="Alt Image Text" src="../../images/8_6.png" title="body image" /></p>
+<p>我们在用户账户中使用的值，当然，你使用的值会完全不一样 点击<code>Submit</code>按钮企业<code>Chef</code>的网页<code>UI</code>会告诉你下一步将创建一个组织。单击<code>Create（创建）</code>链接创建一个组织.</p>
+<p>如图所示 组织代表公司或组织。<code>Chef</code>使用你指定的组织名称作为与<code>Chef</code>服务器验证组织身份的ID.图展示的是我们的设定中填写的组织信息。</p>
+<p><img alt="Alt Image Text" src="../../images/8_7.png" title="body image" /></p>
+<p><img alt="Alt Image Text" src="../../images/8_8.png" title="body image" /></p>
+<pre><code>chef generate recipe adduser
+</code></pre>
+<p><strong><code>/enterprise-chef/recipes/adduser.rb</code></strong></p>
+<pre><code>execute 'Add-chef-server-newuser' do
+    # command 'chef-server-ctl user-delete admin'
+    command 'sudo chef-server-ctl user-create admin John Smith john_smith@example.com password --filename=/etc/chef/admin.pem'
+    action :run
+    # action: nothing
+end
+</code></pre>
+<ul>
+<li>username: admin</li>
+<li>password: password</li>
+</ul>
+<p><strong><code>/enterprise-chef/recipes/addorganization.rb</code></strong></p>
+<pre><code>#
+# Cookbook:: enterprise-chef
+# Recipe:: adduser
+#
+# Copyright:: 2019, The Authors, All Rights Reserved.
+
+execute 'Add-chef-server-organization' do
+    # command 'chef-server-ctl org-delete ja'
+    command 'sudo chef-server-ctl org-create  ja &quot;Ja-Chef, Inc&quot; --association_user admin --filename=/etc/chef/ja-validator.pem'
+    # action :run
+    action :run
+end
+
+# Create organization
+# ja Ja-Chef, Inc
+# --association_user admin
+
+* username: ja
+* password: Ja-Chef
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/8_9.png" title="body image" /></p>
+<p>单击<code>Create Organization</code>（创建组织）按钮后，提示你保存两个文件：<strong>一个验证密钥和一 个<code>knife</code>配置文件</strong>，</p>
+<p><strong>创建组织</strong></p>
+<p><img alt="Alt Image Text" src="../../images/8_10.png" title="body image" /></p>
+<p><strong>选择组织</strong></p>
+<p><img alt="Alt Image Text" src="../../images/8_11.png" title="body image" /></p>
+<p><strong>下载秘钥(chef-repo)</strong></p>
+<p><img alt="Alt Image Text" src="../../images/8_12.png" title="body image" /></p>
+<p><code>kitchen login</code> to download <code>/tmp/ja-validator.pem</code></p>
+<pre><code>$ kitchen login
+Last login: Mon Dec  2 05:53:46 2019 from 172.16.72.2
+Welcome to your Packer-built virtual machine.
+[vagrant@default-centos65 ~]$ cd /tmp/
+[vagrant@default-centos65 tmp]$ ls -la
+total 72
+drwxrwxrwt.  8 root          root           4096 Dec  2 05:47 .
+dr-xr-xr-x. 22 root          root           4096 Dec  1 10:24 ..
+drwxrwxrwt   2 root          root           4096 Dec  1 10:24 .ICE-unix
+srwxrwxrwx   1 opscode-pgsql opscode-pgsql     0 Dec  2 05:31 .s.PGSQL.5432
+-rw-------   1 opscode-pgsql opscode-pgsql    63 Dec  2 05:31 .s.PGSQL.5432.lock
+-rw-r--r--   1 root          root           1678 Dec  2 05:47 admin.pem
+drwxr-xr-x   3 opscode       opscode        4096 Dec  1 11:29 bundler
+drwxr-xr-x   2 opscode       opscode        4096 Dec  1 11:31 hsperfdata_opscode
+-rw-r--r--   1 root          root          23248 Dec  1 10:25 install.sh
+-rw-r--r--   1 root          root           1678 Dec  2 05:47 ja-validator.pem
+drwxrwxr-x   7 vagrant       vagrant        4096 Dec  1 10:30 kitchen
+-rw-r--r--   1 root          root            368 Dec  1 10:25 stderr
+drwx------   2 root          root           4096 Dec  1 10:25 vmware-root
+drwx------   2 root          root           4096 Dec  1 10:25 vmware-root_1102-273056232
+</code></pre>
+<p>这三个文件都下载好后, 回到<code>chef-repo</code>目录将其作为当前目录， 然后创建一个<code>cehf-repo/.chef</code>子目录。 完成后, 你的<code>chef-repo</code>目录的结构如下所示</p>
+<pre><code>$ tree -a chef-repo/
+chef-repo/
+├── .chef
+│   ├── admin.pem
+│   ├── ja-validator.pem
+│   └── knife.rb
+├── .gitignore
+├── README.md
+├── cookbooks
+│   ├── chefignore
+│   └── starter
+│       ├── attributes
+│       │   └── default.rb
+│       ├── files
+│       │   └── default
+│       │       └── sample.txt
+│       ├── metadata.rb
+│       ├── recipes
+│       │   └── default.rb
+│       └── templates
+│           └── default
+│               └── sample.erb
+└── roles
+    └── starter.rb
+
+10 directories, 12 files
+
+</code></pre>
+<ul>
+<li><code>&lt;usernamee&gt;.pem</code>文件是用来向<code>Chef</code>服务器验证你用户身份的密钥。要把它视作密码井且 不要修改文件内容。 </li>
+<li><code>&lt;organization&gt;.pem</code>文件是用来向<code>Chef</code>服务器验证组织身份的密钥。也要把创见为密码，但要共享给组织内所有的<code>Chef</code>开发者。任何需要访问<code>Chef</code>的组织内邹人员都需要这个文件。不要更改文件内容。 </li>
+</ul>
+<h3 id="11-2-rsa"><strong>11-2 <code>RSA</code>钥匙对儿</strong></h3>
+<p><code>Chef</code>的<code>pem</code>文件包含注册过程中生成的<code>RSA</code>私钥。<code>Chef</code>为你的组织生成一个<code>RSA</code>钥匙对儿公钥存储在企业<code>Chef</code>在服务器上并在程序向<code>Chef</code>服务器发送诗求时用来验证组织的身份 </p>
+<p>不像<code>.pem</code>文件，<code>knife</code>文件可以更改或自定义。<code>knife.rb</code>文件是一个<code>Ruby</code>文件，执行命令时读取这个文件 </p>
+<pre><code>$ knife client list
+ERROR: SSL Validation failure connecting to host: default-centos65.vagrantup.com - SSL_connect returned=1 errno=0 state=error: certificate verify failed (self signed certificate)
+ERROR: Could not establish a secure connection to the server.
+Use `knife ssl check` to troubleshoot your SSL configuration.
+If your server uses a self-signed certificate, you can use
+`knife ssl fetch` to make knife trust the server's certificates.
+
+Original Exception: OpenSSL::SSL::SSLError: SSL Error connecting to https://default-centos
+</code></pre>
+<pre><code>current_dir = File.dirname(__FILE__)
+log_level                :info
+log_location             STDOUT
+node_name                &quot;admin&quot;
+client_key               &quot;#{current_dir}/admin.pem&quot;
+chef_server_url          &quot;https://default-centos65.vagrantup.com/organizations/ja&quot;
+cookbook_path            [&quot;#{current_dir}/../cookbooks&quot;]
+ssl_verify_mode          :verify_none 
+</code></pre>
+<p>我们例子中的<code>chef_server_url</code>使用了假的<code>DNS</code>主机名<code>default-centos65.vagrantup.com</code>因为这是<code>vagrant</code>设定的主机名。如果你试图访问<code>"https://default-centos65.vagrantup.com/organizations/ja"</code>,会发现它是无效的</p>
+<p><code>Chef</code>服务器需要机器拥有能够正确解析的完整域名（FQDN)。在生产环境中应该在安装<code>chef</code>服务器之前在域名(<code>DNS</code>)服务器中设定<code>Chef</code>的主机名。在我们的实验中为方便起见让我们把<code>default-centos65.vagrantup.com</code>加到机器的本地<code>host</code>数据库 </p>
+<p>运行以下命令向<code>host</code>数据添加内容。</p>
+<p><strong>Linux/Mac OS X:</strong></p>
+<pre><code>$ sudo sh -c &quot;echo '192.168.33.34 default-centos65.vagrantup.com' &gt;&gt; /etc/hosts&quot; 
+</code></pre>
+<p>现在, 如果你在浏览器中访问<code>https://default-centos65.vagrantup.com</code>, 主机会认为它是一个有效的地址 </p>
+<p>可以在<code>knife.rb</code>中添加其他设置，比如<code>EC2</code>的用户信息、代理信息、加密数据包设定等你和你组织内其他成员的<code>knife.rb</code>会有所不同，很多内容是针对用户和所用的开发机器的。除非将密码或访问密钥存储在<code>knife.rb</code>配置文件中，否则不需将其视为密码． </p>
+<h3 id="11-3"><strong>11-3 测试连接</strong></h3>
+<p>在<code>Chef</code>目录下运行以下命令。打开命令行程序并将<code>chef-repo</code>做为当前工作目录 </p>
+<pre><code>$ cd ~/chef-repo
+</code></pre>
+<p>现在， 你可以使用<code>knife</code> (<code>Chef</code>服务器的命令行工具）来测试你和<code>Chef</code>服务器的连接和 身份验证。</p>
+<p>在写作本书时，<code>Chef</code>尚未提供一个专门用来”测试连接“的命令。然而，通过询问<code>Chef</code>服务器来列举客户端，我们可以验证以下几点 </p>
+<ul>
+<li>网络可以连接到服务器。 </li>
+<li>验证文件都在正确的位置。 </li>
+<li><code>Chef</code>读卖取验证文件。 </li>
+<li>开发工作站可以收到来自<code>Chef</code>服务器的反馈。 </li>
+</ul>
+<p>在命令行程序中运行<code>knife client list</code>命令，你会见到以下输出： </p>
+<pre><code>$ knife client list
+ja-validator
+</code></pre>
+<p>如果你遇到错误，可以检查以下项目。</p>
+<ol>
+<li>确认你可以从网页浏览器访问命令  </li>
+<li>确认你在<code>chef-repo</code>目录内运行命令。 </li>
+<li>确认<code>.chef</code>目录包含两个<code>.pem</code>文件以及一个<code>knife.rb</code>文件。 </li>
+<li>确认你的身份验证文件拥有正确的文件权限（只有用户可读）。 </li>
+</ol>
+<p>如果确认以上都设定正确但仍然无法连接到<code>Chef</code>服务器，</p>
+<p>验证开发机器可以连接到<code>Chef</code>服务器之后，让我们创建另一个菜谱，使测试节点可注册并交由Chef服务器管理。 </p>
+<h2 id="12"><strong>12、准备一个新节点</strong></h2>
+<p><code>Chef</code>用"Bootstraping" 这个术语来指代将一个远程系统谁务好由<code>chef</code>来管理的过程。</p>
+<p>这个过程包括在节点上安装<code>Chef</code>客户端井将其与<code>Chef</code>服务器注册。在此， 我们<code>bootstrap</code>翻译为“准备”， 但由于在真实环掩和此准备过程通常是节点启动后的第一项任务， 所以<code>bootstrap</code>节点, 也经常可以理解为启动新的节点 </p>
+<h3 id="12-1"><strong>12-1 在沙盒环境中创建节点</strong></h3>
+<p>跟我们, 类似让我们使用<code>Test Kitchen</code>来定义一个项目在沙盒环境中创想一个节点</p>
+<p>在与先前创建的<code>chef server</code>目录平行的位界创建个<code>node</code>目录,这其实部署菜谱， 只是一个
+是<code>Test Kitchen</code>项目， 但将其位于<code>chef-Server</code>的平行位置有助于我们来回切换． </p>
+<p>创建<code>~/chef-repo/cookbooks/node</code>目录, 并将其作为当前工作目录 </p>
+<pre><code>$ cd ~/chef-repo/cookbooks
+$ mkdir node
+$ cd node
+</code></pre>
+<pre><code>$ knife client list
+ja-validator
+</code></pre>
+<p>这个<code>node</code>目录是一个<code>Test Kitchen</code>项目而不是菜谱因此，运行以下命令创建一个名为<code>kitchen.yml</code>的<code>Test Kitchen</code>文件 </p>
+<pre><code>$ kitchen init --create-gemfile
+      create  kitchen.yml
+      create  chefignore
+      create  test/integration/default
+      create  Gemfile
+      append  Gemfile
+You must run `bundle install' to fetch any new gems.
+
+
+$  bundle install
+Fetching gem metadata from https://rubygems.org/.........
+Fetching gem metadata from https://rubygems.org/.
+Resolving dependencies...
+Using bcrypt_pbkdf 1.0.1
+Using builder 3.2.3
+Using bundler 2.0.2
+..
+</code></pre>
+<p>编辑<code>kitchen.yml</code>文件以使用为本书准备的<code>CentOS 6.5</code>机器模板。 同时像我们在第7章中做过的一样，分配一个私有网络地址。我们的例子将使用<code>192.168.33.35</code>, 确保使用的地址和你的Chef服务器地址〔在我们的例子中为<code>192.168.33.34</code>)不相冲突 </p>
+<p>注意在<code>suites</code>下我们把这个实例命名为<code>node</code>因为这个沙盒环境将运行我们的侧试节点。我们还有另外一个沙盒环境运行着<code>Chef</code>服务器。指定完全不同的名字有助干区分不同的沙盒环境. </p>
+<p>同时我们为<code>chef-repo</code>录配置了同步所示，<code>Vagrant</code>可以将<code>Chef</code>开发机器上的目录与沙盒环境巾的虚拟机巾的目录进行同步。</p>
+<p><strong>以下<code>kitchen.yml</code>文件中的<code>synced_folders:</code>设置确保宿主机器上的<code>＿chef-repo＿目</code>录与虚拟机中的<code>/chef-repo</code>目录同步</strong></p>
+<pre><code>...
+      synced_folders:
+      - [&quot;../../../chef-repo&quot;, &quot;/chef-repo&quot;]
+...
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/8_13.png" title="body image" /></p>
+<p><strong>同步的<code>/chef-repo</code>目录将在后面第用于配置服务器的SSL验证</strong>。</p>
+<p><strong><code>chef-repo/cookbooks/node/kitchen.yml</code></strong></p>
+<pre><code>---
+driver:
+  name: vagrant
+  provider: vmware_desktop
+
+provisioner:
+  name: shell
+
+platforms:
+  - name: centos65
+    driver:
+      box: learningchef/centos65
+      box_url: learningchef/centos65
+      network:
+      - [&quot;private_network&quot;, {ip: &quot;192.168.33.35&quot;}]
+      synced_folders:
+      - [&quot;../../../chef-repo&quot;, &quot;/chef-repo&quot;]
+
+suites:
+  - name: node
+    attributes:
+</code></pre>
+<pre><code>$ kitchen create
+</code></pre>
+<h2 id="13knife"><strong>13、用Knife启动并准备节点</strong></h2>
+<p>我们配置了一个<code>Chef</code>服 器（或使用了托管企业Chef)，配置了<code>knife.rb</code>以及合适的密钥来从我们的宿主机器（开发机器）和<code>Chef</code>服务器通信。我们通过运行<code>knife client list</code>并得确的结果验证双方的通信 </p>
+<p><img alt="Alt Image Text" src="../../images/8_14.png" title="body image" /></p>
+<p>现在让我们像在生产环境中一样使用<code>knife bootstrap</code>创建一个节点<strong>（在生产环境中， 我们不会用到<code>Test Kitchen</code>!）</strong></p>
+<p>当我们在宿主机器上运行<code>knife bootstrap</code>时，它将在节点上安装<code>Chef</code>客户端并与Chef服务器注册。 </p>
+<p>节点必须在本地的域名（<code>DNS</code>)服务器中设有完整域名。在本例中，让我们将其添加到本地<code>host</code>数据库中，就像我们为<code>Chef</code>服务器做过的一样。 </p>
+<p>运行以下命令将节点的完整域名添加到本地host数据库文件中。例子中我们使用的IP地址是<code>192.168.33.35</code>，如果你为你的节点指定了不同的<code>IP</code>地址，请替换例子中的<code>IP</code>地址。 </p>
+<p><strong>Linux/Mac OS X:</strong></p>
+<pre><code>$ sudo sh -c &quot;echo '192.168.33.35 node-centos65.vagrantup.com' &gt;&gt; /etc/hosts&quot;
+</code></pre>
+<pre><code>$ kitchen login node-centos65
+Last login: Mon Dec  2 10:31:39 2019 from 172.16.72.2
+Welcome to your Packer-built virtual machine.
+[vagrant@node-centos65 ~]$ sudo sh -c &quot;echo \
+&gt; '192.168.33.34 default-centos65.vagrantup.com' &gt;&gt; /etc/hosts&quot;
+[vagrant@node-centos65 ~]$ exit
+logout
+Connection to 127.0.0.1 closed.
+</code></pre>
+<p><strong>option one： with key</strong></p>
+<pre><code>$ knife ssl fetch
+WARNING: Certificates from default-centos65.vagrantup.com will be fetched and placed in your trusted_cert
+         directory (/Users/.../chef-repo/.chef/trusted_certs).
+
+         Knife has no means to verify these are the correct certificates. You should
+         verify the authenticity of these certificates after downloading.
+Adding certificate for default-centos65_vagrantup_com in /Users/.../chef-repo/.chef/trusted_certs/default-centos65_vagrantup_com.crt
+
+
+[Jacob@...:~/chef-repo/cookbooks/node]$ knife bootstrap node-centos65.vagrantup.com --sudo --connection-user vagrant --connection-password vagrant 
+Connecting to node-centos65.vagrantup.com
+The authenticity of host 'node-centos65.vagrantup.com (192.168.33.35)' can't be established.
+fingerprint is SHA256:T+OIBihOOfMUp0PdKFROXsVGSQAHKkDCImI5Udx/x2I.
+
+Are you sure you want to continue connecting
+? (Y/N) y
+Connecting to node-centos65.vagrantup.com
+Performing legacy client registration with the validation key at /Users/.../chef-repo/.chef/ja-validator.pem...
+                                                                                                            Delete your validation key in order to use your user credentials for client registration instead.
+Bootstrapping node-centos65.vagrantup.com
+ [node-centos65.vagrantup.com] -----&gt; Existing Chef Infra Client installation detected
+ [node-centos65.vagrantup.com] Starting the first Chef Infra Client Client run...
+ [node-centos65.vagrantup.com] Starting Chef Infra Client, version 15.5.17
+ [node-centos65.vagrantup.com] 
+ [node-centos65.vagrantup.com] resolving cookbooks for run list: []
+ [node-centos65.vagrantup.com] 
+ [node-centos65.vagrantup.com] Synchronizing Cookbooks:
+ [node-centos65.vagrantup.com] 
+ [node-centos65.vagrantup.com] Installing Cookbook Gems:
+ [node-centos65.vagrantup.com] 
+ [node-centos65.vagrantup.com] Compiling Cookbooks...
+ [node-centos65.vagrantup.com] 
+[2019-12-02T11:28:53+00:00] WARN: Node node-centos65.vagrantup.com has an empty run list.
+ [node-centos65.vagrantup.com] Converging 0 resources
+ [node-centos65.vagrantup.com] 
+ [node-centos65.vagrantup.com] 
+ [node-centos65.vagrantup.com] 
+ [node-centos65.vagrantup.com] Running handlers:
+ [node-centos65.vagrantup.com] 
+ [node-centos65.vagrantup.com] Running handlers complete
+
+ [node-centos65.vagrantup.com] Chef Infra Client finished, 0/0 resources updated in 03 seconds
+ [node-centos65.vagrantup.com]
+</code></pre>
+<h3 id="option-two-without-key"><strong>option two： without key</strong></h3>
+<pre><code>$ knife bootstrap node-centos65.vagrantup.com --sudo --connection-user vagrant --connection-password vagrant --node-ssl-verify-mode none --no-host-key-verify
+</code></pre>
+<ul>
+<li><code>--[no-]host-key-verify</code>
+Use <code>--no-host-key-verify</code> to disable host key verification. Default setting: <code>--host-key-verify</code>.</li>
+<li><code>--node-ssl-verify-mode MODE</code></li>
+</ul>
+<p>你司以从输出中看到它成功安装了<code>Chef</code>客户端，并且执行了一次Chef运行． </p>
+<p>要验证新的节点已在<code>Chef</code>服务器中注册登录到<code>Chef</code>服务器的网页界面并单击<code>Node</code>标签,现在应该看到<code>Chef</code>服务器有一个注册的节点</p>
+<pre><code>$ knife ssl fetch
+WARNING: Certificates from default-centos65.vagrantup.com will be fetched and placed in your trusted_cert
+         directory (/Users/.../chef-repo/.chef/trusted_certs).
+
+         Knife has no means to verify these are the correct certificates. You should
+         verify the authenticity of these certificates after downloading.
+Adding certificate for default-centos65_vagrantup_com in /Users/.../chef-repo/.chef/trusted_certs/default-centos65_vagrantup_com.crt
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/8_15.png" title="body image" /></p>
+<p><img alt="Alt Image Text" src="../../images/8_16.png" title="body image" /></p>
+<h3 id="vagrant-haltvagrantfile">可以用<code>vagrant halt</code>（Vagrantfile路径内）去停掉这些虚拟机</h3>
+<h2 id="14chef-solochef"><strong>14、用Chef Solo配置Chef服务器</strong></h2>
+<p>你可以使用<code>Chef Solo</code>（而无需<code>Test Kitchen</code>）来自动化部署Chef服务器。</p>
+<p>在未来，大多数<code>Chef Solo</code>的功能会被迁移到<code>Chef Local</code>或<code>Chef Zero</code>,然而<code>Chef Solo</code>仍然对自动化配置和部署<code>Chef</code>服务器本身非常有用，因为<code>Chef Local</code>或<code>Chef Zero</code>会令一些配置脚本无法辨识发送请求道哪个<code>Chef</code>服务器 (<code>Chef Local/Zero</code>还是正在配置的<code>Chef</code>服务器），<strong>因为<code>Chef Zero</code>自己也会启动一个驻内存的Chef服务器</strong>。 </p>
+<p>以下是通过<code>Chef Solo</code>来配置<code>Chef</code>服务器的步骤概览。 </p>
+<ol>
+<li>安装<code>Chef</code>客户端（包含<code>chef-solo</code>)。 </li>
+<li>创建<code>/var/chef/cache</code>和<code>var/chef/cookbooks</code>目录。</li>
+<li>前者是<code>chef-solo</code>存储状态信息的默认路径，后者是其存储菜谱的默认路径。 </li>
+<li>复制所需菜谱到该机器的以上菜谱路径。 </li>
+<li>运行<code>chef-solo</code></li>
+</ol>
+<pre><code>$ chef-solo -h
+Usage: /opt/chefdk/bin/chef-solo (options)
+        --chef-license ACCEPTANCE    Accept the license for this product and any contained products ('accept', 'accept-no-persist', or 'accept-silent')
+    -S, --server CHEFSERVERURL       The Chef Infra Server URL.
+        --chef-zero-host HOST        Host to start Chef Infra Zero on.
+        --chef-zero-port PORT        Port (or port range) to start Chef Infra Zero on. Port ranges like 1000,1010 or 8889-9999 will try all given ports until one works.
+    -f, --[no-]fork                  Fork Chef Infra Client process.
+    -k, --client_key KEY_FILE        Set the client key file location.
+        --[no-]color                 Use colored output, defaults to enabled.
+    -c, --config CONFIG              The configuration file to use.
+        --config-option OPTION=VALUE Override a single configuration option.
+    -d, --daemonize                  Daemonize the process.
+        --delete-entire-chef-repo    DANGEROUS: does what it says, only useful with --recipe-url.
+        --disable-config             Refuse to load a config file and use defaults. This is for development and not a stable API.
+    -R, --enable-reporting           (chef-client only) reporting data 
+...
+</code></pre>
+<pre><code># create required directories
+$ sudo mkdir -p /var/chef/cache /var/chef/cookbooks
+# copy your cookbook code to create a Chef Server - Chef Software
+# provides a cookbook for open source Chef Server
+$ sudo mkdir /var/chef/cookbooks/chef-server
+
+$ wget -qO- https://github.com/opscode-cookbooks/chef-server/archive/master.tar.gz | sudo tar xvzC /var/chef/cookbooks/chef-server --strip-components=1
+x .delivery/
+x .delivery/project.toml
+x .github/
+x .github/CODEOWNERS
+x .github/ISSUE_TEMPLATE.md
+x .github/PULL_REQUEST_TEMPLATE.md
+x .gitignore
+x .travis.yml
+x Berksfile
+x CHANGELOG.md
+x CONTRIBUTING.md
+x Gemfile
+x LICENSE
+x README.md
+x TESTING.md
+x attributes/
+x attributes/default.rb
+x chefignore
+x kitchen.dokken.yml
+x kitchen.yml
+x libraries/
+x libraries/helpers.rb
+x metadata.rb
+x recipes/
+x recipes/addons.rb
+x recipes/default.rb
+x spec/
+x spec/addons_spec.rb
+x spec/default_spec.rb
+x spec/spec_helper.rb
+x test/
+x test/fixtures/
+x test/fixtures/cookbooks/
+x test/fixtures/cookbooks/test/
+x test/fixtures/cookbooks/test/metadata.rb
+x test/fixtures/cookbooks/test/recipes/
+x test/fixtures/cookbooks/test/recipes/add-ons-no-fqdn.rb
+x test/fixtures/cookbooks/test/recipes/default.rb
+x test/fixtures/cookbooks/test/recipes/no-fqdn.rb
+x test/fixtures/cookbooks/test/recipes/post-install.rb
+x test/integration/
+x test/integration/add-ons-no-fqdn/
+x test/integration/add-ons-no-fqdn/default_spec.rb
+x test/integration/default/
+x test/integration/default/default_spec.rb
+x test/integration/no-fqdn/
+x test/integration/no-fqdn/default_spec.rb
+
+# Run chef-solo to bootstrap Chef Server
+$ cd /var/chef/cookbooks/
+$ $ tree chef-server/
+chef-server/
+├── Berksfile
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── Gemfile
+├── LICENSE
+├── README.md
+├── TESTING.md
+├── attributes
+│   └── default.rb
+├── chefignore
+├── kitchen.dokken.yml
+├── kitchen.yml
+├── libraries
+│   └── helpers.rb
+├── metadata.rb
+├── recipes
+│   ├── addons.rb
+│   └── default.rb
+├── spec
+│   ├── addons_spec.rb
+│   ├── default_spec.rb
+│   └── spec_helper.rb
+└── test
+    ├── fixtures
+    │   └── cookbooks
+    │       └── test
+    │           ├── metadata.rb
+    │           └── recipes
+    │               ├── add-ons-no-fqdn.rb
+    │               ├── default.rb
+    │               ├── no-fqdn.rb
+    │               └── post-install.rb
+    └── integration
+        ├── add-ons-no-fqdn
+        │   └── default_spec.rb
+        ├── default
+        │   └── default_spec.rb
+        └── no-fqdn
+            └── default_spec.rb
+
+13 directories, 26 files
+
+
+# Run chef-solo to bootstrap Chef Server
+$ sudo chef-solo -o 'recipe[chef-server::default]'
+</code></pre>
+<p>几乎所有的Chef资源都保证幂等性，唯一的例外是<code>execute</code>资源。我们展示了如何通泛连续执行两次<code>Chef</code>来测试<code>Chef</code>代码的幂等性，在第二次运行时，幂等的Chef代码是显示没有资源更新。</p>
+<h2 id="15"><strong>15、本节小结</strong></h2>
+<pre><code>$ chef generate recipe adduser
+$ knife client list
+$ knife ssl fetch
+$ knife bootstrap node-centos65.vagrantup.com --sudo --connection-user vagrant --connection-password vagrant --node-ssl-verify-mode none --no-host-key-verify
+$ chef-solo -h
+</code></pre>
+<p><strong>Chef Development Kit:</strong></p>
+<pre><code>$ chef generate cookbook enterprise-chef
+$ cd enterprise-chef
+</code></pre>
+<p><strong>Chef Client:</strong></p>
+<pre><code>$ knife cookbook create enterprise-chef --cookbook-path .
+$ cd enterprise-chef
+$ kitchen init --create-gemfile
+$ bundle install
+</code></pre>
+<p>Chef Development Kit:</p>
+<pre><code>$ chef generate attribute default
+</code></pre>
+<p>Chef Client:</p>
+<pre><code>$ touch attributes/default.rb
+</code></pre>
+<pre><code>$ kitchen converge default-centos65
+
+$ kitchen list
+
+$ kitchen login default-centos65
+
+$ chef generate recipe adduser
+
+$ knife client list
+</code></pre>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.78eede0e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2739 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's Chef&Ansible Automation 技术与实战教程">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../chef_tutorial9/">
+      
+      
+        <link rel="next" href="../chef_tutorial11_databag/">
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.5">
+    
+    
+      
+        <title>第十节 Chef zero - Jacob Chef&Ansible Automation Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0e669242.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chef-zero" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-header__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob Chef&Ansible Automation Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第十节 Chef zero
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-nav__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob Chef&Ansible Automation Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Chef
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Chef
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef 介绍和安装
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Ruby和Chef语法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 如何写 Chef 配方 & chef-apply
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 用Test Kitchen管理沙盒测试环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 用 Chef 户端管理节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 撰写和使用菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial7_attributes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第七节 Chef 属性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第八节 Chef 服务器同时管理多个节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第九节 社区以及Chef-Client菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    第十节 Chef zero
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    第十节 Chef zero
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1、搜索
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2test-kitchen-and-chef-zero" class="md-nav__link">
+    2、Test Kitchen and Chef Zero
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3chef-playground-chef-zero" class="md-nav__link">
+    3、用Chef-Playground 在宿主机器上运行Chef-Zero
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4、搜索
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5knife" class="md-nav__link">
+    5、用Knife从命令行搜索
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6test-kitchen" class="md-nav__link">
+    6、使用Test Kitchen从配方单中搜索
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    7、本节小结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial11_databag/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十一节 数概包Databag
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十二节 角色
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial13_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十三节 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial14_test/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十四节 测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial15_term/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十五节 词汇表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_tutorial16_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十六节 Chef Tutorial Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Opt & Adv
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Opt & Adv
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef Roles
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Cookbook Versioning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 How to Perform Chef Knife SSL Check and Fetch to Verify Certificate
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 12 Chef Knife Cookbook Command Examples
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_op1_kinfe_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 knife search
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 Chef Quick CheatSheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Cookbook Sample LAMP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Cookbook Sample LAMP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Creating My First Chef Cookbook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Creating LAMP Chef Cookbook Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Ansible
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Ansible
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/1ansible_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L1 Ansible Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/2ansible_over_install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L2 Ansible Install(MacOs) and Environment Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/3play_task/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L3 Task Execution management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/4Ansible_variables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L4 Ansible Variable Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/5Complex_roles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L5 Managing complex playbooks with roles and ansible galaxy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/6Secret_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L6 Working with Secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/7Network_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L7 Network Management with Ansible
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/8idempotentence/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L8 Idempotentence with Ansible play
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/9Ansible_interview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L9 Ansible Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/10Ansible_learn_ppt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L10 Ansible 自动化运维工具PPT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/11Ansible_task1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L11 任务中心之Ansible基础篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/12Ansible_task2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L12 任务中心之Ansible进阶篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/13Ansible_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L13 Ansible 面试知识点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/14Ansible_containerd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L14 Ansible Role批量部署Containerd服务
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            HashiCorp Certified Terraform Associate
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/1hashicorp_certified_terraform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate Learning Path
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/2terraform_cs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Cheat Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/3terraform_lock/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    .terraform.lock.hcl 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/4terraform_var/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    terraform.tfvars 与 variables.tf 的区别
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/5terraform_random/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform: Random 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/6terraform_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Top Terraform Interview Questions and Answers (2022)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/7terraform_provider/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform provider update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/8terraform_docker_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform install Jenkins in Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/9terraform_local/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    解决Terraform初始化慢~配置本地离线源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/10terraform_adv/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform(Troubleshooting/Data Sources/Existing Resource)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/11tf_adv_exam/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Exam(Backend/Command/Script/Others)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/12terraform_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12 Adding Terraform to a CI/CD Pipeline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/13terraform_cmt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Integrating with Configuration Managers(Anisble)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Puppet Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Puppet Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/1pp_overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Puppet - Overview & Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/2pp_install_config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2 Puppet - 安装, 配置以及验证
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/3pp_coding_style/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3 Puppet - 编码风格
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/4pp_key_comps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4 Puppet - 核心模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/5pp_resource/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5 Puppet - 资源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/6pp_tmp_cls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6 Puppet - 模板 & 类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/7pp_func/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7 Puppet - Function
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/8pp_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8 Puppet - 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/9app_type_pr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9 Puppet - 类型和提供者
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/10pp_api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10 Puppet - RESTful API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/11pp_proj1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11 Puppet - Live Project 1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ArgoCD Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            ArgoCD Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_argocd/1Intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Introduction to Continuous Delivery
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1、搜索
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2test-kitchen-and-chef-zero" class="md-nav__link">
+    2、Test Kitchen and Chef Zero
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3chef-playground-chef-zero" class="md-nav__link">
+    3、用Chef-Playground 在宿主机器上运行Chef-Zero
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4、搜索
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5knife" class="md-nav__link">
+    5、用Knife从命令行搜索
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6test-kitchen" class="md-nav__link">
+    6、使用Test Kitchen从配方单中搜索
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    7、本节小结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="chef-zero"><strong>第十节 Chef zero</strong></h1>
+<ul>
+<li>Test Kitchen and Chef Zero</li>
+<li>用<code>Chef-Playground</code> 在宿主机器上运行<code>Chef-Zero</code> </li>
+</ul>
+<h2 id="1"><strong>1、搜索</strong></h2>
+<ul>
+<li>用<code>Knife</code>从命令行搜索 </li>
+<li>使用<code>Test Kitchen</code>从配方单中搜索</li>
+</ul>
+<p>更少的内存启动一个Chef服务器作为测试用途岂不是很好。为此<code>Chef</code>开发包包含个精简版本的<code>Chef</code>服务器称作<code>chef-zero</code>.</p>
+<p><code>chef_zero</code>可以使用址少<code>20MB</code>内存来运行因为它很小所以启动很快因此很适合用 作测试。由于要让<code>Chef</code>服务器用极少的内存即可运行，<code>chef-zero</code>也作出了一些牺牲它没有网页用户界面也小会永久存储任何数据一旦<code>Chef Zero</code>停止运行, 所有数据都将丢失但对于测试环境你井不需要网页用户界面或永久数据保存。 </p>
+<p><code>Test-Kitchen</code>提供对<code>chef-zero</code>的内建支持。让我们用一个例子来展示如何通过<code>Test-Kitchen</code>来使用<code>chef-zero</code>。 通过使用<code>chef-zero</code>作为模拟的<code>chef</code>服务器来在沙盒环境中运行<code>chef-client</code>测试菜谱，你可以测试到菜谱中使用<code>Chef</code>服务器功能的部分</p>
+<h2 id="2test-kitchen-and-chef-zero"><strong>2、Test Kitchen and Chef Zero</strong></h2>
+<p><strong>Chef Development Kit:</strong></p>
+<pre><code>$ chef generate cookbook zero
+$ cd zero
+</code></pre>
+<p><strong>Chef Client:</strong></p>
+<pre><code>$ knife cookbook create zero --cookbook-path .
+$ cd zero
+$ kitchen init --create-gemfile
+$ bundle install
+</code></pre>
+<pre><code>$ chef generate cookbook zero
+Generating cookbook zero
+- Ensuring correct cookbook content
+- Committing cookbook files to git
+
+Your cookbook is ready. Type `cd zero` to enter it.
+
+There are several commands you can run to get started locally developing and testing your cookbook.
+Type `delivery local --help` to see a full list of local testing commands.
+
+Why not start by writing an InSpec test? Tests for the default recipe are stored at:
+
+test/integration/default/default_test.rb
+
+If you'd prefer to dive right in, the default recipe can be found at:
+
+recipes/default.rb
+</code></pre>
+<p><strong><code>chap10/zero/kitchen.yml</code></strong></p>
+<pre><code>---
+driver:
+  name: vagrant
+  provider: vmware_desktop
+
+provisioner:
+  name: chef_zero
+  always_update_cookbooks: true
+# client_rb:
+#   chef_license: accept
+
+platforms:
+  - name: centos65
+    driver:
+      box: learningchef/centos65
+      box_url: learningchef/centos65
+
+suites:
+  - name: default
+    run_list:
+      - recipe[zero::default]
+    attributes:
+</code></pre>
+<pre><code>$ kitchen converge
+</code></pre>
+<p><code>Test-Kitchen</code>在沙盒环境中配置<code>chef-zero</code>的内建支持</p>
+<ol>
+<li>安装<code>Chef</code>客户端</li>
+<li>在<code>/tmp/kitchen</code> 创建假的 <code>validation.pem</code> and <code>client.pem</code> </li>
+<li>在<code>/tmp/kitchen</code> 生成 <code>client.rb</code> (<code>chef-client</code>的配置文件) </li>
+<li>在 <code>/tmp/kitchen</code>生成包含运行清单<code>dna.json</code>的文件</li>
+<li>在 <code>/tmp/kitchen/cookbooks</code>同步宿主机上的菜谱</li>
+<li>本地模式运行<code>chef-client</code></li>
+</ol>
+<pre><code>cd zero/
+chef-client --local-mode --log_level --chef-zero-port 8889 --json-attributes dna.json
+</code></pre>
+<pre><code>$ chef-client --local-mode  --chef-zero-port 8889
+[2019-12-04T10:39:59+08:00] WARN: No config file found or specified on command line. Using command line options instead.
+[2019-12-04T10:39:59+08:00] WARN: No cookbooks directory found at or above current directory.  Assuming /Users/.../Devops_sap/Chef_Doc/learningchef/chap10/zero.
+Starting Chef Infra Client, version 15.4.45
+resolving cookbooks for run list: []
+Synchronizing Cookbooks:
+Installing Cookbook Gems:
+Compiling Cookbooks...
+[2019-12-04T10:40:03+08:00] WARN: Node C02Z155JLVDR has an empty run list.
+Converging 0 resources
+
+Running handlers:
+Running handlers complete
+Chef Infra Client finished, 0/0 resources updated in 03 seconds
+</code></pre>
+<p>需要记住的一个重要的事情是运行<code>Chef</code>客户端时<code>Test Kitchen</code>在后台运行<code>chef-zero</code> 井在<code>Chef</code>行结束后将其停止。</p>
+<p>它并不会保持<code>chef-zero</code>运行也不会配置<code>knife</code>在沙盒环境中运行。<code>knife</code>是和<code>Chef</code>服务器交互的主要命令行工具在测试环境中模拟<code>knife</code>将带来更多便利</p>
+<h2 id="3chef-playground-chef-zero"><strong>3、用<code>Chef-Playground</code> 在宿主机器上运行<code>Chef-Zero</code></strong></h2>
+<p>也可以在宿主机器上运行<code>chef-zero</code>。你可能想这样做的原因大概会是这样可以使用<code>knife</code>工具。 </p>
+<p>当你想和<code>Chef</code>服务器交互时即使使用<code>Test Kitchen</code>也会发现需要在宿主开发机器上运行<code>knife</code>。</p>
+<p>即使在测试的时候某些, <code>Chef</code>服务器的功能， 比如数据包或搜索， 都能得益干使用<code>knife</code>工具。 </p>
+<p>我们会创建一个叫<code>chef-playground</code>的项目目录，其作用类似章中的<code>chef_repo</code>但使用<code>chef-zero</code>。我们执行的步骤与前面的类似。 l</p>
+<ol>
+<li>假设<code>Chef</code>可户端或<code>Chef</code>开发包已经安装 </li>
+<li>创建假的和<code>validation.pem</code> and <code>client.pem</code>钥匙。 </li>
+<li>创建<code>knife.rb</code>(<code>knife</code>配置文件）。 </li>
+<li>运行<code>chef-zero</code>。 </li>
+<li>与模拟<code>Chef</code>服务器<code>chef-zero</code>来同步菜谱 </li>
+<li>运行<code>knife</code></li>
+</ol>
+<pre><code>$ mkdir chef-playground
+$ cd chef-playground/
+$ mkdir .chef
+$  cd .chef/
+</code></pre>
+<p><code>ssh-keygen</code>生成客户钥匙(-P 选项提供为钥匙添加密码的功能在此我们不需要密码，所以使用两个双引号来提供一个空密码。） </p>
+<pre><code>$ ssh-keygen -f devhost.pem -t rsa -P &quot;&quot;
+$ ssh-keygen -f validation.pem -P &quot;&quot;
+</code></pre>
+<pre><code>$ ls
+devhost.pem             devhost.pem.pub         validation.pem          validation.pem.pub
+</code></pre>
+<p>在<code>chef-playground/.chef</code>目录中创建名为<code>knife.rb</code>的文件 </p>
+<p><strong><code>chef-playground/.chef/knife.rb</code></strong></p>
+<pre><code>chef_repo = File.join(File.dirname(__FILE__), &quot;..&quot;)
+
+chef_server_url &quot;http://127.0.0.1:9501&quot;
+node_name       &quot;devhost&quot;
+client_key      File.join(File.dirname(__FILE__), &quot;devhost.pem&quot;)
+cookbook_path   &quot;#{chef_repo}/cookbooks&quot;
+cache_type      &quot;BasicFile&quot;
+cache_options   :path =&gt; &quot;#{chef_repo}/checksums&quot;
+</code></pre>
+<p>最后打开一个新的命令行窗口井运行<code>chef-zero</code></p>
+<p>像以下代码一样运行<code>chef-zero</code>传递一个默认端口<code>8889</code>以外的端口， 以避免和其他本地模式运行的<code>Chef</code>工具冲突。如果这里建议的<code>9501</code>端口也有冲突可以试试其他端口 </p>
+<pre><code>$ cd chef-playground
+$ chef-zero --port 9501
+&gt;&gt; Starting Chef Zero (v14.0.13)...
+&gt;&gt; WEBrick (v1.5.0) on Rack (v2.0.7) is listening at http://127.0.0.1:9501
+&gt;&gt; Press CTRL+C to stop
+
+</code></pre>
+<blockquote>
+<p>You can run chef-zero in “daemonized” mode by passing in the --daemon parameter. Chef-zero will detach itself from the current command line process and run in the background.</p>
+</blockquote>
+<pre><code>$ tree -al ../chef-playground/
+../chef-playground/
+└── .chef
+    ├── devhost.pem
+    ├── devhost.pem.pub
+    ├── knife.rb
+    ├── validation.pem
+    └── validation.pem.pub
+
+1 directory, 5 files
+</code></pre>
+<p>knife工具将会默认在<code>＄HOME/.chef</code>目录中寻找配置文件及钥匙。如果在默认位置没找到，它会在当前目录树中的每层结构寻找<code>chef</code>目录。假设你和几个不同项目的<code>chef</code>服务器群集工作，可以将不同的<code>.chef</code>目录放在合适的项目目录中，比如<code>chef-playground/.chef</code> </p>
+<pre><code>$ knife client list
+ERROR: Chef::Exceptions::InvalidPrivateKey: The file /Users/.../Devops_sap/Chef_Doc/learningchef/chap10/chef-playground/.chef/devhost.pem 
+or :raw_key option does not contain a correctly formatted private key or the key is encrypted.
+       The key file should begin with '-----BEGIN RSA PRIVATE KEY-----' and end with '-----END RSA PRIVATE KEY-----'
+</code></pre>
+<p><strong>I have an OpenSSH format key and want a PEM format key.</strong></p>
+<p>Changed from <code>BEGIN OPENSSH PRIVATE KEY</code> to <code>BEGIN RSA PRIVATE KEY</code></p>
+<pre><code>$  cd .chef/
+$ ssh-keygen -p -N &quot;&quot; -m pem -f devhost.pem
+Key has comment '@C02Z155JLVDR'
+Your identification has been saved with the new passphrase
+</code></pre>
+<pre><code>$ knife client list
+chef-validator
+chef-webui
+</code></pre>
+<p>说明：本书中我们不会使用<code>knife --local-mode</code>,但需要提及的是和<code>chef-client</code>一样,<code>knife</code>工具通过<code>--local-mode</code>选项支持本地模式<code>chef一zero</code>。 使用本地模式的优点是<code>knife</code>会自动为你启动<code>chef-zero</code></p>
+<p>因此也可以通过以下命令来在本地模式运行<code>knife</code>来查看客户端，它已会自动启动<code>chef-zero</code>。运行以下命令不会与已经开启的<code>chef-zero</code>实例冲突， 因为你没有使用默认端口 <code>8889</code>。 </p>
+<pre><code>$knife client list --local-mode 
+</code></pre>
+<p>然而，你会注意到它的输出与<code>knife</code>在客户端模式运行时有所不同.</p>
+<pre><code>$ mkdir nodes
+$ cd nodes
+</code></pre>
+<p>创建三个文件</p>
+<pre><code>$ touch atwood.json snowman.json susu.json
+</code></pre>
+<pre><code>$ tree -a .
+.
+├── .chef
+│   ├── devhost.pem
+│   ├── devhost.pem.pub
+│   ├── knife.rb
+│   ├── validation.pem
+│   └── validation.pem.pub
+└── nodes
+    ├── atwood.json
+    ├── snowman.json
+    └── susu.json
+
+2 directories, 8 files
+</code></pre>
+<p><strong><code>nodes/atwood.json</code></strong></p>
+<pre><code>{
+  &quot;name&quot;: &quot;atwood&quot;,
+  &quot;chef_type&quot;: &quot;node&quot;,
+  &quot;json_class&quot;: &quot;Chef::Node&quot;,
+  &quot;chef_environment&quot;: &quot;_default&quot;,
+  &quot;run_list&quot;: [&quot;recipe[apache]&quot;, &quot;recipe[motd]&quot;],
+  &quot;automatic&quot;: {
+    &quot;ipaddress&quot;: &quot;192.168.33.31&quot;,
+    &quot;hostname&quot;: &quot;atwood&quot;,
+    &quot;fqdn&quot;: &quot;atwood.playground.local&quot;,
+    &quot;os&quot;: &quot;linux&quot;,
+    &quot;os_version&quot;: &quot;2.6.32-431.el6.x86_64&quot;,
+    &quot;platform&quot;: &quot;centos&quot;,
+    &quot;platform_version&quot;: &quot;6.5&quot;,
+    &quot;platform_family&quot;: &quot;rhel&quot;,
+    &quot;recipes&quot;: [&quot;apache&quot;, &quot;motd&quot;]
+  }
+}
+</code></pre>
+<p><strong><code>nodes/snowman.json</code></strong></p>
+<pre><code>{
+  &quot;name&quot;: &quot;snowman&quot;,
+  &quot;chef_type&quot;: &quot;node&quot;,
+  &quot;json_class&quot;: &quot;Chef::Node&quot;,
+  &quot;chef_environment&quot;: &quot;_default&quot;,
+  &quot;run_list&quot;: [&quot;recipe[apache]&quot;, &quot;recipe[motd]&quot;, &quot;recipe[motd-attributes]&quot;],
+  &quot;automatic&quot;: {
+    &quot;ipaddress&quot;: &quot;192.168.33.32&quot;,
+    &quot;hostname&quot;: &quot;snowman&quot;,
+    &quot;fqdn&quot;: &quot;snowman.playground.local&quot;,
+    &quot;os&quot;: &quot;linux&quot;,
+    &quot;os_version&quot;: &quot;3.13.0-24-generic&quot;,
+    &quot;platform&quot;: &quot;ubuntu&quot;,
+    &quot;platform_version&quot;: &quot;14.04&quot;,
+    &quot;platform_family&quot;: &quot;debian&quot;,
+    &quot;recipes&quot;: [&quot;apache&quot;, &quot;motd&quot;, &quot;motd-attributes&quot;]
+  }
+}
+</code></pre>
+<p><strong><code>nodes/susu.json</code></strong></p>
+<pre><code>{
+  &quot;name&quot;: &quot;susu&quot;,
+  &quot;chef_type&quot;: &quot;node&quot;,
+  &quot;json_class&quot;: &quot;Chef::Node&quot;,
+  &quot;chef_environment&quot;: &quot;_default&quot;,
+  &quot;run_list&quot;: [&quot;recipe[apache]&quot;, &quot;recipe[motd]&quot;],
+  &quot;automatic&quot;: {
+    &quot;ipaddress&quot;: &quot;192.168.33.33&quot;,
+    &quot;hostname&quot;: &quot;susu&quot;,
+    &quot;fqdn&quot;: &quot;susu.playground.local&quot;,
+    &quot;os&quot;: &quot;linux&quot;,
+    &quot;os_version&quot;: &quot;2.6.32-431.el6.x86_64&quot;,
+    &quot;platform&quot;: &quot;centos&quot;,
+    &quot;platform_version&quot;: &quot;6.5&quot;,
+    &quot;platform_family&quot;: &quot;rhel&quot;,
+    &quot;recipes&quot;: [&quot;apache&quot;, &quot;motd&quot;]
+  }
+}
+</code></pre>
+<p>一旦在<code>nodes/</code>目录创建这些文件. 确保回到<code>chef-playground</code>作为当前目录。然后运行<code>knife upload</code>命令来在服务器上创建这些节点。在</p>
+<p>后面的章节中我们将经常在运行其他<code>knife</code>命令前使用<code>knife upload</code>来上传节点信息到服务器： </p>
+<pre><code>$ knife upload nodes
+Created nodes/snowman.json
+Created nodes/susu.json
+Created nodes/atwood.json
+</code></pre>
+<h2 id="4"><strong>4、搜索</strong></h2>
+<p><code>Chef</code>的搜索功能提供代询在<code>Chef</code>服务器上索引的数据的能力。<code>Chef</code>服务器执行指定的搜 索先询井将结果返回给客户端可以在命令行使用<code>knife</code>命令或在配方单中用代码执行搜索查询。比如可以光询运行某个特定援作系统或软件的所有系统的名宇和急数 </p>
+<p>从命令行搜索让我们从在命令行使用<code>knife</code>命令执行搜素代询开始， 让我们中创建的<code>chef-playground/</code>目录， 以及一样的双命令行模式， 在其中中一个命令行中用一个开放的端口启动<code>chef-zero</code>服务器。</p>
+<pre><code>$ chef-zero --port 9501
+&gt;&gt; Starting Chef Zero (v14.0.13)...
+&gt;&gt; WEBrick (v1.5.0) on Rack (v2.0.7) is listening at http://127.0.0.1:9501
+&gt;&gt; Press CTRL+C to stop
+</code></pre>
+<pre><code>$  knife upload nodes
+Created nodes/snowman.json
+Created nodes/susu.json
+Created nodes/atwood.json
+</code></pre>
+<h2 id="5knife"><strong>5、用<code>Knife</code>从命令行搜索</strong></h2>
+<p>也可以在生产环境中<code>knife search</code>命令执行搜索。<code>knife</code>的杳询语法如下 </p>
+<pre><code>$ knife search &lt;index&gt; &lt;search_query&gt;
+</code></pre>
+<p>索引可以是以下任意一项</p>
+<ul>
+<li><code>node</code>(节点） </li>
+<li><code>client</code>（客户端） </li>
+<li><code>environment</code>（环境） </li>
+<li><code>role</code>（角色） </li>
+<li>&lt;效据包的名字＞ </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/10_1.png" title="body image" /></p>
+<p>Chef使用<code>Apache solr</code>来进行搜索和索引。以下命令将执行个对所有节点的搜索查询井利用<code>solar</code>搜柔查询<code>“*:*.”</code>返回结果。 </p>
+<p>可以看到刚刚通过<code>knife upload</code>上传到服务器的节点数据。结果显示<code>Chef</code>正在管理三个节点． </p>
+<pre><code>$ knife search node &quot;*:*&quot;
+3 items found
+
+Node Name:   atwood
+Environment: _default
+FQDN:        atwood.playground.local
+IP:          192.168.33.31
+Run List:    recipe[apache], recipe[motd]
+Roles:       
+Recipes:     apache, motd
+Platform:    centos 6.5
+Tags:        
+
+Node Name:   snowman
+Environment: _default
+FQDN:        snowman.playground.local
+IP:          192.168.33.32
+Run List:    recipe[apache], recipe[motd], recipe[motd-attributes]
+Roles:       
+Recipes:     apache, motd, motd-attributes
+Platform:    ubuntu 14.04
+Tags:        
+
+Node Name:   susu
+Environment: _default
+FQDN:        susu.playground.local
+IP:          192.168.33.33
+Run List:    recipe[apache], recipe[motd]
+Roles:       
+Recipes:     apache, motd
+Platform:    centos 6.5
+Tags:  
+</code></pre>
+<p>Chef search queries use the Solr <code>“&lt;attribute&gt;:&lt;search_pattern&gt;”</code> form:</p>
+<pre><code>$ knife search node &quot;ipaddress:192.168.33.32&quot;
+
+1 items found
+
+Node Name:   snowman
+Environment: _default
+FQDN:        snowman.playground.local
+IP:          192.168.33.32
+Run List:    recipe[apache], recipe[motd], recipe[motd-attributes]
+Roles:       
+Recipes:     apache, motd, motd-attributes
+Platform:    ubuntu 14.04
+Tags:  
+</code></pre>
+<p>Use an asterisk (<code>“*”</code>) within a search query to perform a wildcard search matching 0 or more characters:</p>
+<pre><code>knife search node &quot;ipaddress:192.*&quot;
+knife search node &quot;platfo*:centos&quot;
+</code></pre>
+<p>Use a question mark (<code>“?”</code>) to match any single character:</p>
+<pre><code>knife search node &quot;platform_version:14.0?&quot;
+
+</code></pre>
+<p>You can add specific <strong>key-value</strong> pairs in the query part of the knife search command line.</p>
+<pre><code>$ knife search node &quot;hostname:snowman&quot;
+1 items found
+
+Node Name:   snowman
+Environment: _default
+FQDN:        snowman.playground.local
+IP:          192.168.33.32
+Run List:    recipe[apache], recipe[motd], recipe[motd-attributes]
+Roles:       
+Recipes:     apache, motd, motd-attributes
+Platform:    ubuntu 14.04
+Tags:        
+</code></pre>
+<blockquote>
+<p>说明可以通过使<code>--long</code>选项运行<code>knife ＜索引&gt; show</code>命令得到一个可以在搜索中使用的属性名字的列表。它会显示所有你指定的索引中的可用的属性。比如说，我们通过运行以下命令 </p>
+</blockquote>
+<pre><code>$ knife node show  snowman --long
+Node Name:   snowman
+Environment: _default
+FQDN:        snowman.playground.local
+IP:          192.168.33.32
+Run List:    recipe[apache], recipe[motd], recipe[motd-attributes]
+Roles:       
+Recipes:     apache, motd, motd-attributes
+Platform:    ubuntu 14.04
+Tags:        
+Attributes:
+tags:
+
+Default Attributes:
+
+Override Attributes:
+
+Automatic Attributes (Ohai Data):
+fqdn:             snowman.playground.local
+hostname:         snowman
+ipaddress:        192.168.33.32
+os:               linux
+os_version:       3.13.0-24-generic
+platform:         ubuntu
+platform_family:  debian
+platform_version: 14.04
+recipes:
+  apache
+  motd
+  motd-attributes
+</code></pre>
+<p><strong>搜索查询可以通过使用类似<code>OR</code>的布尔关键字指定多个键值对儿</strong>。比如以下查询返是<code>alice</code>或<code>bob</code>的节点： </p>
+<pre><code> knife search node &quot;name:susu OR name:atwood&quot;
+2 items found
+
+Node Name:   atwood
+Environment: _default
+FQDN:        atwood.playground.local
+IP:          192.168.33.31
+Run List:    recipe[apache], recipe[motd]
+Roles:       
+Recipes:     apache, motd
+Platform:    centos 6.5
+Tags:        
+
+Node Name:   susu
+Environment: _default
+FQDN:        susu.playground.local
+IP:          192.168.33.33
+Run List:    recipe[apache], recipe[motd]
+Roles:       
+Recipes:     apache, motd
+Platform:    centos 6.5
+Tags:        
+</code></pre>
+<p>同理如果想返回所有的条件的总和查询中也可以使用逻辑<code>AND</code>来替代逻辑<code>OR</code> </p>
+<pre><code>$ knife search node &quot;ipaddress:192* AND platform:ubuntu&quot;
+1 items found
+
+Node Name:   snowman
+Environment: _default
+FQDN:        snowman.playground.local
+IP:          192.168.33.32
+Run List:    recipe[apache], recipe[motd], recipe[motd-attributes]
+Roles:       
+Recipes:     apache, motd, motd-attributes
+Platform:    ubuntu 14.04
+Tags:       
+</code></pre>
+<p>我们可以使用<code>-a</code>参数来过滤搜索结果。比如使用<code>-a ipaddress</code>选项将只返回<code>ipaddress</code>属性； </p>
+<pre><code>$ knife search node &quot;*:*&quot; -a ipaddress
+3 items found
+
+atwood:
+  ipaddress: 192.168.33.31
+
+snowman:
+  ipaddress: 192.168.33.32
+
+susu:
+  ipaddress: 192.168.33.33
+</code></pre>
+<h2 id="6test-kitchen"><strong>6、使用Test Kitchen从配方单中搜索</strong></h2>
+<p>在<code>Chef</code>代码里面，也可以执行搜索查询本节我们会用<code>Test Kitchen</code>写一个菜谱并用<code>chef_zero</code>执行搜索。</p>
+<pre><code>$ mkdir cookbooks
+$ cd cookbooks
+</code></pre>
+<p><strong>Chef Development Kit:</strong></p>
+<pre><code>$ chef generate cookbook nodes
+$ cd nodes
+</code></pre>
+<p><strong>Chef Client:</strong></p>
+<pre><code>$ knife cookbook create nodes --cookbook-path .
+$ cd nodes
+$ kitchen init --create-gemfile
+$ bundle install
+</code></pre>
+<pre><code>$ chef generate cookbook nodes
+Generating cookbook nodes
+- Ensuring correct cookbook content
+- Committing cookbook files to git
+
+Your cookbook is ready. Type `cd nodes` to enter it.
+
+There are several commands you can run to get started locally developing and testing your cookbook.
+Type `delivery local --help` to see a full list of local testing commands.
+
+Why not start by writing an InSpec test? Tests for the default recipe are stored at:
+
+test/integration/default/default_test.rb
+
+If you'd prefer to dive right in, the default recipe can be found at:
+
+recipes/default.rb
+</code></pre>
+<ul>
+<li><strong><code>cookbooks/nodes/kitchen.yml</code></strong></li>
+</ul>
+<pre><code>---
+driver:
+  name: vagrant
+  provider: vmware_desktop
+
+provisioner:
+  name: chef_zero
+  nodes_path: ../../nodes
+  always_update_cookbooks: true
+
+platforms:
+  - name: centos65
+    driver:
+      box: learningchef/centos65
+      box_url: learningchef/centos65
+
+suites:
+  - name: default
+    run_list:
+      - recipe[nodes::default]
+    attributes:
+</code></pre>
+<p>让我们来写一个执行像上一节一样的搜索查询的配方单。<code>Chef</code>提供了一个可在代码中使用的<code>search(）</code>方法。</p>
+<p>它接受两个参数和在命令行中使用<code>knife search</code>类似</p>
+<p><strong>search(索引搜索查询）</strong>: </p>
+<ul>
+<li>索引 </li>
+</ul>
+<p>支持的索引有：<code>node</code>, <code>client</code>, <code>environment</code>, <code>role</code>和<code>＜数据包的名字＞</code></p>
+<ul>
+<li>搜索查询</li>
+</ul>
+<p>搜索查询<code>Apache Solr</code>式的 </p>
+<p><strong><code>/nodes/recipes/default.rb</code></strong></p>
+<pre><code>#
+# Cookbook Name:: users
+# Recipe:: default
+#
+# Copyright (C) 2014
+#
+#
+#
+
+# Print every node name matching the search pattern
+search(&quot;node&quot;, &quot;*:*&quot;).each do |matching_node|
+  log matching_node.to_s
+end
+</code></pre>
+<p>The <code>.each</code> statement in <code>recipes/default.rb</code> is a looping construct specific to Ruby.</p>
+<pre><code>counter = 0
+while counter &lt; 5
+  puts counter
+  counter = counter + 1
+end
+</code></pre>
+<p>虽然以上代码是完全有效的<code>Ruby</code>代码，在Ruby中更通俗的写法是使用．each迭代器从一 个数组中遍历并返回所有的元素。</p>
+<p><code>do..end</code>代码块比我们到现在为止所讲述过的更复杂。它可以用来定义一个没有名字的方法。同时，你可以给这个没有名字的方法通过两个竖线符号（<code>II</code>)传递一个或更多参数，就像以下例子中的<code>|counter|</code>. </p>
+<p>在以下例子中，我们传递一个代码块给<code>(0..5).each</code>。当你给一个迭代器传递一个代码块对它将为每一个元素执行指定的方法。在这个例子中<code>（0..5)</code>范围中的每个元素都会被以<code>|counter|</code>变量传递到我们的代码块。</p>
+<p>代码块中的代码使用这个变量来打印每个值： </p>
+<pre><code>(0..5).each do |counter|
+  puts counter
+end
+</code></pre>
+<p>我们做了类似的事情, 遍历每个<code>search()</code>返回的结果, 将每个结果的内容在后面的代码块以<code>matching_node</code>变全代表。<code>matching_node</code>是一个包含节点属性键值对儿的哈希。</p>
+<p>代码块中的代码读取<code>matching_node的</code>内容并使用<code>to_s</code>方法通过使用<code>log</code>打印<code>matchimg_node</code>对象的字符串表达形式。在本例中<code>matching_node</code>的宇符串表达形式就是节点的名 </p>
+<pre><code>$ kitchen converge
+-----&gt; Starting Kitchen (v2.3.3)
+-----&gt; Creating &lt;default-centos65&gt;...
+       Bringing machine 'default' up with 'vmware_desktop' provider...
+       ==&gt; default: Cloning VMware VM: 'learningchef/centos65'. This can take some time...
+       ==&gt; default: Checking if box 'learningchef/centos65' version '1.0.7' is up to date...
+       ==&gt; default: Verifying vmnet devices are healthy...
+       ==&gt; default: Preparing network adapters...
+       WARNING: The VMX file for this box contains a setting that is automatically overwritten by Vagrant
+       WARNING: when started. Vagrant will stop overwriting this setting in an upcoming release which may
+       WARNING: prevent proper networking setup. Below is the detected VMX setting:
+       WARNING: 
+       WARNING:   ethernet0.pcislotnumber = &quot;33&quot;
+       WARNING: 
+       WARNING: If networking fails to properly configure, it may require this VMX setting. It can be manually
+       WARNING: applied via the Vagrantfile:
+       WARNING: 
+       WARNING:   Vagrant.configure(2) do |config|
+       WARNING:     config.vm.provider :vmware_desktop do |vmware|
+       WARNING:       vmware.vmx[&quot;ethernet0.pcislotnumber&quot;] = &quot;33&quot;
+       WARNING:     end
+       WARNING:   end
+       WARNING: 
+       WARNING: For more information: https://www.vagrantup.com/docs/vmware/boxes.html#vmx-whitelisting
+       ==&gt; default: Fixed port collision for 22 =&gt; 2222. Now on port 2201.
+       ==&gt; default: Starting the VMware VM...
+       ==&gt; default: Waiting for the VM to receive an address...
+       ==&gt; default: Forwarding ports...
+           default: -- 22 =&gt; 2201
+       ==&gt; default: Waiting for machine to boot. This may take a few minutes...
+           default: SSH address: 127.0.0.1:2201
+           default: SSH username: vagrant
+           default: SSH auth method: private key
+           default: 
+           default: Vagrant insecure key detected. Vagrant will automatically replace
+           default: this with a newly generated keypair for better security.
+           default: 
+           default: Inserting generated public key within guest...
+           default: Removing insecure key from the guest if it's present...
+           default: Key inserted! Disconnecting and reconnecting using new SSH key...
+       ==&gt; default: Machine booted and ready!
+       ==&gt; default: Setting hostname...
+       ==&gt; default: Configuring network adapters within the VM...
+       ==&gt; default: Machine not provisioned because `--no-provision` is specified.
+       [SSH] Established
+       Vagrant instance &lt;default-centos65&gt; created.
+       Finished creating &lt;default-centos65&gt; (0m46.40s).
+-----&gt; Converging &lt;default-centos65&gt;...
+       Preparing files for transfer
+$$$$$$ You must set your run_list in your Policyfile instead of kitchen config. The run_list in your config will be ignored.
+$$$$$$ Ignored run_list: [&quot;recipe[nodes::default]&quot;]
+       Policy lock file doesn't exist, running `chef install` for Policyfile /Users/.../Devops_sap/Chef_Doc/learningchef/chap10/chef-playground/cookbooks/nodes/Policyfile.rb...
+       Building policy nodes
+       Expanded run list: recipe[nodes::default]
+       Caching Cookbooks...
+       Installing nodes &gt;= 0.0.0 from path
+
+       Lockfile written to /Users/.../Devops_sap/Chef_Doc/learningchef/chap10/chef-playground/cookbooks/nodes/Policyfile.lock.json
+       Policy revision id: c2340b0ef105fd212326f7001a4309c5bcb2d73d39e6cec5e6d23fee42fa0d68
+       Updating policy lock using `chef update`
+       Attributes already up to date
+       Building policy nodes
+       Expanded run list: recipe[nodes::default]
+       Caching Cookbooks...
+       Installing nodes &gt;= 0.0.0 from path
+
+       Lockfile written to /Users/.../Devops_sap/Chef_Doc/learningchef/chap10/chef-playground/cookbooks/nodes/Policyfile.lock.json
+       Policy revision id: c2340b0ef105fd212326f7001a4309c5bcb2d73d39e6cec5e6d23fee42fa0d68
+       Preparing dna.json
+       Exporting cookbook dependencies from Policyfile /var/folders/r7/nml_dsbn44gcd2jlqh7s2w940000gn/T/default-centos65-sandbox-20191205-75016-n73yz4...
+       Exported policy 'nodes' to /var/folders/r7/nml_dsbn44gcd2jlqh7s2w940000gn/T/default-centos65-sandbox-20191205-75016-n73yz4
+
+       To converge this system with the exported policy, run:
+         cd /var/folders/r7/nml_dsbn44gcd2jlqh7s2w940000gn/T/default-centos65-sandbox-20191205-75016-n73yz4
+         chef-client -z
+       Removing non-cookbook files before transfer
+       Preparing nodes
+       Preparing validation.pem
+       Preparing client.rb
+-----&gt; Installing Chef install only if missing package
+       Downloading https://omnitruck.chef.io/install.sh to file /tmp/install.sh
+       Trying wget...
+       Trying curl...
+       Download complete.
+       el 6 x86_64
+       Getting information for chef stable  for el...
+       downloading https://omnitruck.chef.io/stable/chef/metadata?v=&amp;p=el&amp;pv=6&amp;m=x86_64
+         to file /tmp/install.sh.3170/metadata.txt
+       trying wget...
+       trying curl...
+       sha1     c332e5aef6cf70d1df1e1786926c474eedae1dc2
+       sha256   ddb6e94a65568e6247aa335ef7d2dd69c300c9d2e2df098997b08cf9f6f0c473
+       url      https://packages.chef.io/files/stable/chef/15.5.17/el/6/chef-15.5.17-1.el6.x86_64.rpm
+       version  15.5.17
+       downloaded metadata file looks valid...
+       downloading https://packages.chef.io/files/stable/chef/15.5.17/el/6/chef-15.5.17-1.el6.x86_64.rpm
+         to file /tmp/install.sh.3170/chef-15.5.17-1.el6.x86_64.rpm
+       trying wget...
+       trying curl...
+       Comparing checksum with sha256sum...
+
+       WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
+
+       You are installing a package without a version pin.  If you are installing
+       on production servers via an automated process this is DANGEROUS and you will
+       be upgraded without warning on new releases, even to new major releases.
+       Letting the version float is only appropriate in desktop, test, development or
+       CI/CD environments.
+
+       WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
+
+       Installing chef 
+       installing with rpm...
+       warning: /tmp/install.sh.3170/chef-15.5.17-1.el6.x86_64.rpm: Header V4 DSA/SHA1 Signature, key ID 83ef826a: NOKEY
+       Preparing...                ########################################### [100%]
+          1:chef                   ########################################### [100%]
+       Thank you for installing Chef Infra Client! For help getting started visit https://learn.chef.io
+       Transferring files to &lt;default-centos65&gt;
+       +---------------------------------------------+
+       ✔ 2 product licenses accepted.
+       +---------------------------------------------+
+       Starting Chef Infra Client, version 15.5.17
+       Creating a new client identity for default-centos65 using the validator key.
+       Using policy 'nodes' at revision 'c2340b0ef105fd212326f7001a4309c5bcb2d73d39e6cec5e6d23fee42fa0d68'
+       resolving cookbooks for run list: [&quot;nodes::default@0.1.0 (f791f0b)&quot;]
+       Synchronizing Cookbooks:
+         - nodes (0.1.0)
+       Installing Cookbook Gems:
+       Compiling Cookbooks...
+       Converging 4 resources
+       Recipe: nodes::default
+         * log[node[atwood]] action write
+
+         * log[node[default-centos65]] action write
+
+         * log[node[snowman]] action write
+
+         * log[node[susu]] action write
+
+
+       Running handlers:
+       Running handlers complete
+       Chef Infra Client finished, 4/4 resources updated in 01 seconds
+       Downloading files from &lt;default-centos65&gt;
+       Finished converging &lt;default-centos65&gt; (0m33.65s).
+-----&gt; Kitchen is finished. (1m20.65s)
+</code></pre>
+<h2 id="7"><strong>7、本节小结</strong></h2>
+<ul>
+<li>Test Kitchen and Chef Zero</li>
+<li>用<code>Chef-Playground</code> 在宿主机器上运行Chef-Zero</li>
+</ul>
+<pre><code>$ chef-client --local-mode  --chef-zero-port 8889
+$ chef-zero --port 9501
+$ knife client list
+$ knife client list --local-mode 
+$ knife upload nodes
+
+
+$ knife search &lt;index&gt; &lt;search_query&gt;
+$ knife search node &quot;*:*&quot;
+$ knife search node &quot;ipaddress:192.168.33.32&quot;
+$ knife search node &quot;ipaddress:192.*&quot;
+$ knife search node &quot;platfo*:centos&quot;
+$ knife search node &quot;platform_version:14.0?&quot;
+$ knife node show  snowman --long
+$ knife search node &quot;name:susu OR name:atwood&quot;
+$ knife search node &quot;ipaddress:192* AND platform:ubuntu&quot;
+$ knife search node &quot;*:*&quot; -a ipaddress
+</code></pre>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.78eede0e.min.js"></script>
+      
+    
+  </body>
+</html>

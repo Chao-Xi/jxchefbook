@@ -1,0 +1,2288 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's Chef&Ansible Automation 技术与实战教程">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../8idempotentence/">
+      
+      
+        <link rel="next" href="../10Ansible_learn_ppt/">
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.5">
+    
+    
+      
+        <title>L9 Ansible Interview - Jacob Chef&Ansible Automation Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0e669242.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#l9-ansible-interview" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-header__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob Chef&Ansible Automation Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              L9 Ansible Interview
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-nav__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob Chef&Ansible Automation Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Chef
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Chef
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef 介绍和安装
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Ruby和Chef语法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 如何写 Chef 配方 & chef-apply
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 用Test Kitchen管理沙盒测试环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 用 Chef 户端管理节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 撰写和使用菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial7_attributes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第七节 Chef 属性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第八节 Chef 服务器同时管理多个节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第九节 社区以及Chef-Client菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial10_zero/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十节 Chef zero
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial11_databag/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十一节 数概包Databag
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十二节 角色
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial13_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十三节 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial14_test/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十四节 测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial15_term/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十五节 词汇表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial16_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十六节 Chef Tutorial Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Opt & Adv
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Opt & Adv
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef Roles
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Cookbook Versioning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 How to Perform Chef Knife SSL Check and Fetch to Verify Certificate
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 12 Chef Knife Cookbook Command Examples
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_op1_kinfe_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 knife search
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 Chef Quick CheatSheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Cookbook Sample LAMP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Cookbook Sample LAMP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Creating My First Chef Cookbook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Creating LAMP Chef Cookbook Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Ansible
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Ansible
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1ansible_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L1 Ansible Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2ansible_over_install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L2 Ansible Install(MacOs) and Environment Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3play_task/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L3 Task Execution management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4Ansible_variables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L4 Ansible Variable Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5Complex_roles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L5 Managing complex playbooks with roles and ansible galaxy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6Secret_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L6 Working with Secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7Network_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L7 Network Management with Ansible
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8idempotentence/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L8 Idempotentence with Ansible play
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    L9 Ansible Interview
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    L9 Ansible Interview
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1ansible" class="md-nav__link">
+    1、Ansible其他重要的优势：
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2ansible" class="md-nav__link">
+    2、简述Ansible工作机制及其特性？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3ansible" class="md-nav__link">
+    3、简述Ansible中如何保存敏感数据？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4ansible" class="md-nav__link">
+    4、简述Ansible适合的场景？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5ansible-inventory" class="md-nav__link">
+    5、简述Ansible Inventory？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6ansible" class="md-nav__link">
+    6、简述Ansible配置文件优先级？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7ansible-ad-hoc" class="md-nav__link">
+    7、简述Ansible ad-hoc命令？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8ansible-ad-hocplaybook" class="md-nav__link">
+    8、简述Ansible ad-hoc和playbook的区别？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9ansible" class="md-nav__link">
+    9、简述Ansible变量？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10ansible" class="md-nav__link">
+    10、简述Ansible如何实现任务的循环？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11ansible-hanlder" class="md-nav__link">
+    11、简述Ansible hanlder？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12ansible-block" class="md-nav__link">
+    12、简述Ansible Block？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13ansibleplay" class="md-nav__link">
+    13、简述Ansible如何处理play错误的？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14ansible" class="md-nav__link">
+    14、简述Ansible角色？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15ansible-galaxy" class="md-nav__link">
+    15、简述Ansible Galaxy？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16ansible" class="md-nav__link">
+    16、简述Ansible如何控制任务的并行执行？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#17ansible" class="md-nav__link">
+    17、简述Ansible故障后的排查思路？
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10Ansible_learn_ppt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L10 Ansible 自动化运维工具PPT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11Ansible_task1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L11 任务中心之Ansible基础篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12Ansible_task2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L12 任务中心之Ansible进阶篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13Ansible_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L13 Ansible 面试知识点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14Ansible_containerd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L14 Ansible Role批量部署Containerd服务
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            HashiCorp Certified Terraform Associate
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/1hashicorp_certified_terraform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate Learning Path
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/2terraform_cs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Cheat Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/3terraform_lock/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    .terraform.lock.hcl 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/4terraform_var/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    terraform.tfvars 与 variables.tf 的区别
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/5terraform_random/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform: Random 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/6terraform_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Top Terraform Interview Questions and Answers (2022)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/7terraform_provider/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform provider update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/8terraform_docker_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform install Jenkins in Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/9terraform_local/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    解决Terraform初始化慢~配置本地离线源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/10terraform_adv/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform(Troubleshooting/Data Sources/Existing Resource)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/11tf_adv_exam/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Exam(Backend/Command/Script/Others)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/12terraform_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12 Adding Terraform to a CI/CD Pipeline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/13terraform_cmt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Integrating with Configuration Managers(Anisble)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Puppet Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Puppet Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/1pp_overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Puppet - Overview & Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/2pp_install_config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2 Puppet - 安装, 配置以及验证
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/3pp_coding_style/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3 Puppet - 编码风格
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/4pp_key_comps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4 Puppet - 核心模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/5pp_resource/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5 Puppet - 资源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/6pp_tmp_cls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6 Puppet - 模板 & 类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/7pp_func/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7 Puppet - Function
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/8pp_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8 Puppet - 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/9app_type_pr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9 Puppet - 类型和提供者
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/10pp_api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10 Puppet - RESTful API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/11pp_proj1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11 Puppet - Live Project 1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ArgoCD Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            ArgoCD Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_argocd/1Intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Introduction to Continuous Delivery
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1ansible" class="md-nav__link">
+    1、Ansible其他重要的优势：
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2ansible" class="md-nav__link">
+    2、简述Ansible工作机制及其特性？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3ansible" class="md-nav__link">
+    3、简述Ansible中如何保存敏感数据？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4ansible" class="md-nav__link">
+    4、简述Ansible适合的场景？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5ansible-inventory" class="md-nav__link">
+    5、简述Ansible Inventory？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6ansible" class="md-nav__link">
+    6、简述Ansible配置文件优先级？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7ansible-ad-hoc" class="md-nav__link">
+    7、简述Ansible ad-hoc命令？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8ansible-ad-hocplaybook" class="md-nav__link">
+    8、简述Ansible ad-hoc和playbook的区别？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9ansible" class="md-nav__link">
+    9、简述Ansible变量？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10ansible" class="md-nav__link">
+    10、简述Ansible如何实现任务的循环？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11ansible-hanlder" class="md-nav__link">
+    11、简述Ansible hanlder？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12ansible-block" class="md-nav__link">
+    12、简述Ansible Block？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13ansibleplay" class="md-nav__link">
+    13、简述Ansible如何处理play错误的？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14ansible" class="md-nav__link">
+    14、简述Ansible角色？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15ansible-galaxy" class="md-nav__link">
+    15、简述Ansible Galaxy？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16ansible" class="md-nav__link">
+    16、简述Ansible如何控制任务的并行执行？
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#17ansible" class="md-nav__link">
+    17、简述Ansible故障后的排查思路？
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="l9-ansible-interview"><strong>L9 Ansible Interview</strong></h1>
+<p>Ansible是一款极其简单的开源的自动化运维工具，基于Python开发，集合了众多运维工具(puppet, cfengine, chef, func, fabric)的优点。实现了批量系统配置，批量程序部署，批量运行命令等功能。</p>
+<p>同时Ansible是基于模块工作，其实现批量部署的是ansible所运行的模块。</p>
+<h2 id="1ansible"><strong>1、Ansible其他重要的优势：</strong></h2>
+<ul>
+<li>跨平台支持：Ansible在物理、虚拟、云和容器环境中为Linux、Windows、UNIX和网络设备提供无代理支持。</li>
+<li>人类可读的自动化：Ansible playbook以YAML文本文件的形式编写，易于阅读，有助于确保每个人都理解他们将要做的事情。</li>
+<li>对应用程序的完美描述：Ansible playbook可以进行任何更改，并且可以描述和记录应用程序环境的每个细节。</li>
+<li>易于管理的版本控制：Ansible剧本和项目是纯文本。它们可以像源代码一样处理，并放在现有的版本控制系统中。</li>
+<li>支持动态库存：Ansible管理的机器列表可以从外部资源动态更新，以便随时捕获所有受管服务器的正确的当前列表，无论基础设施或位置如何。</li>
+<li>易于与其他系统集成的编排：HP SA、Puppet、Jenkins、Red Hat Satellite，以及存在于环境中的其他系统，都可以被利用并集成到Ansible工作流中。</li>
+</ul>
+<h2 id="2ansible"><strong>2、简述Ansible工作机制及其特性？</strong></h2>
+<p>Ansible是一款自动化运维工具，基于Python开发，具有批量系统配置, 批量程序部署, 批量运行命令等功能。</p>
+<p>其工作机制如下：</p>
+<ul>
+<li>用户使用Ansible或Playbook，在服务器中断输入Ansible的Ad-Hoc命令集或Playbook；</li>
+<li>Ansible遵循预先编排的规则将Playbooks逐条拆解为Play；</li>
+<li>Play组织成Ansible可识别的任务（Task）；</li>
+<li>Task会调用任务所涉及的所有模块（Module）和插件（Plugin）；</li>
+<li>读取Inventroy中定义的主机列表；</li>
+<li>通过SSH认证（默认）将任务集以临时文件或命令的形式传输到远程客户端执行并返回执行结果。</li>
+</ul>
+<p>其特性如下：</p>
+<ul>
+<li>no agents：不需要在被管控主机上安装任何客户端，只需SSH、Python即可，建议Python版本为2.6.6以上；</li>
+<li>no server：无服务器端, 使用时直接运行命令即可；</li>
+<li>modules in any languages：基于模块工作, 丰富的内置模块，可使用任意语言开发模块；</li>
+<li>yaml, not code：使用yaml语言定制剧本playbook，易于管理，API简单明了；</li>
+<li>ssh by default：基于SSH工作，整个过程简单、方便、安全，建议使用公钥方式认证；</li>
+<li>strong multi-tier solution：可实现多级指挥。</li>
+</ul>
+<h2 id="3ansible"><strong>3、简述Ansible中如何保存敏感数据？</strong></h2>
+<p>在ansible内容中保留秘密数据并仍然公开共享，那么可以在playbooks中使用Vault。<strong>Ansible Vault，它包含在Ansible中，可以加密和解密Ansible使用的任何结构化数据文件</strong>。</p>
+<h2 id="4ansible"><strong>4、简述Ansible适合的场景？</strong></h2>
+<p>Ansible将编排与配置管理、供应和应用程序部署结合并统一在一个易于使用的平台上。Ansible的一些主要场景包括:</p>
+<ul>
+<li>配置管理：集中配置文件管理和部署是Ansible的一个常见场景。</li>
+<li>应用程序部署：当使用Ansible定义应用程序，并使用Ansible Tower管理部署时，团队可以有效地管理从开发到生产的整个应用程序生命周期。</li>
+<li>部署：当在系统上部署或安装应用程序时，Ansible和Ansible Tower可以帮助简化供应系统的流程，无论是PXE启动的裸金属服务器或虚拟机，还是从模板创建虚拟机或云实例。</li>
+<li>持续交付：创建CI/CD管道需要许多团队的协调和参与。如果没有一个简单的自动化平台，团队协作很难完成。而Ansible playbook在应用程序的整个生命周期中可以保持适当的部署(和管理)</li>
+<li>安全性和审计：当安全策略在Ansible中定义时，可以将站点范围的安全策略的扫描和修复集成到其他自动化流程中。安全性是部署的所有内容中不可或缺的一部分。</li>
+<li>编排：配置本身不能定义环境，需要定义多个配置如何交互，并确保可以将不同的部分作为一个整体来管理</li>
+</ul>
+<h2 id="5ansible-inventory"><strong>5、简述Ansible Inventory？</strong></h2>
+<p>Ansible中受管主机列在主机清单（inventory）文本文件中，清单还将这些系统组织成group，以便更容易地进行批量管理。</p>
+<p>一个Inventory定义了Ansible将管理的主机集合。这些主机还可以分配至组，可以对组进行批量管理。组可以包含子组，主机可以是多个组的成员。Inventory根据类型可分为静态清单和动态清单：</p>
+<ul>
+<li>静态主机Inventory可以由文本文件定义。</li>
+<li>动态主机Inventory可以由脚本或其他程序根据需要使用外部信息提供者生成。</li>
+</ul>
+<h2 id="6ansible"><strong>6、简述Ansible配置文件优先级？</strong></h2>
+<p>Ansible 只使用最高优先级配置文件中的设置，其它配置文件中的设置将被忽略。即使存在其他优先级较低的文件，它们的设置也将被忽略，并且不会与所选配置文件中的设置相结合。</p>
+<p><code>$ANSIBLE_CONFIG</code>环境变量指定的任何文件都将覆盖所有其他配置文件。如果没有设置该变量，接下来将检查运行ansible命令的目录以查找<code>ansible.cfg</code>文件。</p>
+<p>如果该文件不存在，则检查用户的主目录以查找<code>.ansible.cfg</code>文件。如上配置文件都不存在时，才使用全局<code>/etc/ansible/ansible.cfg</code>文件。</p>
+<h2 id="7ansible-ad-hoc"><strong>7、简述Ansible ad-hoc命令？</strong></h2>
+<p>Ad-Hoc命令是一种快速执行单个Ansible任务的方法，适合于不需要永久保存该任务，临时执行的场景。Ad-Hoc是简单的控制台操作，无需编写剧本就可以运行。它们对于快速测试和更改非常有用。</p>
+<h2 id="8ansible-ad-hocplaybook"><strong>8、简述Ansible ad-hoc和playbook的区别？</strong></h2>
+<ul>
+<li>Ad-Hoc 命令可以作为一次性命令对一组目标主机运行单个、简单的任务。</li>
+<li>Ad-Hoc 不适合复杂配置管理或编配场景，Ad-Hoc 一次只能调用一个模块和一组参数。当需要多个操作时，必须使用多个 Ad-Hoc 来执行。</li>
+<li>playbook可以实现以一种简易重复的方式对一组目标主机运行多个复杂的任务。</li>
+<li>Playbook 是描述要在受管主机上实施的必要配置或程序性步骤的文件。</li>
+<li>Playbook 为配置管理和部署提供了强大而灵活的解决方案。</li>
+<li>Playbook 可以将冗长而复杂的管理任务转变为可轻松重复的历程，并且可预测成果然而。</li>
+<li>playbook 是一个文本文件，其中包含一个或多个按顺序运行的play的列表。</li>
+<li>playbook中，可以将playbook中的tasks保存为人类可读且可立即运行的形式。</li>
+<li>play 是一组有序的任务，应该对从目录中选择的主机运行。</li>
+</ul>
+<h2 id="9ansible"><strong>9、简述Ansible变量？</strong></h2>
+<p>Ansible 利用变量存储整个 Ansible 项目文件中可重复使用的值，从而可以简化项目的创建和维护，并减少错误的发生率。在定义Ansible变量时，通常有如下三种范围的变量：</p>
+<ul>
+<li>global范围：从命令行或Ansible配置中设置的变量；</li>
+<li>play范围：在 play 和相关结构中设置的变量；</li>
+<li>host范围：inventory、facts 或 register 的变量，在主机组和个别主机上设置的变量。</li>
+</ul>
+<h2 id="10ansible"><strong>10、简述Ansible如何实现任务的循环？</strong></h2>
+<p>简单循环：</p>
+<ul>
+<li>Ansible支持使用loop在一组item上迭代任务；</li>
+<li>loop可以使用列表中的每个项、列表中每个文件的内容、生成的数字序列或使用更复杂的结构来重复任务。</li>
+<li>使用loop使管理员不必编写使用相同模块的多个任务。</li>
+</ul>
+<p>复杂（嵌套）循环：</p>
+<ul>
+<li><code>with_nested</code>键用于嵌套循环，循环在循环中运行。它需要一个包含两个或多个列表的列表。例如，将一个列表划分为两个列表，任务将迭代第一个列表中的每一项与第二个列表中的每一项。</li>
+</ul>
+<h2 id="11ansible-hanlder"><strong>11、简述Ansible hanlder？</strong></h2>
+<p>Ansible模块被设计成幂等的，即在一个适当编写的剧本中，剧本及其任务可以在不更改受管主机的情况下多次运行，除非它们需要进行更改以使受管主机达到所需的状态。</p>
+<p>然而，有时当一个任务对系统进行了更改后同时需要运行另一个任务。例如，对服务的配置文件的更改可能需要重新加载服务，以便更改后的配置生效。此时就需要使用hanlder程序。handler程序是响应由其他任务组成的通知的任务。每个handler程序都有一个全局惟一的名称，并在剧本中任务块的末尾触发。</p>
+<p>如果没有任务通过名称调用handler程序，它将不会运行。</p>
+<p>如果一个或多个任务都调用handler程序，它将在剧中的所有其他任务完成后仅运行一次。</p>
+<p>因为handler程序是任务，所以可以在handler程序中使用与处理任何其他任务相同的模块。通常，handler程序用于重新启动主机和重新启动服务。</p>
+<p>handler程序可以视为非活动任务，只有在使用notify语句显式调用时才会触发这些任务。</p>
+<h2 id="12ansible-block"><strong>12、简述Ansible Block？</strong></h2>
+<p>在 playbook 中， blocks 是囊括了任务的子句；</p>
+<p>blocks 允许对任务进行逻辑分组，并可用于控制任务的执行方式，例如，管理员可以定义一组主要任务和一组附加任务，附加任务仅在第一组失败时执行。为此，可利用三个关键字在 playbook 中使用块：</p>
+<ul>
+<li>block：定义要运行的主要任务；</li>
+<li>rescue：定义将在 block 子句中定义的任务失败时运行的任务；</li>
+<li>always：定义始终都独立运行的任务，不论 block 和 rescue 子句中定义的任务是成功还是失败。
+简述Ansible如何处理play错误的？</li>
+</ul>
+<h2 id="13ansibleplay"><strong>13、简述Ansible如何处理play错误的？</strong></h2>
+<p>Ansible审查每个任务的返回代码，以确定任务是否成功或失败。默认情况下，当一个任务失败时，Ansible会立即中止该主机上的其他操作，并跳过所有后续任务。</p>
+<p>实际生产中，若希望即使任务失败也能继续执行play，Ansible也包含了多种特性用于管理任务错误：</p>
+<p>忽略任务失败：在任务中使用<code>ignore_errors</code>关键字忽略错误，即使任务失败，也继续在主机上执行playbook。</p>
+<h2 id="14ansible"><strong>14、简述Ansible角色？</strong></h2>
+<p>数据中心有各种不同类型的主机。如web服务器、数据库服务器，基于开发环境的服务器。随着时间的推移，具有处理所有这些情况的任务和人员的Ansible playbook将变得庞大而复杂。</p>
+<ul>
+<li>角色允许将复杂的剧本组织成独立的、更小的剧本和文件。</li>
+<li>角色提供了一种从外部文件加载任务、处理程序和变量的方法。</li>
+<li>角色也可关联和引用静态的文件和模板。</li>
+<li>角色可以编写成满足普通用途需求，并且能被重复利用。</li>
+<li>定义角色的文件具有特定的名称，并以严格的目录结构进行组织。</li>
+</ul>
+<h2 id="15ansible-galaxy"><strong>15、简述Ansible Galaxy？</strong></h2>
+<p>Ansible Galaxy是一个由各种Ansible管理员和用户编写的Ansible角色的公共库。</p>
+<p>它是一个包含数千个Ansible角色的归档文件，并且有一个可搜索的数据库，帮助Ansible用户识别可能帮助他们完成管理任务的角色。Ansible Galaxy包括指向新用户和角色开发人员的文档和视频的链接。</p>
+<h2 id="16ansible"><strong>16、简述Ansible如何控制任务的并行执行？</strong></h2>
+<p>通过在所有主机上并行运行任务，Ansible可以对剧本的执行进行更多的控制。默认情况下，Ansible默认最多并行5个，因此它将同时在5台不同的机器上运行一个特定的任务。Ansible可以通过配置forks来设置并行执行任务数量。</p>
+<p>同时Ansible也可以通过serial来减少ork数量所指定的并行书，serial关键字主要用于控制滚动更新，避免一次性更新过多的节点。</p>
+<h2 id="17ansible"><strong>17、简述Ansible故障后的排查思路？</strong></h2>
+<ul>
+<li>日志判断：默认情况下，Ansible没有配置为将其输出，记录到任何日志文件中。可通过<code>ansible.cfg</code>配置文<code>default</code>部分中<code>的log_path</code>参数或<code>$ANSIBLE_LOG环</code>境变量进行配置。然后通过日志进行定位。</li>
+<li>Debug模块：调试模块是Ansible可用的模块之一，它可以更好地了解控制节点上正在进行的操作。这个模块可以在playbook执行时为某个变量提供值。</li>
+<li><code>syntax-check</code>：通过<code>ansible-playbook</code> 命令的 <code>--syntax-check</code>命选项检查剧本的YAML语法。</li>
+<li>• diff：Ansible还提供了<code>--diff</code>选项。此选项报告对受管主机上的模板文件所做的更改。如果与<code>--check</code>选项一起使用，这些更改将显示出来，而不是实际执行。从而判断Ansible整个过程需要做何种更改。</li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.78eede0e.min.js"></script>
+      
+    
+  </body>
+</html>

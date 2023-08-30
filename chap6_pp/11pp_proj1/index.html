@@ -1,0 +1,2410 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's Chef&Ansible Automation 技术与实战教程">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../10pp_api/">
+      
+      
+        <link rel="next" href="../../chap7_argocd/1Intro/">
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.5">
+    
+    
+      
+        <title>11 Puppet - Live Project 1 - Jacob Chef&Ansible Automation Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0e669242.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#puppet-live-project-1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-header__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob Chef&Ansible Automation Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              11 Puppet - Live Project 1
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-nav__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob Chef&Ansible Automation Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Chef
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Chef
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef 介绍和安装
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Ruby和Chef语法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 如何写 Chef 配方 & chef-apply
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 用Test Kitchen管理沙盒测试环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 用 Chef 户端管理节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 撰写和使用菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial7_attributes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第七节 Chef 属性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第八节 Chef 服务器同时管理多个节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第九节 社区以及Chef-Client菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial10_zero/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十节 Chef zero
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial11_databag/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十一节 数概包Databag
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十二节 角色
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial13_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十三节 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial14_test/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十四节 测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial15_term/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十五节 词汇表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial16_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十六节 Chef Tutorial Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Opt & Adv
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Opt & Adv
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef Roles
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Cookbook Versioning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 How to Perform Chef Knife SSL Check and Fetch to Verify Certificate
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 12 Chef Knife Cookbook Command Examples
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_op1_kinfe_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 knife search
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 Chef Quick CheatSheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Cookbook Sample LAMP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Cookbook Sample LAMP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Creating My First Chef Cookbook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Creating LAMP Chef Cookbook Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Ansible
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Ansible
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/1ansible_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L1 Ansible Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/2ansible_over_install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L2 Ansible Install(MacOs) and Environment Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/3play_task/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L3 Task Execution management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/4Ansible_variables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L4 Ansible Variable Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/5Complex_roles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L5 Managing complex playbooks with roles and ansible galaxy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/6Secret_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L6 Working with Secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/7Network_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L7 Network Management with Ansible
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/8idempotentence/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L8 Idempotentence with Ansible play
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/9Ansible_interview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L9 Ansible Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/10Ansible_learn_ppt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L10 Ansible 自动化运维工具PPT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/11Ansible_task1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L11 任务中心之Ansible基础篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/12Ansible_task2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L12 任务中心之Ansible进阶篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/13Ansible_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L13 Ansible 面试知识点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/14Ansible_containerd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L14 Ansible Role批量部署Containerd服务
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            HashiCorp Certified Terraform Associate
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/1hashicorp_certified_terraform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate Learning Path
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/2terraform_cs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Cheat Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/3terraform_lock/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    .terraform.lock.hcl 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/4terraform_var/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    terraform.tfvars 与 variables.tf 的区别
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/5terraform_random/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform: Random 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/6terraform_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Top Terraform Interview Questions and Answers (2022)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/7terraform_provider/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform provider update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/8terraform_docker_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform install Jenkins in Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/9terraform_local/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    解决Terraform初始化慢~配置本地离线源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/10terraform_adv/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform(Troubleshooting/Data Sources/Existing Resource)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/11tf_adv_exam/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Exam(Backend/Command/Script/Others)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/12terraform_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12 Adding Terraform to a CI/CD Pipeline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/13terraform_cmt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Integrating with Configuration Managers(Anisble)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Puppet Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Puppet Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1pp_overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Puppet - Overview & Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2pp_install_config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2 Puppet - 安装, 配置以及验证
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3pp_coding_style/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3 Puppet - 编码风格
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4pp_key_comps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4 Puppet - 核心模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5pp_resource/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5 Puppet - 资源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6pp_tmp_cls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6 Puppet - 模板 & 类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7pp_func/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7 Puppet - Function
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8pp_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8 Puppet - 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9app_type_pr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9 Puppet - 类型和提供者
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10pp_api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10 Puppet - RESTful API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    11 Puppet - Live Project 1
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    11 Puppet - Live Project 1
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    创建新模块
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#http" class="md-nav__link">
+    安装 HTTP 服务器
+  </a>
+  
+    <nav class="md-nav" aria-label="安装 HTTP 服务器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#httpd" class="md-nav__link">
+    运行 httpd 服务器
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#httpd_1" class="md-nav__link">
+    配置 httpd 服务器
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    配置防火墙
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selinux" class="md-nav__link">
+    配置 SELinux
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-html" class="md-nav__link">
+    在 Web 主机中复制 HTML 文件
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    完成模块
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ArgoCD Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            ArgoCD Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_argocd/1Intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Introduction to Continuous Delivery
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    创建新模块
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#http" class="md-nav__link">
+    安装 HTTP 服务器
+  </a>
+  
+    <nav class="md-nav" aria-label="安装 HTTP 服务器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#httpd" class="md-nav__link">
+    运行 httpd 服务器
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#httpd_1" class="md-nav__link">
+    配置 httpd 服务器
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    配置防火墙
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selinux" class="md-nav__link">
+    配置 SELinux
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-html" class="md-nav__link">
+    在 Web 主机中复制 HTML 文件
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    完成模块
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="puppet-live-project-1"><strong>Puppet - Live Project 1</strong></h1>
+<p>为了在 Puppet 节点上执行应用配置和清单的实时测试，我们将使用实时工作演示。这可以直接复制粘贴来测试配置是如何工作的。如果用户希望使用相同的代码集，他需要具有相同的命名约定，如下面的代码片段所示。</p>
+<p>让我们从创建一个新模块开始。</p>
+<h2 id="_1"><strong>创建新模块</strong></h2>
+<p>测试和应用 httpd 配置的第一步是创建一个模块。</p>
+<p>为此，用户需要将其工作目录更改为 Puppet 模块目录并创建基本模块结构。结构创建可以手动完成，也可以使用 Puppet 为模块创建样板。</p>
+<pre><code># cd /etc/puppet/modules
+# puppet module generate Live-module
+</code></pre>
+<p><strong>注意</strong> - <strong>Puppet 模块生成命令要求模块名称采用 [用户名]-[模块] 的格式以符合 Puppet forge 规范</strong>。</p>
+<p><strong>新模块包含一些基本文件，包括清单目录</strong>。</p>
+<p>该目录已经包含一个名为 <code>init.pp</code> 的清单，它是模块的主要清单文件。这是模块的空类声明。</p>
+<pre><code>class live-module {
+}
+</code></pre>
+<p><strong>该模块还包含一个测试目录，其中包含一个名为 <code>init.pp</code> 的清单</strong>。此测试清单包含对 <code>manifest/init.pp</code> 中 <code>live-module</code> 类的引用：</p>
+<pre><code>include live-module
+</code></pre>
+<p>Puppet 将使用这个测试模块来测试清单。现在我们准备将配置添加到模块中。</p>
+<h2 id="http"><strong>安装 HTTP 服务器</strong></h2>
+<p>Puppet 模块将安装必要的包来运行 http 服务器。这需要一个资源定义来定义 httpd 包的配置。</p>
+<p>在模块的清单目录中，创建一个名为 httpd.pp 的新清单文件</p>
+<pre><code># touch test-module/manifests/httpd.pp
+</code></pre>
+<p>此清单将包含我们模块的所有 HTTP 配置。出于分离目的，我们将 httpd.pp 文件与 init.pp 清单文件分开</p>
+<p>我们需要将以下代码放入 httpd.pp 清单文件中。</p>
+<pre><code>class test-module::httpd { 
+   package { 'httpd': 
+      ensure =&gt; installed, 
+   } 
+}
+</code></pre>
+<p>这段代码定义了一个名为 httpd 的 test-module 子类，然后为 httpd 包定义了一个包资源声明。 </p>
+<p><code>ensure =&gt; installed</code> 属性检查是否安装了所需的包。</p>
+<p>如果没有安装，<code>Puppet</code>使用 <code>yum</code> 实用程序来安装它。接下来，是将这个子类包含在我们的主清单文件中。我们需要编辑 <code>init.pp</code> 清单。</p>
+<pre><code>class test-module { 
+   include test-module::httpd 
+}
+</code></pre>
+<p>现在，是时候测试模块了，可以按如下方式完成</p>
+<pre><code># puppet apply test-module/tests/init.pp --noop
+</code></pre>
+<p><code>puppet apply</code> 命令应用存在于目标系统清单文件中的配置。</p>
+<p><strong>在这里，我们使用的是 <code>test init.pp</code>，它指的是 <code>main init.pp</code></strong>。 </p>
+<p><code>–noop</code> 执行配置的试运行，它只显示输出但实际上不做任何事情。</p>
+<p>以下是输出。</p>
+<pre><code>Notice: Compiled catalog for puppet.example.com in environment
+production in 0.59 seconds
+
+Notice: /Stage[main]/test-module::Httpd/Package[httpd]/ensure:
+current_value absent, should be present (noop)
+
+Notice: Class[test-module::Httpd]: Would have triggered 'refresh' from 1
+events
+
+Notice: Stage[main]: Would have triggered 'refresh' from 1 events
+Notice: Finished catalog run in 0.67 seconds
+</code></pre>
+<p>高亮线是 <code>ensure =&gt; installed</code> 属性的结果。 </p>
+<p><strong><code>current_value</code>不存在意味着 Puppet 已检测到 httpd 包已安装。如果没有 <code>–noop</code> 选项，Puppet 将安装 httpd 包。</strong></p>
+<h3 id="httpd"><strong>运行 httpd 服务器</strong></h3>
+<p>安装好httpd服务器后，我们需要使用其他资源启动服务：Service</p>
+<p>我们需要编辑 httpd.pp 清单文件并编辑以下内容。</p>
+<pre><code>class test-module::httpd { 
+   package { 'httpd': 
+      ensure =&gt; installed, 
+   } 
+   service { 'httpd': 
+      ensure =&gt; running, 
+      enable =&gt; true, 
+      require =&gt; Package[&quot;httpd&quot;], 
+   } 
+}
+</code></pre>
+<p>以下是我们通过上述代码实现的目标列表。</p>
+<ul>
+<li>
+<p><code>ensure =&gt; running</code> 状态检查服务是否正在运行，如果没有，则启用它。</p>
+</li>
+<li>
+<p><code>enable =&gt; true</code>属性将服务设置为在系统启动时运行。</p>
+</li>
+<li>
+<p><code>require =&gt; Package["httpd"]</code> 属性定义了一个资源减速和另一个之间的排序关系。在上述情况下，它确保了 httpd 服务在 http 包安装后启动。这会在服务和相应的包之间创建依赖关系</p>
+</li>
+</ul>
+<p>运行 puppet apply 命令再次测试更改。</p>
+<pre><code># puppet apply test-module/tests/init.pp --noop
+Notice: Compiled catalog for puppet.example.com in environment
+production in 0.56 seconds
+
+Notice: /Stage[main]/test-module::Httpd/Package[httpd]/ensure:
+current_value absent, should be present (noop)
+
+Notice: /Stage[main]/test-module::Httpd/Service[httpd]/ensure:
+current_value stopped, should be running (noop)
+
+Notice: Class[test-module::Httpd]: Would have triggered 'refresh' from 2
+events
+
+Notice: Stage[main]: Would have triggered 'refresh' from 1 events
+Notice: Finished catalog run in 0.41 seconds
+</code></pre>
+<h2 id="httpd_1"><strong>配置 httpd 服务器</strong></h2>
+<p>完成上述步骤后，我们将安装并启用 HTTP 服务器。下一步是为服务器提供一些配置。默认情况下，httpd 在 <code>/etc/httpd/conf/httpd.conf</code>中提供了一些默认配置，它提供了一个 webhost 端口 80。我们将添加一些额外的主机来为 web-host 提供一些用户特定的设施。</p>
+<p>模板将用于提供额外的端口，因为它需要变量输入。我们将创建一个名为 <code>template</code> 的目录，并在新目录中添加一个名为 <code>test-server.config.erb</code> 的文件，并添加以下内容。</p>
+<p><strong><code>test-server.config.erb</code></strong></p>
+<pre><code>Listen &lt;%= @httpd_port %&gt; 
+NameVirtualHost *:&lt;% = @httpd_port %&gt; 
+
+&lt;VirtualHost *:&lt;% = @httpd_port %&gt;&gt; 
+   DocumentRoot /var/www/testserver/ 
+   ServerName &lt;% = @fqdn %&gt; 
+
+   &lt;Directory &quot;/var/www/testserver/&quot;&gt; 
+      Options All Indexes FollowSymLinks 
+      Order allow,deny 
+      Allow from all 
+   &lt;/Directory&gt; 
+&lt;/VirtualHost&gt;
+</code></pre>
+<p>上面的模板遵循标准的 apache-tomcat 服务器配置格式。唯一的区别是使用 Ruby 转义字符从模块中注入变量。我们有存储系统完全限定域名的 FQDN。<strong>这被称为系统事实</strong>。</p>
+<p>在生成每个相应系统的 puppet 目录之前，从每个系统收集系统事实。 </p>
+<p><strong>Puppet 使用 facter 命令获取此信息，并且可以使用 facter 获取有关系统的其他详细信息。我们需要在 httpd.pp 清单文件中添加高亮行</strong>。</p>
+<pre><code>class test-module::httpd { 
+   package { 'httpd': 
+      ensure =&gt; installed, 
+   } 
+   service { 'httpd': 
+      ensure =&gt; running, 
+      enable =&gt; true, 
+      require =&gt; Package[&quot;httpd&quot;], 
+   } 
+   file {'/etc/httpd/conf.d/testserver.conf': 
+      notify =&gt; Service[&quot;httpd&quot;], 
+      ensure =&gt; file, 
+      require =&gt; Package[&quot;httpd&quot;], 
+      content =&gt; template(&quot;test-module/testserver.conf.erb&quot;), 
+   } 
+   file { &quot;/var/www/myserver&quot;: 
+      ensure =&gt; &quot;directory&quot;, 
+   } 
+}
+</code></pre>
+<p>这有助于实现以下目标 -</p>
+<ul>
+<li>
+<p>这会为服务器配置文件 (<code>/etc/httpd/conf.d/test-server.conf</code>) 添加文件资源声明。该文件的内容是之前创建的 <code>test-serverconf.erb</code> 模板。我们还检查了在添加此文件之前安装的 httpd 包。</p>
+</li>
+<li>
+<p>这添加了第二个文件资源声明，它为 Web 服务器创建了一个目录 (<code>/var/www/test-server</code>)。</p>
+</li>
+<li>
+<p><strong>接下来，我们使用 <code>notify =&gt; Service["httpd"]</code>  属性添加配置文件和 https 服务的关系。这将检查是否有任何配置文件更改。如果有，则 Puppet 重新启动服务。</strong></p>
+</li>
+</ul>
+<p>接下来是在主清单文件中包含 <code>httpd_port</code>。为此，我们需要结束主 init.pp 清单文件并包含以下内容</p>
+<pre><code>class test-module ( 
+   $http_port = 80 
+) { 
+   include test-module::httpd 
+}
+</code></pre>
+<p>这会将 httpd 端口设置为默认值 80。接下来是运行 Puppet 应用命令。</p>
+<p>以下将是输出。</p>
+<pre><code># puppet apply test-module/tests/init.pp --noop
+Warning: Config file /etc/puppet/hiera.yaml not found, using Hiera
+defaults
+
+Notice: Compiled catalog for puppet.example.com in environment
+production in 0.84 seconds
+
+Notice: /Stage[main]/test-module::Httpd/File[/var/www/myserver]/ensure:
+current_value absent, should be directory (noop)
+
+Notice: /Stage[main]/test-module::Httpd/Package[httpd]/ensure:
+current_value absent, should be present (noop)
+
+Notice:
+/Stage[main]/test-module::Httpd/File[/etc/httpd/conf.d/myserver.conf]/ensure:
+current_value absent, should be file (noop)
+
+Notice: /Stage[main]/test-module::Httpd/Service[httpd]/ensure:
+current_value stopped, should be running (noop)
+
+Notice: Class[test-module::Httpd]: Would have triggered 'refresh' from 4
+events
+
+Notice: Stage[main]: Would have triggered 'refresh' from 1 events
+Notice: Finished catalog run in 0.51 seconds
+</code></pre>
+<h2 id="_2"><strong>配置防火墙</strong></h2>
+<p>为了与服务器通信，需要一个开放端口。这里的问题是不同类型的操作系统使用不同的方法来控制防火墙。<strong>在 Linux 的情况下，低于 6 的版本使用 iptables，而版本 7 使用 firewalld</strong>。</p>
+<p>Puppet 使用系统事实及其逻辑在一定程度上处理了使用适当服务的决定。为此，我们需要首先检查操作系统，然后运行相应的防火墙命令。</p>
+<p>为了实现这一点，我们需要在 <code>testmodule::http</code> 类中添加以下代码片段。</p>
+<pre><code>if $operatingsystemmajrelease &lt;= 6 { 
+   exec { 'iptables': 
+      command =&gt; &quot;iptables -I INPUT 1 -p tcp -m multiport --ports 
+      ${httpd_port} -m comment --comment 'Custom HTTP Web Host' -j ACCEPT &amp;&amp; 
+      iptables-save &gt; /etc/sysconfig/iptables&quot;, 
+      path =&gt; &quot;/sbin&quot;, 
+      refreshonly =&gt; true, 
+      subscribe =&gt; Package['httpd'], 
+   } 
+   service { 'iptables': 
+      ensure =&gt; running, 
+      enable =&gt; true, 
+      hasrestart =&gt; true, 
+      subscribe =&gt; Exec['iptables'], 
+   } 
+}  elsif $operatingsystemmajrelease == 7 { 
+   exec { 'firewall-cmd': 
+      command =&gt; &quot;firewall-cmd --zone=public --addport = $ { 
+      httpd_port}/tcp --permanent&quot;, 
+      path =&gt; &quot;/usr/bin/&quot;, 
+      refreshonly =&gt; true, 
+      subscribe =&gt; Package['httpd'], 
+   } 
+   service { 'firewalld': 
+      ensure =&gt; running, 
+      enable =&gt; true, 
+      hasrestart =&gt; true, 
+      subscribe =&gt; Exec['firewall-cmd'], 
+   } 
+} 
+</code></pre>
+<p>上面的代码执行以下操作 -</p>
+<ul>
+<li>使用 <code>operatingsystemmajrelease</code> 确定使用的操作系统是版本 6 还是 7。</li>
+<li>如果版本是 6，那么它运行所有必需的配置命令来配置 Linux 6 版本。</li>
+<li>如果操作系统版本为 7，则它运行配置防火墙所需的所有命令。</li>
+<li>两个操作系统的代码片段都包含一个逻辑，该逻辑确保配置仅在安装 http 包后运行。</li>
+</ul>
+<p>最后，运行 Puppet 应用命令。</p>
+<pre><code># puppet apply test-module/tests/init.pp --noop
+Warning: Config file /etc/puppet/hiera.yaml not found, using Hiera
+defaults
+
+Notice: Compiled catalog for puppet.example.com in environment
+production in 0.82 seconds
+
+Notice: /Stage[main]/test-module::Httpd/Exec[iptables]/returns:
+current_value notrun, should be 0 (noop)
+
+Notice: /Stage[main]/test-module::Httpd/Service[iptables]: Would have
+triggered 'refresh' from 1 events
+</code></pre>
+<h2 id="selinux"><strong>配置 SELinux</strong></h2>
+<p>由于我们正在使用版本 7 及更高版本的 Linux 机器，因此我们需要对其进行配置以进行 http 通信。 SELinux 默认限制对 HTTP 服务器的非标准访问。如果我们定义一个自定义端口，那么我们需要配置 SELinux 以提供对该端口的访问。</p>
+<p>Puppet 包含一些资源类型来管理 SELinux 功能，例如布尔值和模块。</p>
+<p>在这里，我们需要执行 semanage 命令来管理端口设置。该工具是 <code>policycoreutils-python</code> 软件包的一部分，默认情况下未安装在 red-hat 服务器上。</p>
+<p>为了实现上述目的，我们需要在 <code>test-module::http</code> 类中添加以下代码。</p>
+<pre><code>exec { 'semanage-port': 
+   command =&gt; &quot;semanage port -a -t http_port_t -p tcp ${httpd_port}&quot;, 
+   path =&gt; &quot;/usr/sbin&quot;, 
+   require =&gt; Package['policycoreutils-python'], 
+   before =&gt; Service ['httpd'], 
+   subscribe =&gt; Package['httpd'], 
+   refreshonly =&gt; true, 
+} 
+
+package { 'policycoreutils-python': 
+   ensure =&gt; installed, 
+} 
+</code></pre>
+<p>上面的代码执行以下操作 -</p>
+<ul>
+<li><code>require =&gt; Package['policycoreutils-python']</code>确保我们安装了所需的 python 模块。</li>
+<li>Puppet 使用 semanage 打开端口，使用 <code>httpd_port</code> 作为验证。</li>
+<li>before =&gt; 服务确保在 httpd 服务启动之前执行此命令。如果 HTTPD 在 SELinux 命令之前启动，则 SELinux 服务请求和服务请求失败。</li>
+</ul>
+<pre><code># puppet apply test-module/tests/init.pp --noop
+...
+Notice: /Stage[main]/test-module::Httpd/Package[policycoreutilspython]/
+ensure: current_value absent, should be present (noop)
+...
+Notice: /Stage[main]/test-module::Httpd/Exec[semanage-port]/returns:
+current_value notrun, should be 0 (noop)
+...
+Notice: /Stage[main]/test-module::Httpd/Service[httpd]/ensure:
+current_value stopped, should be running (noop)
+</code></pre>
+<p>Puppet先安装python模块，然后配置端口访问，最后启动httpd服务。</p>
+<h2 id="web-html"><strong>在 Web 主机中复制 HTML 文件</strong></h2>
+<p>通过以上步骤我们就完成了http服务器的配置。现在，我们已经准备好安装一个基于 Web 的应用程序的平台，Puppet 也可以对其进行配置。为了测试，我们将一些示例 html 索引网页复制到服务器。</p>
+<p>在 files 目录中创建一个 index.html 文件。</p>
+<pre><code>&lt;html&gt; 
+   &lt;head&gt; 
+      &lt;title&gt;Congratulations&lt;/title&gt; 
+   &lt;head&gt; 
+
+   &lt;body&gt; 
+      &lt;h1&gt;Congratulations&lt;/h1&gt; 
+      &lt;p&gt;Your puppet module has correctly applied your configuration.&lt;/p&gt; 
+   &lt;/body&gt; 
+&lt;/html&gt; 
+</code></pre>
+<p><strong>在 manifest 目录中创建一个 <code>manifest app.pp</code> 并添加以下内容。</strong></p>
+<pre><code>class test-module::app { 
+   file { &quot;/var/www/test-server/index.html&quot;: 
+      ensure =&gt; file, 
+      mode =&gt; 755, 
+      owner =&gt; root, 
+      group =&gt; root, 
+      source =&gt; &quot;puppet:///modules/test-module/index.html&quot;, 
+      require =&gt; Class[&quot;test-module::httpd&quot;], 
+   } 
+}
+</code></pre>
+<p>这个新类包含单个资源。这会将文件从模块的文件目录复制到 Web 服务器并设置其权限。 <code>required</code> 属性确保 <code>test-module::http</code>类在应用 <code>test-module::app</code> 之前成功完成配置。</p>
+<p>最后，我们需要在我们的主 <code>init.pp</code> 清单中包含一个新清单。</p>
+<pre><code>class test-module ( 
+   $http_port = 80 
+) { 
+   include test-module::httpd 
+   include test-module::app 
+} 
+</code></pre>
+<p>现在，运行 apply 命令来实际测试正在发生的事情。以下将是输出。</p>
+<pre><code># puppet apply test-module/tests/init.pp --noop
+Warning: Config file /etc/puppet/hiera.yaml not found, using Hiera
+defaults
+
+Notice: Compiled catalog for brcelprod001.brcle.com in environment
+production in 0.66 seconds
+
+Notice: /Stage[main]/Test-module::Httpd/Exec[iptables]/returns:
+current_value notrun, should be 0 (noop)
+
+Notice: /Stage[main]/Test-module::Httpd/Package[policycoreutilspython]/
+ensure: current_value absent, should be present (noop)
+
+Notice: /Stage[main]/Test-module::Httpd/Service[iptables]: Would have
+triggered 'refresh' from 1 events
+
+Notice: /Stage[main]/Test-module::Httpd/File[/var/www/myserver]/ensure:
+current_value absent, should be directory (noop)
+
+Notice: /Stage[main]/Test-module::Httpd/Package[httpd]/ensure:
+current_value absent, should be present (noop)
+
+Notice:
+/Stage[main]/Test-module::Httpd/File[/etc/httpd/conf.d/myserver.conf]/ensur
+e: current_value absent, should be file (noop)
+
+Notice: /Stage[main]/Test-module::Httpd/Exec[semanage-port]/returns:
+current_value notrun, should be 0 (noop)
+
+Notice: /Stage[main]/Test-module::Httpd/Service[httpd]/ensure:
+current_value stopped, should be running (noop)
+
+Notice: Class[test-module::Httpd]: Would have triggered 'refresh' from 8
+Notice:
+/Stage[main]/test-module::App/File[/var/www/myserver/index.html]/ensur:
+current_value absent, should be file (noop)
+
+Notice: Class[test-module::App]: Would have triggered 'refresh' from 1
+Notice: Stage[main]: Would have triggered 'refresh' from 2 events Notice:
+Finished catalog run in 0.74 seconds
+</code></pre>
+<p>突出显示的行显示了 index.html 文件被复制到网络主机的结果。</p>
+<h2 id="_3"><strong>完成模块</strong></h2>
+<p>通过上述所有步骤，我们创建的新模块就可以使用了。如果我们想创建模块的存档，可以使用以下命令完成。</p>
+<pre><code># puppet module build test-module
+</code></pre>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.78eede0e.min.js"></script>
+      
+    
+  </body>
+</html>

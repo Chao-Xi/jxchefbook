@@ -1,0 +1,2533 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's Chef&Ansible Automation 技术与实战教程">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../chef_adv1/">
+      
+      
+        <link rel="next" href="../chef_op1_kinfe_search/">
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.5">
+    
+    
+      
+        <title>第四节 12 Chef Knife Cookbook Command Examples - Jacob Chef&Ansible Automation Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0e669242.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#12-chef-knife-cookbook-command-examples" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-header__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob Chef&Ansible Automation Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第四节 12 Chef Knife Cookbook Command Examples
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-nav__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob Chef&Ansible Automation Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Chef
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Chef
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef 介绍和安装
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Ruby和Chef语法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 如何写 Chef 配方 & chef-apply
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 用Test Kitchen管理沙盒测试环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 用 Chef 户端管理节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 撰写和使用菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial7_attributes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第七节 Chef 属性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第八节 Chef 服务器同时管理多个节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第九节 社区以及Chef-Client菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial10_zero/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十节 Chef zero
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial11_databag/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十一节 数概包Databag
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十二节 角色
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial13_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十三节 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial14_test/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十四节 测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial15_term/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十五节 词汇表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial16_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十六节 Chef Tutorial Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Opt & Adv
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Opt & Adv
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_adv4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef Roles
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_adv5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Cookbook Versioning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_adv1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 How to Perform Chef Knife SSL Check and Fetch to Verify Certificate
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    第四节 12 Chef Knife Cookbook Command Examples
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    第四节 12 Chef Knife Cookbook Command Examples
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-create-new-chef-cookbook" class="md-nav__link">
+    1. Create New Chef Cookbook
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-create-new-cookbook-with-custom-options" class="md-nav__link">
+    2. Create New Cookbook with Custom Options
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Create New Cookbook with Custom Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-options" class="md-nav__link">
+    2-1 Options
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-upload-cookbook-to-chef-server" class="md-nav__link">
+    3. Upload Cookbook to Chef Server
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-lock-a-cookbook-from-future-edits" class="md-nav__link">
+    4. Lock a Cookbook from Future Edits
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-get-a-list-of-all-cookbooks" class="md-nav__link">
+    5. Get a List of ALL Cookbooks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-delete-a-single-cookbook" class="md-nav__link">
+    6. Delete a Single Cookbook
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-delete-one-or-all-versions-of-a-cookbook" class="md-nav__link">
+    7. Delete One (or All) Versions of a Cookbook
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-delete-multiple-cookbooks-using-bulk-delete" class="md-nav__link">
+    8. Delete Multiple Cookbooks using Bulk Delete
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-download-cookbook-from-chef-server" class="md-nav__link">
+    9. Download Cookbook from Chef Server
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-generate-cookbook-metadata" class="md-nav__link">
+    10. Generate Cookbook Metadata
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-view-cookbook-details" class="md-nav__link">
+    11. View Cookbook Details
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-validate-cookbook-syntax" class="md-nav__link">
+    12. Validate Cookbook Syntax
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_op1_kinfe_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 knife search
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_adv3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 Chef Quick CheatSheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Cookbook Sample LAMP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Cookbook Sample LAMP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Creating My First Chef Cookbook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Creating LAMP Chef Cookbook Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Ansible
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Ansible
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/1ansible_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L1 Ansible Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/2ansible_over_install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L2 Ansible Install(MacOs) and Environment Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/3play_task/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L3 Task Execution management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/4Ansible_variables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L4 Ansible Variable Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/5Complex_roles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L5 Managing complex playbooks with roles and ansible galaxy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/6Secret_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L6 Working with Secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/7Network_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L7 Network Management with Ansible
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/8idempotentence/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L8 Idempotentence with Ansible play
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/9Ansible_interview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L9 Ansible Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/10Ansible_learn_ppt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L10 Ansible 自动化运维工具PPT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/11Ansible_task1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L11 任务中心之Ansible基础篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/12Ansible_task2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L12 任务中心之Ansible进阶篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/13Ansible_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L13 Ansible 面试知识点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/14Ansible_containerd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L14 Ansible Role批量部署Containerd服务
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            HashiCorp Certified Terraform Associate
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/1hashicorp_certified_terraform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate Learning Path
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/2terraform_cs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Cheat Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/3terraform_lock/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    .terraform.lock.hcl 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/4terraform_var/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    terraform.tfvars 与 variables.tf 的区别
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/5terraform_random/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform: Random 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/6terraform_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Top Terraform Interview Questions and Answers (2022)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/7terraform_provider/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform provider update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/8terraform_docker_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform install Jenkins in Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/9terraform_local/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    解决Terraform初始化慢~配置本地离线源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/10terraform_adv/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform(Troubleshooting/Data Sources/Existing Resource)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/11tf_adv_exam/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Exam(Backend/Command/Script/Others)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/12terraform_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12 Adding Terraform to a CI/CD Pipeline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/13terraform_cmt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Integrating with Configuration Managers(Anisble)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Puppet Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Puppet Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/1pp_overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Puppet - Overview & Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/2pp_install_config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2 Puppet - 安装, 配置以及验证
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/3pp_coding_style/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3 Puppet - 编码风格
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/4pp_key_comps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4 Puppet - 核心模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/5pp_resource/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5 Puppet - 资源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/6pp_tmp_cls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6 Puppet - 模板 & 类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/7pp_func/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7 Puppet - Function
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/8pp_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8 Puppet - 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/9app_type_pr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9 Puppet - 类型和提供者
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/10pp_api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10 Puppet - RESTful API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/11pp_proj1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11 Puppet - Live Project 1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ArgoCD Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            ArgoCD Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_argocd/1Intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Introduction to Continuous Delivery
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-create-new-chef-cookbook" class="md-nav__link">
+    1. Create New Chef Cookbook
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-create-new-cookbook-with-custom-options" class="md-nav__link">
+    2. Create New Cookbook with Custom Options
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Create New Cookbook with Custom Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-options" class="md-nav__link">
+    2-1 Options
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-upload-cookbook-to-chef-server" class="md-nav__link">
+    3. Upload Cookbook to Chef Server
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-lock-a-cookbook-from-future-edits" class="md-nav__link">
+    4. Lock a Cookbook from Future Edits
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-get-a-list-of-all-cookbooks" class="md-nav__link">
+    5. Get a List of ALL Cookbooks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-delete-a-single-cookbook" class="md-nav__link">
+    6. Delete a Single Cookbook
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-delete-one-or-all-versions-of-a-cookbook" class="md-nav__link">
+    7. Delete One (or All) Versions of a Cookbook
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-delete-multiple-cookbooks-using-bulk-delete" class="md-nav__link">
+    8. Delete Multiple Cookbooks using Bulk Delete
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-download-cookbook-from-chef-server" class="md-nav__link">
+    9. Download Cookbook from Chef Server
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-generate-cookbook-metadata" class="md-nav__link">
+    10. Generate Cookbook Metadata
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-view-cookbook-details" class="md-nav__link">
+    11. View Cookbook Details
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-validate-cookbook-syntax" class="md-nav__link">
+    12. Validate Cookbook Syntax
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="12-chef-knife-cookbook-command-examples"><strong>第四节 12 Chef Knife Cookbook Command Examples</strong></h1>
+<p>When you are using Chef to manage all your servers and network equipments, you should first create cookbooks and appropriate recipes.</p>
+<p>On all your remote servers, you’ll use chef-client to execute the recipes from the cookbook.</p>
+<p>In this tutorial, we’ll explain how to use knife command to create and manage your Chef cookbooks.</p>
+<h2 id="1-create-new-chef-cookbook"><strong>1. Create New Chef Cookbook</strong></h2>
+<p>To create a cookbook, use “<code>knife cookbook create</code>” command as shown below. The following will create a cookbook with name thegeekstuff.</p>
+<pre><code>$ knife cookbook create test
+FATAL: knife cookbook create has been removed. Please use `chef generate cookbook` from the ChefDK
+</code></pre>
+<pre><code>$ cd /home/vagrant/chef-repo/cookbooks
+$ chef generate cookbook Sushi
+
+$ chef generate cookbook Sushi
+Generating cookbook Sushi
+- Ensuring correct cookbook file content
+- Ensuring delivery configuration
+- Ensuring correct delivery build cookbook content
+
+Your cookbook is ready. Type `cd Sushi` to enter it.
+
+There are several commands you can run to get started locally developing and testing your cookbook.
+Type `delivery local --help` to see a full list.
+
+Why not start by writing a test? Tests for the default recipe are stored at:
+
+test/integration/default/default_test.rb
+
+If you'd prefer to dive right in, the default recipe can be found at:
+
+recipes/default.rb
+</code></pre>
+<p>For the above command, knife command creates a separate directory called “Sushi” under <code>~/chef-repo/cookbooks</code> as shown below.</p>
+<p>The following is the cookbook folder structure.</p>
+<pre><code>$ tree Sushi/
+Sushi/
+├── Berksfile
+├── CHANGELOG.md
+├── chefignore
+├── LICENSE
+├── metadata.rb
+├── README.md
+├── recipes
+│   └── default.rb
+├── spec
+│   ├── spec_helper.rb
+│   └── unit
+│       └── recipes
+│           └── default_spec.rb
+└── test
+    └── integration
+        └── default
+            └── default_test.rb
+
+7 directories, 10 files
+</code></pre>
+<h2 id="2-create-new-cookbook-with-custom-options"><strong>2. Create New Cookbook with Custom Options</strong></h2>
+<p>The <strong>metadata.rb</strong> file under the cookbook directory will have the following default values.</p>
+<pre><code>$ cat /home/vagrant/chef-repo/cookbooks/Sushi/metadata.rb
+name 'Sushi'
+maintainer 'The Authors'
+maintainer_email 'you@example.com'
+license 'All Rights Reserved'
+description 'Installs/Configures Sushi'
+long_description 'Installs/Configures Sushi'
+version '0.1.0'
+chef_version '&gt;= 13.0'
+
+# The `issues_url` points to the location where issues for this cookbook are
+# tracked.  A `View Issues` link will be displayed on this cookbook's page when
+# uploaded to a Supermarket.
+#
+# issues_url 'https://github.com/&lt;insert_org_here&gt;/Sushi/issues'
+
+# The `source_url` points to the development repository for this cookbook.  A
+# `View Source` link will be displayed on this cookbook's page when uploaded to
+# a Supermarket.
+#
+# source_url 'https://github.com/&lt;insert_org_here&gt;/Sushi'
+</code></pre>
+<p><strong>The above values will be used to generate header in any of the <code>.rb</code> files that you create under this cookbook.</strong></p>
+<p>While creating a cookbook, the best practice is to pass the following options.</p>
+<pre><code>$ chef generate cookbook COOKBOOK_PATH/COOKBOOK_NAME (options)
+</code></pre>
+<h3 id="2-1-options"><strong>2-1 Options</strong></h3>
+<p>This subcommand has the following options:</p>
+<pre><code>-g GENERATOR_COOKBOOK_PATH, --generator-cookbook GENERATOR_COOKBOOK_PATH
+</code></pre>
+<p>The path at which a cookbook named <code>code_generator</code> is located. This cookbook is used by the <code>chef generate</code> subcommands to generate cookbooks, cookbook files, templates, attribute files, and so on. Default value: <code>lib/chef-dk/skeletons</code>, under which is the default <code>code_generator</code> cookbook that is included as part of the Chef development kit.</p>
+<p><code>-b, --berks</code></p>
+<p>Create a <strong>Berksfile</strong> in the cookbook. <strong>Default value: enabled</strong>. This is disabled if the <code>--policy</code> option is given.</p>
+<p><code>-C COPYRIGHT, --copyright COPYRIGHT</code></p>
+<p>Generate a delivery config file and build cookbook inside the new cookbook. <strong>Default value: disabled</strong>. This option is disabled. It has no effect and exists only for compatibility with past releases</p>
+<p><code>-m EMAIL, --email EMAIL</code></p>
+<p>Specify the email address of the author. Default value: <code>you@example.com</code>.</p>
+<p><code>-a KEY=VALUE, --generator-arg KEY=VALUE</code></p>
+<p><strong>Sets a property named KEY to the given VALUE on the generator context object in the generator cookbook</strong>. This allows custom generator cookbooks to accept optional user input on the command line.</p>
+<p><code>-I LICENSE, --license LICENSE</code></p>
+<p>Sets the license. Valid values are <code>all_rights</code>, <code>apache2</code>, <code>mit</code>, <code>gplv2</code>, or <code>gplv3</code>. <strong>Default value: all_rights</strong>.</p>
+<p><code>-P, --policy</code></p>
+<p>Create a Policyfile in the cookbook instead of a Berksfile. <strong>Default value: disabled</strong>.</p>
+<p><code>-h, --help</code></p>
+<p>Show help for the command.</p>
+<p><code>-v, --version</code></p>
+<p>The version of the chef-client.</p>
+<h2 id="3-upload-cookbook-to-chef-server"><strong>3. Upload Cookbook to Chef Server</strong></h2>
+<p>The following “knife cookbook upload” command will upload the cookbook that we created above to the Chef server.</p>
+<p>As we see, since this is the first version of this cookbook, it is showing the version number as 0.1.0.</p>
+<pre><code>$ sudo knife cookbook upload Sushi
+Uploading Sushi          [0.1.0]
+Uploaded 1 cookbook.
+</code></pre>
+<p>When you have multiple cookbooks that has multiple versions, you can upload all of your cookbooks using option <code>-a</code>.</p>
+<p>In the following example, we have 3 cookbooks, and the latest version of all these cookbooks are getting uploaded.</p>
+<pre><code>$ sudo knife cookbook upload -a
+Uploading ApacheWebserver [0.1.0]
+Uploading Sushi          [0.1.0]
+Uploading starter        [1.0.0]
+Uploaded all cookbooks.
+</code></pre>
+<p><strong>The following command will not only upload “Sushi” cookbook, but it will also upload all the dependent cookbooks.</strong></p>
+<pre><code>$ sudo knife cookbook upload Sushi -d
+Uploading Sushi          [0.1.0]
+Uploaded 1 cookbook.
+</code></pre>
+<h2 id="4-lock-a-cookbook-from-future-edits"><strong>4. Lock a Cookbook from Future Edits</strong></h2>
+<p><strong>When you don’t want anybody else to be modifying a particular cookbook version, use the <code>–freeze</code> option.</strong></p>
+<p>In the following example, after this command, nobody can upload the 0.1.0 version of “Sushi” cookbook anymore. You have to create a new version.</p>
+<pre><code>$ sudo knife cookbook upload Sushi --freeze
+Uploading Sushi          [0.1.0]
+Uploaded 1 cookbook.
+</code></pre>
+<p>If you are trying to upload the same version, you’ll get the following error message.</p>
+<pre><code>$ sudo knife cookbook upload Sushi
+Uploading Sushi          [0.1.0]
+ERROR: Version 0.1.0 of cookbook Sushi is frozen. Use --force to override.
+WARNING: Not updating version constraints for Sushi in the environment as the cookbook is frozen.
+ERROR: Failed to upload 1 cookbook.
+</code></pre>
+<p><strong>For some reason, if you want to edit and upload a cookbook that is frozen, use the –force option.</strong></p>
+<pre><code>$ sudo knife cookbook upload Sushi --force
+Uploading Sushi          [0.1.0]
+Uploaded 1 cookbook.
+</code></pre>
+<p><strong>When you are uploading lot of cookbooks that are big, you can use the <code>–-concurrency</code> option. By default this is set to <code>10</code>. In the following example, we are setting the concurrency to 15 while uploading the cookbook.</strong></p>
+<pre><code># knife cookbook upload -a --concurrency 15
+</code></pre>
+<h2 id="5-get-a-list-of-all-cookbooks"><strong>5. Get a List of ALL Cookbooks</strong></h2>
+<p>The following “knife cookbook list” command will display all the cookbooks that are available on your Chef server. The 2nd column in the following output is the latest version of that cookbook</p>
+<pre><code>$ knife cookbook list
+ApacheWebserver   0.1.0
+Sushi             0.1.0
+starter           1.0.0
+</code></pre>
+<p>To view how many versions are available for the cookbooks, use the <code>-a</code> option which will display ALL versions. You can also use <code>–all</code> option.</p>
+<pre><code>$ knife cookbook list -a
+ApacheWebserver   0.1.0
+Sushi             0.1.0
+starter           1.0.0
+</code></pre>
+<p>The <code>-w</code> option will display all the cookbook versions along with their corresponding URIs as shown below. You can also use <code>–with-uri</code> option. You can combine <code>-a</code> option with <code>-w</code> as shown below.</p>
+<pre><code>$ knife cookbook list -aw
+ApacheWebserver:
+  0.1.0: https://chefserver/organizations/devops-jxi/cookbooks/ApacheWebserver/0.1.0
+Sushi:
+  0.1.0: https://chefserver/organizations/devops-jxi/cookbooks/Sushi/0.1.0
+starter:
+  1.0.0: https://chefserver/organizations/devops-jxi/cookbooks/starter/1.0.0
+</code></pre>
+<h2 id="6-delete-a-single-cookbook"><strong>6. Delete a Single Cookbook</strong></h2>
+<pre><code>$ knife cookbook delete Sushi
+Do you really want to delete Sushi version 0.1.0? (Y/N) y
+Deleted cookbook[Sushi version 0.1.0]
+</code></pre>
+<p>The <code>-p</code> option will delete the cookbook, and permanently purge the cookbook from the Chef server. Use this option with caution.</p>
+<pre><code># knife cookbook delete dev-db -p
+Files that are common to multiple cookbooks are shared, so purging the files may disable other cookbooks. Are you sure you want to purge files instead of just deleting the cookbook? (Y/N) Y
+Do you really want to delete dev-db version 0.1.0? (Y/N) Y
+Deleted cookbook[dev-db version 0.1.0]
+</code></pre>
+<h2 id="7-delete-one-or-all-versions-of-a-cookbook"><strong>7. Delete One (or All) Versions of a Cookbook</strong></h2>
+<p>When a cookbook has multiple versions, the delete command will display all the versions and prompt the user to choose either one of the version, or all versions as shown below.</p>
+<pre><code># knife cookbook delete thegeekstuff
+Which version(s) do you want to delete?
+1. thegeekstuff 2.1.0
+2. thegeekstuff 2.0.0
+3. thegeekstuff 1.0.0
+4. thegeekstuff 0.1.0
+5. All versions
+</code></pre>
+<p>In the above example, I choose 1 to delete “<code>thegeekstuff</code>” cookbook with version <code>2.1.0</code></p>
+<pre><code>1
+Deleted cookbook[thegeekstuff][2.1.0]
+</code></pre>
+<p>You can also specify the version number to delete directly in the command lien as shown below.</p>
+<pre><code># knife cookbook delete 2.1.0 thegeekstuff
+Do you really want to delete 2.1.0 version thegeekstuff? (Y/N) N
+Deleted cookbook[thegeekstuff][2.1.0]
+</code></pre>
+<p>If you want to delete ALL the version of a specific cookbook, use option <code>-a</code> as shown below. You can also use <code>–all</code> instead of <code>-a</code>.</p>
+<pre><code># knife cookbook delete thegeekstuff -a
+Do you really want to delete all versions of thegeekstuff? (Y/N) Y
+Deleted cookbook[thegeekstuff][2.1.0]
+Deleted cookbook[thegeekstuff][2.0.0]
+Deleted cookbook[thegeekstuff][1.0.0]
+Deleted cookbook[thegeekstuff][0.1.0]
+</code></pre>
+<h2 id="8-delete-multiple-cookbooks-using-bulk-delete"><strong>8. Delete Multiple Cookbooks using Bulk Delete</strong></h2>
+<p>In the following example, we are using “knife cookbook bulk delete” command to delete multiple cookbooks at the same time. You can pass regular-expressions as parameter to this command.</p>
+<p>The following example will delete all the cookbooks that start with “dev-“.</p>
+<p>This this example, we have three cookbooks that matches the given regular expression. But, each of these cookbooks have multiple versions. So, this command will delete all the version of these three cookbooks.</p>
+<pre><code>$  knife cookbook bulk delete &quot;^dev-*&quot;
+All versions of the following cookbooks will be deleted:
+
+
+
+Do you really want to delete these cookbooks? (Y/N) n
+You said no, so I'm done here.
+</code></pre>
+<h2 id="9-download-cookbook-from-chef-server"><strong>9. Download Cookbook from Chef Server</strong></h2>
+<p>When you have chef-client installed on multiple machine, and when you want to download a cookbook that someone has modified on your client, then use the “<code>knife cookbook download</code>” command as shown below.</p>
+<p>The following command will download the “<code>ApacheWebserver</code>” cookbook from the Chef server to your local machine.</p>
+<p>The cookbook will be downloaded to the current directory. The downloaded cookbook folder will also have the version number appended at the end.</p>
+<pre><code>$ sudo knife cookbook download ApacheWebserver
+Downloading ApacheWebserver cookbook version 0.1.0
+Downloading root_files
+Downloading test
+Downloading spec
+Downloading recipes
+Cookbook downloaded to /home/vagrant/chef-repo/ApacheWebserver-0.1.0
+</code></pre>
+<p>When you are trying to download a cookbook that has multiple versions, it will prompt you to choose a specific version.</p>
+<p>In the following example, since “ApacheWebserver” cookbook has multiple versions, it will display the following option, and you can choose one from the list.</p>
+<pre><code>$  sudo knife cookbook download ApacheWebserver
+Which version do you want to download?
+1. ApacheWebserver 0.1.0
+2. ApacheWebserver 0.2.0
+</code></pre>
+<p><strong>You can also pass the cookbook version number in the command-line as shown below, to directly download that particular version to your local machine.</strong></p>
+<p>If you just want to download the latest version of a cookbook without having to specify a version number, use <code>-N</code> option (or <code>–latest</code> option) as shown below.</p>
+<pre><code>$ sudo knife cookbook download ApacheWebserver -N
+Downloading ApacheWebserver cookbook version 0.2.0
+Downloading root_files
+Downloading test
+Downloading spec
+Downloading recipes
+Cookbook downloaded to /home/vagrant/chef-repo/cookbooks/ApacheWebserver/ApacheWebserver-0.2.0
+</code></pre>
+<p>When a version of the cookbook that you are downloading has already been downloaded before, you’ll get the following error message.</p>
+<pre><code>$ sudo knife cookbook download ApacheWebserver 0.2.0
+Downloading ApacheWebserver cookbook version 0.2.0
+FATAL: Directory /home/vagrant/chef-repo/cookbooks/ApacheWebserver/ApacheWebserver-0.2.0 exists, use --force to overwrite
+</code></pre>
+<p>In that case, use the <code>-f</code>option (or <code>–force</code>) to download the cookbook and overwrite the local directory with the version that was downloaded from the Chef server.</p>
+<pre><code>knife cookbook download  ApacheWebserver  2.1.0 -f
+</code></pre>
+<p>Instead of downloading it under the current directory, you can also specify a download directory using <code>-d</code> option (or –dir option).</p>
+<p>The following command will download “ApacheWebserver” version 0.2.0 cookbook to <code>~/tmp/download</code> directory.</p>
+<pre><code>$ sudo knife cookbook download ApacheWebserver 0.2.0 -d ~/tmp/download/
+Downloading ApacheWebserver cookbook version 0.2.0
+Downloading root_files
+Downloading test
+Downloading spec
+Downloading recipes
+Cookbook downloaded to /home/vagrant/tmp/download/ApacheWebserver-0.2.0
+
+$ ls -lt ~/tmp/download/
+total 0
+drwxr-xr-x. 5 root root 171 Jan  4 07:17 ApacheWebserver-0.2.0
+</code></pre>
+<h2 id="10-generate-cookbook-metadata"><strong>10. Generate Cookbook Metadata</strong></h2>
+<p>You can generate metadata file for your cookbook using “knife cookbook metadata” command as shown below. The following command will generate the <code>metadata.rb</code>for all the cookbooks.</p>
+<pre><code># knife cookbook metadata -a
+Generating metadata for dev-cluster from /root/chef-repo/cookbooks/dev-cluster/metadata.rb
+Generating metadata for dev-db from /root/chef-repo/cookbooks/dev-db/metadata.rb
+Generating metadata for dev-web from /root/chef-repo/cookbooks/dev-web/metadata.rb
+Generating metadata for thegeekstuff from /root/chef-repo/cookbooks/thegeekstuff/metadata.rb
+</code></pre>
+<p>If you want to generate metadata only for a specific cookbook, then specify the direct path of the metadata.rb file for that particular cookbook using the “from file” option as shown below.</p>
+<p>The following command will generate metadata for “ApacheWebserver” cookbook using the given <code>metadata.rb</code> file.</p>
+<pre><code># knife cookbook metadata from file ~/chef-repo/cookbooks/thegeekstuff/metadata.rb 
+
+Generating metadata for thegeekstuff from /root/chef-repo/cookbooks/thegeekstuff/metadata.rb
+</code></pre>
+<h2 id="11-view-cookbook-details"><strong>11. View Cookbook Details</strong></h2>
+<p>You can view the details of a cookbook using “<code>knife cookbook show</code>” command.</p>
+<p>When you don’t specify a version number for a cookbook, the show command will display list of all the version numbers available for the given cookbook</p>
+<pre><code>$ knife cookbook show ApacheWebserver
+ApacheWebserver   0.2.0  0.1.0
+</code></pre>
+<p>But when you specify a version number, this will display lot more information about the cookbook as shown below.</p>
+<pre><code>$ knife cookbook show ApacheWebserver 0.2.0
+cookbook_name: ApacheWebserver
+frozen?:       false
+metadata:
+  attributes:
+  chef_versions:
+    &gt;= 13.0
+  dependencies:
+  description:      Installs/Configures ApacheWebserver
+  gems:
+  issues_url:
+  license:          All Rights Reserved
+  long_description: Installs/Configures ApacheWebserver
+  maintainer:       The Authors
+  maintainer_email: you@example.com
+  name:             ApacheWebserver
+  ohai_versions:
+  platforms:
+  privacy:          false
+  providing:
+    ApacheWebserver:        &gt;= 0.0.0
+    ApacheWebserver::hello: &gt;= 0.0.0
+  recipes:
+    ApacheWebserver:
+    ApacheWebserver::hello:
+  source_url:
+  version:          0.2.0
+name:          ApacheWebserver-0.2.0
+...
+</code></pre>
+<p>The default output of the above command will display lot of information.</p>
+<p>You can also specify a section number to the show command as shown below, which will display only that particular section in the show command output.</p>
+<p>For example, the following will display only the “attributes” section from the <code>docker_custom.rb</code> file of “thegeekstuff” cookbook.</p>
+<pre><code>knife cookbook show thegeekstuff 1.2.0 attributes docker_custom.rb
+</code></pre>
+<p>The following show command will display only the “recipies” PART (section) from the given <code>.rb</code> file of the “<code>thegeekstuff</code>” cookbook.</p>
+<pre><code>knife cookbook show thegeekstuff 1.2.0 recipies deploy/testserver/tomcat_custom.rb
+</code></pre>
+<p>The following are the possible sections that you can pass as a parameter to the above show command.</p>
+<ul>
+<li>attributes</li>
+<li>definitions</li>
+<li>files</li>
+<li>libraries</li>
+<li>providers</li>
+<li>recipes</li>
+<li>resources</li>
+<li>templates</li>
+</ul>
+<p>Also, use <code>-F</code> option to specify a output format for the knife cookbook show command. The following will display the output of the show command in JSON format.</p>
+<p>To view information in JSON format, use the -F common option as part of the command like this:</p>
+<pre><code>$ knife cookbook show  ApacheWebserver  0.1.0 -F json
+{
+  &quot;cookbook_name&quot;: &quot;ApacheWebserver&quot;,
+  &quot;name&quot;: &quot;ApacheWebserver-0.1.0&quot;,
+  &quot;frozen?&quot;: false,
+  &quot;metadata&quot;: {
+    &quot;name&quot;: &quot;ApacheWebserver&quot;,
+    &quot;description&quot;: &quot;Installs/Configures ApacheWebserver&quot;,
+    &quot;long_description&quot;: &quot;Installs/Configures ApacheWebserver&quot;,
+    &quot;maintainer&quot;: &quot;The Authors&quot;,
+    &quot;maintainer_email&quot;: &quot;you@example.com&quot;,
+    &quot;license&quot;: &quot;All Rights Reserved&quot;,
+    &quot;platforms&quot;: {
+
+    },
+    &quot;dependencies&quot;: {
+
+    },
+...
+</code></pre>
+<p>The following are the available formats:</p>
+<ul>
+<li>json – for JSON format</li>
+<li>text – for plain text</li>
+<li>yaml – Standard YAML format</li>
+<li>pp – Post processing format</li>
+</ul>
+<h2 id="12-validate-cookbook-syntax"><strong>12. Validate Cookbook Syntax</strong></h2>
+<p>The following “<code>knife cookbook test</code>” command will do a syntax check validation on the cookbook files.</p>
+<p><strong>In the following example, we have an error in “ApacheWebserver” cookbook. As you see in the last line, it says that the method “author” in the metadata.rb file is undefined and not recognized by Chef.</strong></p>
+<pre><code>$ sudo knife cookbook test ApacheWebserver
+WARNING: DEPRECATED: Please use ChefSpec or Cookstyle to syntax-check cookbooks.
+checking ApacheWebserver
+Running syntax check on ApacheWebserver
+Validating ruby files
+Validating templates
+</code></pre>
+<p><strong><code>$ cookstyle /path/to/cookbook</code></strong></p>
+<pre><code>$ sudo cookstyle cookbooks/ApacheWebserver/
+Inspecting 14 files
+.....CC.....CC
+
+Offenses:
+
+cookbooks/ApacheWebserver/recipes/default.rb:7:9: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+service &quot;httpd&quot; do
+        ^^^^^^^
+cookbooks/ApacheWebserver/recipes/default.rb:8:1: C: Layout/IndentationWidth: Use 2 (not 8) spaces for indentation.
+        action [:enable, :start]
+^^^^^^^^
+cookbooks/ApacheWebserver/recipes/default.rb:12:1: C: Layout/IndentationWidth: Use 2 (not 8) spaces for indentation.
+        content &quot;&lt;html&gt;&lt;body bgcolor='#D2D2D3'&gt;&lt;h1&gt;Hello World, This is my 1st cookbook recipe &lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&quot;
+^^^^^^^^
+cookbooks/ApacheWebserver/recipes/hello.rb:2:1: C: Layout/IndentationWidth: Use 2 (not 8) spaces for indentation.
+        content &quot;&lt;html&gt;&lt;body&gt;Hello World, This is my first cookbook &lt;br/&gt; This is 2nd version &lt;/body&gt;&lt;/html&gt;&quot;
+^^^^^^^^
+cookbooks/ApacheWebserver/recipes/hello.rb:2:17: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+        content &quot;&lt;html&gt;&lt;body&gt;Hello World, This is my first cookbook &lt;br/&gt; This is 2nd version &lt;/body&gt;&lt;/html&gt;&quot;
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cookbooks/ApacheWebserver/ApacheWebserver-0.2.0/recipes/default.rb:7:9: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+service &quot;httpd&quot; do
+        ^^^^^^^
+cookbooks/ApacheWebserver/ApacheWebserver-0.2.0/recipes/default.rb:8:1: C: Layout/IndentationWidth: Use 2 (not 8) spaces for indentation.
+        action [:enable, :start]
+^^^^^^^^
+cookbooks/ApacheWebserver/ApacheWebserver-0.2.0/recipes/default.rb:12:1: C: Layout/IndentationWidth: Use 2 (not 8) spaces for indentation.
+        content &quot;&lt;html&gt;&lt;body bgcolor='#D2D2D3'&gt;&lt;h1&gt;Hello World, This is my 1st cookbook recipe &lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&quot;
+^^^^^^^^
+cookbooks/ApacheWebserver/ApacheWebserver-0.2.0/recipes/hello.rb:2:1: C: Layout/IndentationWidth: Use 2 (not 8) spaces for indentation.
+        content &quot;&lt;html&gt;&lt;body&gt;Hello World, This is my first cookbook &lt;br/&gt; This is 2nd version &lt;/body&gt;&lt;/html&gt;&quot;
+^^^^^^^^
+cookbooks/ApacheWebserver/ApacheWebserver-0.2.0/recipes/hello.rb:2:17: C: Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+        content &quot;&lt;html&gt;&lt;body&gt;Hello World, This is my first cookbook &lt;br/&gt; This is 2nd version &lt;/body&gt;&lt;/html&gt;&quot;
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+14 files inspected, 10 offenses detected
+</code></pre>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.78eede0e.min.js"></script>
+      
+    
+  </body>
+</html>

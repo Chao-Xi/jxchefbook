@@ -1,0 +1,2312 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's Chef&Ansible Automation 技术与实战教程">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../chef_adv5/">
+      
+      
+        <link rel="next" href="../chef_adv2/">
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.5">
+    
+    
+      
+        <title>第三节 How to Perform Chef Knife SSL Check and Fetch to Verify Certificate - Jacob Chef&Ansible Automation Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0e669242.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#how-to-perform-chef-knife-ssl-check-and-fetch-to-verify-certificate" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-header__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob Chef&Ansible Automation Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第三节 How to Perform Chef Knife SSL Check and Fetch to Verify Certificate
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-nav__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob Chef&Ansible Automation Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Chef
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Chef
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef 介绍和安装
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Ruby和Chef语法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 如何写 Chef 配方 & chef-apply
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 用Test Kitchen管理沙盒测试环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 用 Chef 户端管理节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 撰写和使用菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial7_attributes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第七节 Chef 属性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第八节 Chef 服务器同时管理多个节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第九节 社区以及Chef-Client菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial10_zero/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十节 Chef zero
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial11_databag/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十一节 数概包Databag
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十二节 角色
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial13_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十三节 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial14_test/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十四节 测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial15_term/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十五节 词汇表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial16_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十六节 Chef Tutorial Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Opt & Adv
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Opt & Adv
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_adv4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef Roles
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_adv5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Cookbook Versioning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    第三节 How to Perform Chef Knife SSL Check and Fetch to Verify Certificate
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    第三节 How to Perform Chef Knife SSL Check and Fetch to Verify Certificate
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1why-chef-ssl-certificate" class="md-nav__link">
+    1、Why Chef SSL Certificate?
+  </a>
+  
+    <nav class="md-nav" aria-label="1、Why Chef SSL Certificate?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-knife-ssl-check-error-1-invalid-chef-repo-directory" class="md-nav__link">
+    1-1 Knife SSL Check – Error 1 (Invalid chef-repo Directory)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-knife-ssl-check-error-2-no-ssl-certificate-found" class="md-nav__link">
+    1-2 Knife SSL Check – Error 2 (No SSL Certificate Found)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-knife-ssl-fetch-error-3-network-error-connection-refused" class="md-nav__link">
+    1-3 Knife SSL Fetch – Error 3 (Network Error – Connection Refused)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-4-knife-fetch-ssl-certificate-and-store-it" class="md-nav__link">
+    1-4 Knife Fetch SSL certificate and Store it
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-final-knife-ssl-check-verification" class="md-nav__link">
+    2 Final Knife SSL Check Verification
+  </a>
+  
+    <nav class="md-nav" aria-label="2 Final Knife SSL Check Verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-knife-ssl-check-for-a-different-chef-server-url" class="md-nav__link">
+    2-1 Knife SSL Check for a different Chef Server URL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-knife-ssl-check-on-individual-node-on-chef-client" class="md-nav__link">
+    2-2 Knife SSL Check on Individual Node (On Chef Client)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-knife-ssl-fetch-from-a-different-chef-server-url" class="md-nav__link">
+    2-3 Knife SSL Fetch from a different Chef Server URL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-4-validate-the-downloaded-chef-server-certificate" class="md-nav__link">
+    2-4 Validate the Downloaded Chef Server Certificate
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_adv2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 12 Chef Knife Cookbook Command Examples
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_op1_kinfe_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 knife search
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chef_adv3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 Chef Quick CheatSheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Cookbook Sample LAMP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Cookbook Sample LAMP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Creating My First Chef Cookbook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Creating LAMP Chef Cookbook Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Ansible
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Ansible
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/1ansible_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L1 Ansible Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/2ansible_over_install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L2 Ansible Install(MacOs) and Environment Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/3play_task/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L3 Task Execution management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/4Ansible_variables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L4 Ansible Variable Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/5Complex_roles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L5 Managing complex playbooks with roles and ansible galaxy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/6Secret_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L6 Working with Secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/7Network_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L7 Network Management with Ansible
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/8idempotentence/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L8 Idempotentence with Ansible play
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/9Ansible_interview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L9 Ansible Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/10Ansible_learn_ppt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L10 Ansible 自动化运维工具PPT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/11Ansible_task1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L11 任务中心之Ansible基础篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/12Ansible_task2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L12 任务中心之Ansible进阶篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/13Ansible_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L13 Ansible 面试知识点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/14Ansible_containerd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L14 Ansible Role批量部署Containerd服务
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            HashiCorp Certified Terraform Associate
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/1hashicorp_certified_terraform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate Learning Path
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/2terraform_cs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Cheat Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/3terraform_lock/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    .terraform.lock.hcl 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/4terraform_var/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    terraform.tfvars 与 variables.tf 的区别
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/5terraform_random/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform: Random 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/6terraform_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Top Terraform Interview Questions and Answers (2022)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/7terraform_provider/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform provider update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/8terraform_docker_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform install Jenkins in Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/9terraform_local/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    解决Terraform初始化慢~配置本地离线源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/10terraform_adv/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform(Troubleshooting/Data Sources/Existing Resource)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/11tf_adv_exam/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Exam(Backend/Command/Script/Others)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/12terraform_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12 Adding Terraform to a CI/CD Pipeline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/13terraform_cmt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Integrating with Configuration Managers(Anisble)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Puppet Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Puppet Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/1pp_overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Puppet - Overview & Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/2pp_install_config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2 Puppet - 安装, 配置以及验证
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/3pp_coding_style/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3 Puppet - 编码风格
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/4pp_key_comps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4 Puppet - 核心模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/5pp_resource/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5 Puppet - 资源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/6pp_tmp_cls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6 Puppet - 模板 & 类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/7pp_func/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7 Puppet - Function
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/8pp_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8 Puppet - 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/9app_type_pr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9 Puppet - 类型和提供者
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/10pp_api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10 Puppet - RESTful API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/11pp_proj1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11 Puppet - Live Project 1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ArgoCD Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            ArgoCD Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_argocd/1Intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Introduction to Continuous Delivery
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1why-chef-ssl-certificate" class="md-nav__link">
+    1、Why Chef SSL Certificate?
+  </a>
+  
+    <nav class="md-nav" aria-label="1、Why Chef SSL Certificate?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-knife-ssl-check-error-1-invalid-chef-repo-directory" class="md-nav__link">
+    1-1 Knife SSL Check – Error 1 (Invalid chef-repo Directory)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-knife-ssl-check-error-2-no-ssl-certificate-found" class="md-nav__link">
+    1-2 Knife SSL Check – Error 2 (No SSL Certificate Found)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-knife-ssl-fetch-error-3-network-error-connection-refused" class="md-nav__link">
+    1-3 Knife SSL Fetch – Error 3 (Network Error – Connection Refused)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-4-knife-fetch-ssl-certificate-and-store-it" class="md-nav__link">
+    1-4 Knife Fetch SSL certificate and Store it
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-final-knife-ssl-check-verification" class="md-nav__link">
+    2 Final Knife SSL Check Verification
+  </a>
+  
+    <nav class="md-nav" aria-label="2 Final Knife SSL Check Verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-knife-ssl-check-for-a-different-chef-server-url" class="md-nav__link">
+    2-1 Knife SSL Check for a different Chef Server URL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-knife-ssl-check-on-individual-node-on-chef-client" class="md-nav__link">
+    2-2 Knife SSL Check on Individual Node (On Chef Client)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-knife-ssl-fetch-from-a-different-chef-server-url" class="md-nav__link">
+    2-3 Knife SSL Fetch from a different Chef Server URL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-4-validate-the-downloaded-chef-server-certificate" class="md-nav__link">
+    2-4 Validate the Downloaded Chef Server Certificate
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="how-to-perform-chef-knife-ssl-check-and-fetch-to-verify-certificate"><strong>第三节 How to Perform Chef Knife SSL Check and Fetch to Verify Certificate</strong></h1>
+<p>Starting from Chef server version 12, <strong>SSL verification is enabled by default for all the communication that are initiated from any of the chef utilities</strong> (<strong>knife, chef-client</strong>).</p>
+<p>For this, <strong>Chef server</strong> will generate a <strong>self-signed SSL certificate</strong> during the installation process.</p>
+<p><strong>From your Chef workstation when you execute knife command, you should download the SSL certificate before you can get started.</strong></p>
+<p>If you don’t do this, knife command will not connect to the Chef server.</p>
+<h2 id="1why-chef-ssl-certificate"><strong>1、Why Chef SSL Certificate?</strong></h2>
+<p>Starting from Chef server version 12, when you perform a simple command like <code>knife client list</code>, it will display the SSL validation failure error message, as the workstation don’t have the server’s SSL certificate for verification.</p>
+<pre><code># knife client list
+ERROR: SSL Validation failure connecting to host: datadb - SSL_connect returned=1 errno=0 state=error: certificate verify failed
+ERROR: Could not establish a secure connection to the server.
+Use `knife ssl check` to troubleshoot your SSL configuration.
+If your Chef Server uses a self-signed certificate, you can use
+`knife ssl fetch` to make knife trust the server's certificates.
+Original Exception: OpenSSL::SSL::SSLError: SSL Error connecting to https://datadb/organizations/thegeekstuff/clients - SSL_connect returned=1 errno=0 state=error: certificate verify failed
+</code></pre>
+<p><strong>Even the chef-client that runs on the individual nodes will need the SSL certificate.</strong></p>
+<p>To avoid this SSL error, we should download the self-signed SSL certificate that is generated by the Chef server and store it in the trusted store on the chef client machines including the workstations and individual nodes.</p>
+<p>On the Chef workstation when the SSL certificate is installed properly, it will not display the SSL error message when executing knife command.</p>
+<pre><code>$ knife client list
+devops-jxi-validator
+node1
+</code></pre>
+<p>On a high-level, you have to do the following. All of these are explained in this tutorial along with possible error messages that you might get and how to resolve those:</p>
+<ul>
+<li>On your <strong>chef workstation</strong>, <strong>download the chef server’s SSL certificate</strong></li>
+<li>On all your individual nodes, <strong>make sure a valid chef server’s certificate is installed as part of the bootstrap</strong>.</li>
+<li>Also, verify the <strong>check-sum of the downloaded chef server’s SSL certificate.</strong></li>
+</ul>
+<h3 id="1-1-knife-ssl-check-error-1-invalid-chef-repo-directory"><strong>1-1 Knife SSL Check – Error 1 (Invalid chef-repo Directory)</strong></h3>
+<p>You can use the knife ssl check command to verify whether the Chef SSL certificate is installed properly on your local machine</p>
+<p><strong>You should execute ssl check command inside the chef repository directory. If not, you’ll get the “No knife configuration file found” error message as shown below.</strong></p>
+<p>At this stage, this has nothing to do with unable to verify SSL certificate. The following error message is because you are inside a wrong directory when executing the knife ssl check command.</p>
+<pre><code># knife ssl check
+WARNING: No knife configuration file found
+Connecting to host localhost:443
+ERROR: The SSL cert is signed by a trusted authority but is not valid for the given hostname
+ERROR: You are attempting to connect to:   'localhost'
+ERROR: The server's certificate belongs to 'datadb'
+
+TO FIX THIS ERROR:
+
+The solution for this issue depends on your networking configuration. If you
+are able to connect to this server using the hostname datadb
+instead of localhost, then you can resolve this issue by updating chef_server_url
+in your configuration file.
+
+If you are not able to connect to the server using the hostname datadb
+you will have to update the certificate on the server to use the correct hostname.
+</code></pre>
+<p>So, to fix this particular error message, <strong>simply cd to chef-repo and execute the <code>knife ssl check</code></strong> command as shown below.</p>
+<pre><code>cd ~/chef-repo
+knife ssl check
+</code></pre>
+<h3 id="1-2-knife-ssl-check-error-2-no-ssl-certificate-found"><strong>1-2 Knife SSL Check – Error 2 (No SSL Certificate Found)</strong></h3>
+<p>In the following knife ssl check command example, the output indicates that on this Chef workstation, the Chef server’s SSL certificate is not installed.</p>
+<pre><code># cd ~/chef-repo
+
+# knife ssl check
+Connecting to host datadb:443
+ERROR: The SSL certificate of datadb could not be verified
+Certificate issuer data: /C=US/O=YouCorp/OU=Operations/CN=datadb
+
+Configuration Info:
+
+OpenSSL Configuration:
+* Version: OpenSSL 1.0.1s  1 Mar 2016
+* Certificate file: /opt/chefdk/embedded/ssl/cert.pem
+* Certificate directory: /opt/chefdk/embedded/ssl/certs
+Chef SSL Configuration:
+* ssl_ca_path: nil
+* ssl_ca_file: nil
+* trusted_certs_dir: &quot;/root/chef-repo/.chef/trusted_certs&quot;
+
+TO FIX THIS ERROR:
+
+If the server you are connecting to uses a self-signed certificate, you must
+configure chef to trust that server's certificate.
+
+By default, the certificate is stored in the following location on the host
+where your chef-server runs:
+
+  /var/opt/opscode/nginx/ca/SERVER_HOSTNAME.crt
+
+Copy that file to your trusted_certs_dir (currently: /root/chef-repo/.chef/trusted_certs)
+using SSH/SCP or some other secure method, then re-run this command to confirm
+that the server's certificate is now trusted.
+</code></pre>
+<p>When you execute the ssl check command, it will look for the certificate under .chef/trusted_certs directory. If it finds it there, <strong>it will verify to make sure it is a valid X.590 SSL certificate.</strong> If it can’t find a valid certificate, it will throw the above error message.</p>
+<h3 id="1-3-knife-ssl-fetch-error-3-network-error-connection-refused"><strong>1-3 Knife SSL Fetch – Error 3 (Network Error – Connection Refused)</strong></h3>
+<p><strong><code>Knife ssl fetch</code> command will get the certificate from the Chef server and install it on the individual workstation or node where you are executing the fetch command.</strong></p>
+<p>During knife ssl fetch, you might get the following Network error connection refused message as shown below.</p>
+<pre><code># knife ssl fetch
+WARNING: Certificates from datadb will be fetched and placed in your trusted_cert
+directory (/root/chef-repo/.chef/trusted_certs).
+
+Knife has no means to verify these are the correct certificates. You should
+verify the authenticity of these certificates after downloading.
+
+ERROR: Network Error: Connection refused - connect(2) for &quot;datadb&quot; port 443
+Check your knife configuration and network settings
+</code></pre>
+<p>The same network error connection refused error message for <strong>“knife client list”</strong> also. So, this error has to do with some unable to resolve/reach using proper name “datadb”.</p>
+<p>When you get the above connection refused error message, the same thing will happen for other knife commands also as shown below.</p>
+<pre><code># knife client list
+ERROR: Connection refused connecting to https://datadb/organizations/thegeekstuff/clients, retry 1/5
+ERROR: Connection refused connecting to https://datadb/organizations/thegeekstuff/clients, retry 2/5
+
+</code></pre>
+<p><strong>This means that your Chef workstation or individual node is unable to initiate network communication to the Chef server.</strong></p>
+<p>To fix this error, you have to make sure your server is using a fully qualified domain name. In the following example, we don’t see the FQDN setup properly.</p>
+<pre><code># hostname -f
+datadb
+</code></pre>
+<p>Also, to fix this error message, in my example, my <code>/etc/hosts</code> file looked like the following. Basically you have to make sure both your hostname and FQDN properly setup.</p>
+<p>In the following example, the ip-address in the last line the ip-address of the datadb server.</p>
+<pre><code># cat /etc/hosts
+127.0.0.1 datadb.thegeekstuff.com datadb
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+192.168.100.2 datadb.thegeekstuff.com datadb
+</code></pre>
+<p>Now, when I execute the <code>hostname -f</code> command, I’ll get the FQDN as shown below.</p>
+<pre><code># hostname -f
+datadb.thegeekstuff.com
+</code></pre>
+<p>After the above changes to the /etc/hosts file, now you shouldn’t get the Network Error connection refused message anymore from the knife command.</p>
+<h3 id="1-4-knife-fetch-ssl-certificate-and-store-it"><strong>1-4 Knife Fetch SSL certificate and Store it</strong></h3>
+<p><strong>Finally, use the <code>knife ssl fetch</code> command as shown below to retrieve the SSL certificate from the Chef server and store it to the <code>.chef/trusted_certs</code> directory on the workstation or the individual nodes by either the <code>knife</code> or <code>chef-client</code> command.</strong></p>
+<p>The location of where the certificate will be stored when you execute the knife ssl fetch command will be determined by the <code>trusted_certs_dir</code> parameter in the <code>/etc/chef/client.rb</code> file</p>
+<p><strong>on the work node</strong></p>
+<pre><code># cd /etc/chef
+# less client.rb
+
+chef_server_url  &quot;https://ChefServer/organizations/devops-jxi&quot;
+validation_client_name &quot;devops-jxi-validator&quot;
+log_location   STDOUT
+node_name &quot;node1&quot;
+ssl_verify_mode :verify_none
+trusted_certs_dir &quot;/etc/chef/trusted_certs&quot;
+</code></pre>
+<pre><code># knife ssl fetch
+WARNING: Certificates from datadb will be fetched and placed in your trusted_cert
+directory (/root/chef-repo/.chef/trusted_certs).
+
+Knife has no means to verify these are the correct certificates. You should
+verify the authenticity of these certificates after downloading.
+
+Adding certificate for datadb in /root/chef-repo/.chef/trusted_certs/datadb.crt
+</code></pre>
+<p>As we see here, on the workstation, the certificate is now downloaded and stored. This certificate will be used by knife command to communicate to the Chef server on SSL.</p>
+<pre><code># ls -l .chef/trusted_certs/
+-rw-r--r--. 1 root root 1330 Jun 24 09:44 datadb.crt
+</code></pre>
+<p>As you see, this is a standard SSL certificate. This is a self-signed certificated generated by Chef server.</p>
+<pre><code># cat .chef/trusted_certs/datadb.crt 
+-----BEGIN CERTIFICATE-----
+ANBgkqhkiG9w0BAQsFADBFMQswCQYDVQQGEwJVUzEQ
+ETMBEGA1UECwwKT3BlcmF0aW9uczEPMA0GA1UEAwwG
+..
+..
+IwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAN3l
+WO7bpxbQ1qqeuq9aLhNTIM1alwHfvlckmzSJsHRI+V
+TaWuk7xncRs4VCUw==
+-----END CERTIFICATE-----
+</code></pre>
+<h2 id="2-final-knife-ssl-check-verification"><strong>2 Final Knife SSL Check Verification</strong></h2>
+<p>After installing the SSL certificate properly as shown above, now when you execute the knife ssl check, it will not report any error. The following verifies that the Chef Server’s self-signed SSL certificate is properly installed on this machine and knife or chef-client command can use it without any issue.</p>
+<pre><code># knife ssl check
+Connecting to host datadb:443
+Successfully verified certificates from `datadb'
+</code></pre>
+<h3 id="2-1-knife-ssl-check-for-a-different-chef-server-url"><strong>2-1 Knife SSL Check for a different Chef Server URL</strong></h3>
+<p>By default, when you execute knife ssl check (or knife ssl fetch), how does it know which Chef server to connect to?</p>
+<p>For this, it will use the <code>chef_server_url</code> from the <code>knife.rb</code> file as shown below.</p>
+<pre><code># cat .chef/knife.rb 
+current_dir = File.dirname(__FILE__)
+log_level                :info
+log_location             STDOUT
+node_name                &quot;ramesh&quot;
+client_key               &quot;#{current_dir}/ramesh.pem&quot;
+validation_client_name   &quot;thegeekstuff-validator&quot;
+validation_key           &quot;#{current_dir}/thegeekstuff-validator.pem&quot;
+chef_server_url          &quot;https://datadb/organizations/thegeekstuff&quot;
+cookbook_path            [&quot;#{current_dir}/../cookbooks&quot;]
+</code></pre>
+<p>But, using knife ssl check, you can verify the SSL certificate for a different Chef server by passing the chef server url as a parameter. </p>
+<p><strong>In the following example, it will connect to <code>datadb-prod</code> Chef server to verify the SSL certificate.</strong></p>
+<pre><code># knife ssl check https://datadb-prod/organizations/thegeekstuff
+Connecting to host datadb-prod:443
+Successfully verified certificates from `datadb-prod'
+</code></pre>
+<h3 id="2-2-knife-ssl-check-on-individual-node-on-chef-client"><strong>2-2 Knife SSL Check on Individual Node (On Chef Client)</strong></h3>
+<p>If you want to verify whether your client machine where the chef-client command is execute has the properly valid Chef server’s SSL certificate, then execute the <code>knife ssl check</code> command and pass the –config parameter as shown below</p>
+<pre><code># knife ssl check --config /etc/chef/client.rb
+Connecting to host datadb:443
+Successfully verified certificates from `datadb'
+</code></pre>
+<p>In the above example, the knife ssl check command will use the chef_server_url parameter’s value from the following <code>client.rb</code> file as the Chef Server to connect and verify the SSL certificate.</p>
+<pre><code># cat /etc/chef/client.rb 
+log_location     STDOUT
+chef_server_url  &quot;https://datadb/organizations/thegeekstuff&quot;
+validation_client_name &quot;thegeekstuff-validator&quot;
+# Using default node name (fqdn)
+trusted_certs_dir &quot;/etc/chef/trusted_certs&quot;
+</code></pre>
+<h3 id="2-3-knife-ssl-fetch-from-a-different-chef-server-url"><strong>2-3 Knife SSL Fetch from a different Chef Server URL</strong></h3>
+<p>You can also get the SSL certificate from a different chef server (than the default one from the <code>knife.rb</code>) by specifying the chef server’s URL as a parameter to the knife ssl fetch command as shown below.</p>
+<pre><code># knife ssl fetch https://datadb-prod/organizations/thegeekstuff
+WARNING: Certificates from datadb-prod will be fetched and placed in your trusted_cert
+directory (/root/chef-repo/.chef/trusted_certs).
+
+Knife has no means to verify these are the correct certificates. You should
+verify the authenticity of these certificates after downloading.
+
+Adding certificate for datadb-prod in /root/chef-repo/.chef/trusted_certs/datadb-prod.crt
+</code></pre>
+<h3 id="2-4-validate-the-downloaded-chef-server-certificate"><strong>2-4 Validate the Downloaded Chef Server Certificate</strong></h3>
+<p>When you have the chef server and the chef workstation running on different machine and when you are doing the knife ssl fetch, it is a good idea to verify the check sum to make sure you have downloaded the correct certificate.</p>
+<p>On the Chef Server, the SSL certificate is located under <code>/var/opt/opscode/nginx/ca</code> directory. Use the sha256sum command to get the check-sum as shown below.</p>
+<pre><code># sha256sum /var/opt/opscode/nginx/ca/datadb.crt
+bd32b7f8ddc2e4e405f990dd6  /var/opt/opscode/nginx/ca/datadb.crt
+</code></pre>
+<p>On your Chef workstation, where you did “knife ssl fetch” command to download the certificate, execute the following <code>sha256sum</code> command and make sure the following check-sum value matches the above value.</p>
+<pre><code># sha256sum .chef/trusted_certs/datadb.crt 
+bd32b7f8ddc2e4e405f990dd6  .chef/trusted_certs/datadb.crt
+</code></pre>
+<p><a href="https://www.thegeekstuff.com/2016/06/knife-ssl-check-fetch/">Reference</a></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.78eede0e.min.js"></script>
+      
+    
+  </body>
+</html>

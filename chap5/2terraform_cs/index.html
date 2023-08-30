@@ -1,0 +1,2934 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's Chef&Ansible Automation 技术与实战教程">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../1hashicorp_certified_terraform/">
+      
+      
+        <link rel="next" href="../3terraform_lock/">
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.5">
+    
+    
+      
+        <title>Terraform Cheat Sheet - Jacob Chef&Ansible Automation Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0e669242.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#l2-terraform-cheat-sheet" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-header__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob Chef&Ansible Automation Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Terraform Cheat Sheet
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-nav__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob Chef&Ansible Automation Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Chef
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Chef
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef 介绍和安装
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Ruby和Chef语法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 如何写 Chef 配方 & chef-apply
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 用Test Kitchen管理沙盒测试环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 用 Chef 户端管理节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 撰写和使用菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial7_attributes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第七节 Chef 属性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第八节 Chef 服务器同时管理多个节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第九节 社区以及Chef-Client菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial10_zero/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十节 Chef zero
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial11_databag/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十一节 数概包Databag
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十二节 角色
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial13_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十三节 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial14_test/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十四节 测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial15_term/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十五节 词汇表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial16_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十六节 Chef Tutorial Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Opt & Adv
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Opt & Adv
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef Roles
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Cookbook Versioning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 How to Perform Chef Knife SSL Check and Fetch to Verify Certificate
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 12 Chef Knife Cookbook Command Examples
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_op1_kinfe_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 knife search
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 Chef Quick CheatSheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Cookbook Sample LAMP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Cookbook Sample LAMP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Creating My First Chef Cookbook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Creating LAMP Chef Cookbook Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Ansible
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Ansible
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/1ansible_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L1 Ansible Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/2ansible_over_install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L2 Ansible Install(MacOs) and Environment Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/3play_task/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L3 Task Execution management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/4Ansible_variables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L4 Ansible Variable Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/5Complex_roles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L5 Managing complex playbooks with roles and ansible galaxy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/6Secret_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L6 Working with Secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/7Network_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L7 Network Management with Ansible
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/8idempotentence/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L8 Idempotentence with Ansible play
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/9Ansible_interview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L9 Ansible Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/10Ansible_learn_ppt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L10 Ansible 自动化运维工具PPT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/11Ansible_task1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L11 任务中心之Ansible基础篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/12Ansible_task2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L12 任务中心之Ansible进阶篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/13Ansible_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L13 Ansible 面试知识点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/14Ansible_containerd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L14 Ansible Role批量部署Containerd服务
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            HashiCorp Certified Terraform Associate
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1hashicorp_certified_terraform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate Learning Path
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Terraform Cheat Sheet
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Cheat Sheet
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1terraform-architecture" class="md-nav__link">
+    1、Terraform Architecture
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2terraform-providers-plugins" class="md-nav__link">
+    2、Terraform Providers (Plugins)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3terraform-provisioners" class="md-nav__link">
+    3、Terraform Provisioners
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4terraform-workspaces" class="md-nav__link">
+    4、Terraform Workspaces
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5terraform-workflow" class="md-nav__link">
+    5、Terraform Workflow
+  </a>
+  
+    <nav class="md-nav" aria-label="5、Terraform Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-1-init" class="md-nav__link">
+    5-1 init
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-2-validate" class="md-nav__link">
+    5-2 validate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-3-plan" class="md-nav__link">
+    5-3 plan
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-4-apply" class="md-nav__link">
+    5-4 apply
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-5-refresh" class="md-nav__link">
+    5-5 refresh
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-6-destroy" class="md-nav__link">
+    5-6 destroy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-7-import" class="md-nav__link">
+    5-7 import
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-8-taint" class="md-nav__link">
+    5-8 taint
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-9-fmt" class="md-nav__link">
+    5-9 fmt
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-10-console" class="md-nav__link">
+    5-10 console
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6terraform-modules" class="md-nav__link">
+    6、Terraform Modules
+  </a>
+  
+    <nav class="md-nav" aria-label="6、Terraform Modules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-1-module-requirements" class="md-nav__link">
+    6-1 Module requirements
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7terraform-read-and-write-configuration" class="md-nav__link">
+    7、Terraform Read and write configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="7、Terraform Read and write configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7-1-resources" class="md-nav__link">
+    7-1 Resources
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-2-data-sources" class="md-nav__link">
+    7-2 Data Sources
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-3-variables" class="md-nav__link">
+    7-3 Variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-4-local-values" class="md-nav__link">
+    7-4 Local Values
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-5-output" class="md-nav__link">
+    7-5 Output
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-6-named-values" class="md-nav__link">
+    7-6 Named Values
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-7-dependencies" class="md-nav__link">
+    7-7 Dependencies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-8-data-types" class="md-nav__link">
+    7-8 Data Types
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-9-built-in-functions" class="md-nav__link">
+    7-9 Built-in Functions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-10-dynamic-blocks" class="md-nav__link">
+    7-10 Dynamic Blocks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-11-terraform-comments" class="md-nav__link">
+    7-11 Terraform Comments
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8terraform-backends" class="md-nav__link">
+    8、Terraform Backends
+  </a>
+  
+    <nav class="md-nav" aria-label="8、Terraform Backends">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8-1-helps" class="md-nav__link">
+    8-1 helps
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-2-supports-local-vs-remote-backends" class="md-nav__link">
+    8-2 supports local vs remote backends
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9terraform-state-management" class="md-nav__link">
+    9、Terraform State Management
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10state-locking" class="md-nav__link">
+    10、State Locking
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11state-security" class="md-nav__link">
+    11、State Security
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12terraform-logging" class="md-nav__link">
+    12、Terraform Logging
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13terraform-cloud-and-terraform-enterprise" class="md-nav__link">
+    13、Terraform Cloud and Terraform Enterprise
+  </a>
+  
+    <nav class="md-nav" aria-label="13、Terraform Cloud and Terraform Enterprise">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#13-1-terraform-cloud-provides-features" class="md-nav__link">
+    13-1 Terraform Cloud provides features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-2-terraform-enterprise-features" class="md-nav__link">
+    13-2 Terraform Enterprise features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3terraform_lock/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    .terraform.lock.hcl 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4terraform_var/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    terraform.tfvars 与 variables.tf 的区别
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5terraform_random/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform: Random 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6terraform_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Top Terraform Interview Questions and Answers (2022)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7terraform_provider/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform provider update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8terraform_docker_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform install Jenkins in Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9terraform_local/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    解决Terraform初始化慢~配置本地离线源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10terraform_adv/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform(Troubleshooting/Data Sources/Existing Resource)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11tf_adv_exam/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Exam(Backend/Command/Script/Others)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12terraform_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12 Adding Terraform to a CI/CD Pipeline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13terraform_cmt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Integrating with Configuration Managers(Anisble)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Puppet Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Puppet Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/1pp_overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Puppet - Overview & Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/2pp_install_config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2 Puppet - 安装, 配置以及验证
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/3pp_coding_style/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3 Puppet - 编码风格
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/4pp_key_comps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4 Puppet - 核心模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/5pp_resource/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5 Puppet - 资源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/6pp_tmp_cls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6 Puppet - 模板 & 类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/7pp_func/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7 Puppet - Function
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/8pp_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8 Puppet - 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/9app_type_pr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9 Puppet - 类型和提供者
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/10pp_api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10 Puppet - RESTful API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_pp/11pp_proj1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11 Puppet - Live Project 1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ArgoCD Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            ArgoCD Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_argocd/1Intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Introduction to Continuous Delivery
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1terraform-architecture" class="md-nav__link">
+    1、Terraform Architecture
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2terraform-providers-plugins" class="md-nav__link">
+    2、Terraform Providers (Plugins)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3terraform-provisioners" class="md-nav__link">
+    3、Terraform Provisioners
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4terraform-workspaces" class="md-nav__link">
+    4、Terraform Workspaces
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5terraform-workflow" class="md-nav__link">
+    5、Terraform Workflow
+  </a>
+  
+    <nav class="md-nav" aria-label="5、Terraform Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-1-init" class="md-nav__link">
+    5-1 init
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-2-validate" class="md-nav__link">
+    5-2 validate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-3-plan" class="md-nav__link">
+    5-3 plan
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-4-apply" class="md-nav__link">
+    5-4 apply
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-5-refresh" class="md-nav__link">
+    5-5 refresh
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-6-destroy" class="md-nav__link">
+    5-6 destroy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-7-import" class="md-nav__link">
+    5-7 import
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-8-taint" class="md-nav__link">
+    5-8 taint
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-9-fmt" class="md-nav__link">
+    5-9 fmt
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-10-console" class="md-nav__link">
+    5-10 console
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6terraform-modules" class="md-nav__link">
+    6、Terraform Modules
+  </a>
+  
+    <nav class="md-nav" aria-label="6、Terraform Modules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-1-module-requirements" class="md-nav__link">
+    6-1 Module requirements
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7terraform-read-and-write-configuration" class="md-nav__link">
+    7、Terraform Read and write configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="7、Terraform Read and write configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7-1-resources" class="md-nav__link">
+    7-1 Resources
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-2-data-sources" class="md-nav__link">
+    7-2 Data Sources
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-3-variables" class="md-nav__link">
+    7-3 Variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-4-local-values" class="md-nav__link">
+    7-4 Local Values
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-5-output" class="md-nav__link">
+    7-5 Output
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-6-named-values" class="md-nav__link">
+    7-6 Named Values
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-7-dependencies" class="md-nav__link">
+    7-7 Dependencies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-8-data-types" class="md-nav__link">
+    7-8 Data Types
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-9-built-in-functions" class="md-nav__link">
+    7-9 Built-in Functions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-10-dynamic-blocks" class="md-nav__link">
+    7-10 Dynamic Blocks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-11-terraform-comments" class="md-nav__link">
+    7-11 Terraform Comments
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8terraform-backends" class="md-nav__link">
+    8、Terraform Backends
+  </a>
+  
+    <nav class="md-nav" aria-label="8、Terraform Backends">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8-1-helps" class="md-nav__link">
+    8-1 helps
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-2-supports-local-vs-remote-backends" class="md-nav__link">
+    8-2 supports local vs remote backends
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9terraform-state-management" class="md-nav__link">
+    9、Terraform State Management
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10state-locking" class="md-nav__link">
+    10、State Locking
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11state-security" class="md-nav__link">
+    11、State Security
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12terraform-logging" class="md-nav__link">
+    12、Terraform Logging
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13terraform-cloud-and-terraform-enterprise" class="md-nav__link">
+    13、Terraform Cloud and Terraform Enterprise
+  </a>
+  
+    <nav class="md-nav" aria-label="13、Terraform Cloud and Terraform Enterprise">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#13-1-terraform-cloud-provides-features" class="md-nav__link">
+    13-1 Terraform Cloud provides features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-2-terraform-enterprise-features" class="md-nav__link">
+    13-2 Terraform Enterprise features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="l2-terraform-cheat-sheet"><strong>L2 Terraform Cheat Sheet</strong></h1>
+<ul>
+<li><strong>An open source provisioning declarative tool that based on Infrastructure as a Code paradigm</strong></li>
+<li>designed on immutable infrastructure principles</li>
+<li>Written in Golang and uses own syntax – HCL (Hashicorp Configuration Language), but also supports JSON</li>
+<li>Helps to evolve the infrastructure, safely and predictably</li>
+<li>Applies Graph Theory to IaaC and provides Automation, Versioning and Reusability</li>
+<li>Terraform is a multipurpose composition tool:<ul>
+<li>Composes multiple tiers (SaaS/PaaS/IaaS)</li>
+<li>A plugin-based architecture model</li>
+</ul>
+</li>
+<li>Terraform is not a cloud agnostic tool. It embraces all major Cloud</li>
+<li>Providers and provides common language to orchestrate the infrastructure resources</li>
+<li><strong>Terraform is not a configuration management tool and other tools like chef, ansible exists in the market</strong>.</li>
+</ul>
+<h2 id="1terraform-architecture"><strong>1、Terraform Architecture</strong></h2>
+<p><img alt="Alt Image Text" src="../../images/chap5_1_1.png" title="Body image" /></p>
+<h2 id="2terraform-providers-plugins"><strong>2、Terraform Providers (Plugins)</strong></h2>
+<ul>
+<li>provide abstraction above the upstream API and is responsible for understanding API interactions and exposing resources.</li>
+<li>Invoke only upstream APIs for the basic CRUD operations</li>
+<li>Providers are unaware of anything related to configuration loading, graph theory, etc.</li>
+<li>supports multiple provider instances <strong>using <code>alias</code> for e.g. multiple aws provides with different region</strong></li>
+<li>can be integrated with any API using providers framework</li>
+<li>Most providers configure a specific infrastructure platform (either cloud or self-hosted).</li>
+<li><strong>can also offer local utilities for tasks like generating random numbers for unique resource names</strong>.</li>
+</ul>
+<h2 id="3terraform-provisioners"><strong>3、Terraform Provisioners</strong></h2>
+<ul>
+<li>
+<p>run code <strong>locally</strong> or <strong>remotely</strong> on resource creation</p>
+<ul>
+<li>local exec executes code on the machine running terraform</li>
+<li>remote exec<ul>
+<li>runs on the provisioned resource</li>
+<li>supports <strong>ssh</strong> and <strong>winrm</strong></li>
+</ul>
+</li>
+<li>requires inline list of commands</li>
+</ul>
+</li>
+<li>
+<p>should be used as a last resort</p>
+</li>
+<li>are defined within the resource block.</li>
+<li>support types – <strong>Create and Destroy</strong><ul>
+<li>if creation time fails, resource is tainted if provisioning failed, by default. (next apply it will be re-created)</li>
+<li><strong>behavior can be overridden by setting the <code>on_failure</code> to <code>continue</code>, which means ignore and continue</strong></li>
+<li>for destroy, if it fails – resources are not removed</li>
+</ul>
+</li>
+</ul>
+<h2 id="4terraform-workspaces"><strong>4、Terraform Workspaces</strong></h2>
+<ul>
+<li><strong><mark>helps manage multiple distinct sets of infrastructure resources or environments with the same code</mark></strong>.</li>
+<li>just need to <strong>create needed workspace and use them</strong>, instead of creating a directory for each environment to manage</li>
+<li><strong>state files for each workspace are stored in the directory <code>terraform.tfstate.d</code></strong></li>
+<li><strong><code>terraform workspace new dev</code> creates a new workspace</strong> and switches to it as well</li>
+<li><strong><code>terraform workspace select dev</code> helps select workspace</strong></li>
+<li><code>terraform workspace list</code> lists the workspaces and shows the current active one with <strong><code>*</code></strong></li>
+<li>does not provide strong separation as it uses the same backend</li>
+</ul>
+<h2 id="5terraform-workflow"><strong>5、Terraform Workflow</strong></h2>
+<p><img alt="Alt Image Text" src="../../images/chap5_1_2.png" title="Body image" /></p>
+<h3 id="5-1-init"><strong>5-1 init</strong></h3>
+<ul>
+<li><strong><code>initializes</code> a working directory containing Terraform configuration files.</strong></li>
+<li>
+<p>performs</p>
+<ul>
+<li><strong>backend initialization , storage for terraform state file</strong>.</li>
+<li>modules installation, downloaded from terraform registry to local path</li>
+<li><strong>provider(s) plugins installation</strong>, the plugins are downloaded in the <strong>sub-directory of the present working directory at the path of <code>.terraform/plugins</code></strong></li>
+</ul>
+</li>
+<li>
+<p>supports <code>-upgrade</code> to update all previously installed plugins to the newest version that complies with the configuration’s version constraints</p>
+</li>
+<li><strong>is safe to run multiple times, to bring the working directory up to date with changes in the configuration</strong></li>
+<li><strong>does not delete the existing configuration or state</strong></li>
+</ul>
+<h3 id="5-2-validate"><strong>5-2 validate</strong></h3>
+<ul>
+<li>validates syntactically for <strong>format</strong> and <strong>correctness</strong>.</li>
+<li><strong>is used to validate/check the syntax of the Terraform files.</strong></li>
+<li>verifies whether a configuration is syntactically valid and internally consistent, regardless of any provided variables or existing state.</li>
+<li>A syntax check is done on all the terraform files in the directory, <strong>and will display an error if any of the files doesn’t validate.</strong></li>
+</ul>
+<h3 id="5-3-plan"><strong>5-3 plan</strong></h3>
+<ul>
+<li>create a execution plan</li>
+<li>traverses each vertex and requests each provider using <strong>parallelism</strong></li>
+<li>calculates the difference between the <strong>last-known state and
+the current state and presents this difference as the output of the terraform plan</strong> operation to user in their terminal</li>
+<li>does not modify the infrastructure or state.</li>
+<li>allows a user to see which actions Terraform will <strong>perform prior to making any changes to reach the desired state</strong></li>
+<li>will <strong>scan all <code>*.tf</code>  files in the directory and create the plan</strong></li>
+<li>will perform refresh for each resource and might hit rate limiting issues as it calls provider APIs</li>
+<li>all resources refresh can be disabled or avoided using<ul>
+<li><strong><code>-refresh=false</code></strong> or</li>
+<li><code>target=xxxx</code> or</li>
+<li>break resources into different directories.</li>
+</ul>
+</li>
+<li><strong>supports <code>-out</code> to save the plan</strong></li>
+</ul>
+<h3 id="5-4-apply"><strong>5-4 apply</strong></h3>
+<ul>
+<li>apply changes to reach the desired state.</li>
+<li>scans the current directory for the configuration and applies the changes appropriately.</li>
+<li>can be provided with a explicit plan, saved as out from <code>terraform plan</code></li>
+<li>If no explicit plan file is given on the command line, <code>terraform apply</code> will create a new plan automatically and prompt for approval to apply it</li>
+<li>will modify the infrastructure and the state.</li>
+<li>if a resource successfully creates but fails during provisioning,<ul>
+<li><strong>Terraform will error and mark the resource as “tainted”</strong>.</li>
+<li>A resource that is tainted has been physically created, but can’t be considered safe to use since provisioning failed.</li>
+<li><strong>Terraform also does not automatically roll back and destroy the resource during the apply when the failure happens,</strong> because that would go against the execution plan: <strong>the execution plan would’ve said a resource will be created, but does not say it will ever be deleted.</strong></li>
+</ul>
+</li>
+<li><strong>does not import any resource.</strong></li>
+<li><strong>supports <code>-auto-approve</code> to apply the changes without asking for a confirmation</strong></li>
+<li><strong>supports <code>-target</code> to apply a specific module</strong></li>
+</ul>
+<h3 id="5-5-refresh"><strong>5-5 refresh</strong></h3>
+<ul>
+<li>used to reconcile the state Terraform knows about (via its state file) with the real-world infrastructure</li>
+<li><strong>does not modify infrastructure, but does modify the state file</strong></li>
+</ul>
+<h3 id="5-6-destroy"><strong>5-6 destroy</strong></h3>
+<ul>
+<li>destroy the infrastructure and all resources</li>
+<li>modifies both state and infrastructure</li>
+<li><strong><code>terraform destroy -target</code> can be used to destroy targeted resources</strong></li>
+<li><strong><code>terraform plan -destroy</code> allows creation of destroy plan</strong></li>
+</ul>
+<h3 id="5-7-import"><strong>5-7 import</strong></h3>
+<ul>
+<li><strong>helps import already-existing external resources,</strong> not managed by Terraform, into Terraform state and allow it to manage those resources</li>
+<li><strong>Terraform is not able to auto-generate configurations for those imported modules</strong>, for now, and requires you to first write the resource definition in Terraform and then import this resource</li>
+</ul>
+<h3 id="5-8-taint"><strong>5-8 taint</strong></h3>
+<ul>
+<li>marks a Terraform-managed resource as tainted, <strong>forcing it to be destroyed and recreated on the next apply.</strong></li>
+<li><strong>will not modify infrastructure, but does modify the state file in order to mark a resource as tainted.</strong> Infrastructure and state are changed in next apply.</li>
+<li>can be used to taint a resource within a module</li>
+</ul>
+<h3 id="5-9-fmt"><strong>5-9 fmt</strong></h3>
+<p>format to lint the code into a standard format</p>
+<h3 id="5-10-console"><strong>5-10 console</strong></h3>
+<p>command provides an interactive console for evaluating expressions.</p>
+<h2 id="6terraform-modules"><strong>6、Terraform Modules</strong></h2>
+<ul>
+<li>enables code reuse</li>
+<li>supports versioning to maintain compatibility</li>
+<li>stores code remotely</li>
+<li>enables easier testing</li>
+<li>enables encapsulation with all the separate resources under one</li>
+<li>configuration block</li>
+<li>modules can be nested inside other modules, allowing you to quickly spin up whole separate environments.</li>
+<li>can be referred using <strong>source</strong> attribute</li>
+<li>supports <strong>Local and Remote modules</strong><ul>
+<li>Local modules are stored alongside the Terraform configuration (in a separate directory, outside of each environment but in the same repository) with <strong>source path <code>./</code> or <code>../</code></strong></li>
+<li>Remote modules are stored externally in a separate repository, <strong>and supports versioning</strong></li>
+</ul>
+</li>
+<li>supports following backends<ul>
+<li>Local paths</li>
+<li>Terraform Registry</li>
+<li>GitHub</li>
+<li>Bitbucket</li>
+<li>Generic Git, Mercurial repositories</li>
+<li>HTTP URLs</li>
+<li>S3 buckets</li>
+<li>GCS buckets</li>
+</ul>
+</li>
+</ul>
+<h3 id="6-1-module-requirements"><strong>6-1 Module requirements</strong></h3>
+<ul>
+<li>must be on GitHub and must be a public repo, if using public registry.</li>
+<li>must be named <strong><code>terraform-&lt;PROVIDER&gt;-&lt;NAME&gt;</code></strong>, <strong>where <code>&lt;NAME&gt;</code> reflects the type of infrastructure the module manages and <code>&lt;PROVIDER&gt;</code> </strong>is the main provider where it creates that infrastructure. for e.g. <em><code>terraform-google-vault</code> or <code>terraform-aws-ec2-instance</code></em>.</li>
+<li><strong>must maintain <code>x.y.z</code> tags f</strong>or releases to identify module versions. Release tag names must be a semantic version, which can optionally be prefixed with a <strong>v for example, v1.0.4 and 0.9.2.</strong> Tags that don’t look like version numbers are ignored.</li>
+<li>must maintain a Standard module structure, which allows the registry to inspect the module and generate documentation, track resource usage, parse submodules and examples, and more.</li>
+</ul>
+<h2 id="7terraform-read-and-write-configuration"><strong>7、Terraform Read and write configuration</strong></h2>
+<p><img alt="Alt Image Text" src="../../images/chap5_1_3.png" title="Body image" /></p>
+<h3 id="7-1-resources"><strong>7-1 Resources</strong></h3>
+<ul>
+<li><strong>resource</strong> are the most important element in the Terraform language that describes one or more infrastructure objects, such as compute instances etc</li>
+<li>resource type and local name together serve as an identifier for a given resource and must be unique within a module for e.g.  <strong><code>aws_instance.local_name</code></strong></li>
+</ul>
+<h3 id="7-2-data-sources"><strong>7-2 Data Sources</strong></h3>
+<ul>
+<li><strong>data</strong> allow data to be <strong>fetched or computed for use elsewhere in Terraform configuration</strong></li>
+<li>allows a Terraform configuration to <strong>make use of information defined outside of Terraform</strong>, or defined by another separate Terraform configuration</li>
+</ul>
+<h3 id="7-3-variables"><strong>7-3 Variables</strong></h3>
+<ul>
+<li><strong>variable</strong> serve as <strong>parameters for a Terraform module</strong> and <strong>act like function arguments</strong></li>
+<li>allows aspects of the module to be customized without altering the module’s own source code, and allowing modules to be shared between different configurations</li>
+<li>can be defined through multiple ways<ul>
+<li>command line for e.g.<strong><code>-var="image_id=ami-abc123"</code></strong></li>
+<li><strong>variable definition files <code>.tfvars</code> or <code>.tfvars.json</code>.</strong> By default, terraform automatically loads<ul>
+<li><strong>Files named exactly <code>terraform.tfvars</code> or <code>terraform.tfvars.json</code></strong>.</li>
+<li><strong>Any files with names ending in <code>.auto.tfvars</code> or <code>.auto.tfvars.json</code></strong></li>
+<li>file can also be passed with <code>-var-file</code></li>
+</ul>
+</li>
+<li>environment variables can be used to set variables using the format <strong><code>TF_VAR_name</code></strong></li>
+</ul>
+</li>
+</ul>
+<p><strong>Environment variables</strong></p>
+<ul>
+<li><code>terraform.tfvars</code> file, if present.</li>
+<li><code>terraform.tfvars.json</code> file, if present.</li>
+<li><strong>Any <code>*.auto.tfvars</code> or <code>*.auto.tfvars.json</code> files</strong>, processed in lexical order of their filenames.</li>
+<li>Any <code>-var</code> and <code>-var-file</code> options on the command line, in the order they are provided. Terraform loads variables in the following order, with later sources taking precedence over earlier ones:</li>
+</ul>
+<h3 id="7-4-local-values"><strong>7-4 Local Values</strong></h3>
+<ul>
+<li><strong>locals</strong> assigns a name to an expression, <strong>allowing it to be used multiple times within a module without repeating it</strong>.</li>
+<li>are like a function’s temporary local variables.</li>
+<li>helps to avoid repeating the same values or expressions multiple times in a configuration.</li>
+</ul>
+<h3 id="7-5-output"><strong>7-5 Output</strong></h3>
+<ul>
+<li>are like function return values.</li>
+<li><strong>output can be marked as containing sensitive material using the optional <code>sensitive</code> argument</strong>, which prevents Terraform from showing its value in the list of outputs. However, they are still stored in the state as plain text.</li>
+<li><strong>In a parent module, outputs of child modules are available in expressions as <code>module.&lt;MODULE NAME&gt;.&lt;OUTPUT NAME&gt;</code></strong>.</li>
+</ul>
+<h3 id="7-6-named-values"><strong>7-6 Named Values</strong></h3>
+<ul>
+<li><strong>is an expression that references the associated value for e.g. <code>aws_instance.local_name, data.aws_ami.centos</code>, <code>var.instance_type</code> etc.</strong></li>
+<li></li>
+<li><strong>support Local named values for e.g <code>count.index</code></strong></li>
+</ul>
+<h3 id="7-7-dependencies"><strong>7-7 Dependencies</strong></h3>
+<p>identifies implicit dependencies as Terraform automatically infers when one resource depends on another by studying the resource attributes used in interpolation expressions for e.g <strong><code>aws_eip</code> on resource <code>aws_instance</code></strong></p>
+<p>explicit dependencies can be defined using <strong><code>depends_on</code> where dependencies between resources that are <code>not visible</code> to Terraform</strong></p>
+<h3 id="7-8-data-types"><strong>7-8 Data Types</strong></h3>
+<ul>
+<li>
+<p>supports primitive data types of</p>
+<ul>
+<li><strong>string, number and bool</strong></li>
+<li>Terraform language will automatically convert <strong>number and bool values to string</strong> values when needed</li>
+</ul>
+</li>
+<li>
+<p><strong>supports complex data types of</strong></p>
+<ul>
+<li>list – a sequence of values identified by consecutive whole numbers starting with zero.</li>
+<li>map – a collection of values where each is identified by a string label.</li>
+<li>set –  a collection of unique values that do not have any secondary 
+identifiers or ordering.</li>
+</ul>
+</li>
+<li>
+<p><strong>supports structural data types of</strong></p>
+<ul>
+<li><strong>object</strong> – a collection of named attributes that each have their own type</li>
+<li><strong>tuple</strong> – a sequence of elements identified by consecutive whole numbers starting with zero, where each element has its own type.</li>
+</ul>
+</li>
+</ul>
+<h3 id="7-9-built-in-functions"><strong>7-9 Built-in Functions</strong></h3>
+<ul>
+<li>includes a number of built-in functions that can be called from within expressions to transform and combine values for e.g. <strong>min, max, file, concat, element, index, lookup</strong> etc.</li>
+<li><strong>does not support user-defined functions</strong></li>
+</ul>
+<h3 id="7-10-dynamic-blocks"><strong>7-10 Dynamic Blocks</strong></h3>
+<p>acts much like a for expression, but produces nested blocks instead of a complex typed value. It iterates over a given complex value, and generates a nested block for each element of that complex value.</p>
+<h3 id="7-11-terraform-comments"><strong>7-11 Terraform Comments</strong></h3>
+<p>supports three different syntaxes for comments:</p>
+<ul>
+<li><code>#</code></li>
+<li><code>//</code></li>
+<li><code>/*</code> and <code>*/</code></li>
+</ul>
+<h2 id="8terraform-backends"><strong>8、Terraform Backends</strong></h2>
+<ul>
+<li>determines how state is loaded and how an operation such as <strong>apply</strong> is executed</li>
+<li>are responsible for storing state and providing an API for optional state locking</li>
+<li><strong>needs to be initialized</strong></li>
+<li>if switching the backed for the first time setup, Terraform provides a migration option</li>
+</ul>
+<h3 id="8-1-helps"><strong>8-1 helps</strong></h3>
+<ul>
+<li><strong>collaboration and working as a team, with the state maintained remotely and state lockin</strong>g</li>
+<li>can provide enhanced security for sensitive data</li>
+<li>support remote operations</li>
+</ul>
+<h3 id="8-2-supports-local-vs-remote-backends"><strong>8-2 supports local vs remote backends</strong></h3>
+<ul>
+<li>local (default) backend stores state in a <strong>local JSON </strong>file on disk</li>
+<li>
+<p>remote backend stores state remotely like <strong>S3, OSS, GCS, Consul and support features like remote operation, state locking, encryption, versioning etc.</strong></p>
+</li>
+<li>
+<p>supports partial configuration with remaining configuration arguments provided as part of the initialization process</p>
+</li>
+<li><strong>Backend configuration doesn’t support interpolations</strong>.</li>
+<li>GitHub is not the supported backend type in Terraform.</li>
+</ul>
+<h2 id="9terraform-state-management"><strong>9、Terraform State Management</strong></h2>
+<ul>
+<li>state helps keep track of the infrastructure Terraform manages</li>
+<li>stored locally in the <strong><code>terraform.tfstate</code></strong></li>
+<li><strong>recommended not to edit the state manually</strong></li>
+<li>Use <strong><code>terraform state</code></strong> command<ul>
+<li><strong>mv</strong> – to move/rename modules</li>
+<li><strong>rm</strong> – to safely remove resource from the state. (destroy/retain like)</li>
+<li><strong>pull</strong> – to observe current remote state</li>
+<li><strong>list &amp; show</strong> – to write/debug modules</li>
+</ul>
+</li>
+</ul>
+<h2 id="10state-locking"><strong>10、State Locking</strong></h2>
+<ul>
+<li>happens for all operations that could write state, if supported by backend</li>
+<li><strong>prevents others from acquiring the lock &amp; potentially corrupting the state</strong></li>
+<li>
+<p>backends which support state locking are</p>
+<ul>
+<li>azurerm</li>
+<li><strong>Hashicorp consul</strong></li>
+<li>Tencent Cloud Object Storage (COS)</li>
+<li>etcdv3</li>
+<li>Google Cloud Storage GCS</li>
+<li>HTTP endpoints</li>
+<li>Kubernetes Secret with locking done using a Lease resource</li>
+<li>AliCloud Object Storage OSS with locking via TableStore</li>
+<li><strong>PostgreSQL</strong></li>
+<li><strong>AWS S3 with locking via DynamoDB</strong></li>
+<li><strong>Terraform Enterprise</strong></li>
+</ul>
+</li>
+<li>
+<p>Backends which do not support state locking are</p>
+<ul>
+<li>artifactory</li>
+<li>etcd</li>
+</ul>
+</li>
+<li>
+<p>can be disabled for most commands with the <code>-lock</code> flag</p>
+</li>
+<li>use <strong>force-unlock</strong> command to manually unlock the state if unlocking failed</li>
+</ul>
+<h2 id="11state-security"><strong>11、State Security</strong></h2>
+<ul>
+<li>can contain sensitive data, depending on the resources in use for e.g <strong><em>passwords and keys</em></strong></li>
+<li>using local state, data is stored in plain-text JSON files
+using remote state, state is held in memory when used by Terraform. It <strong>may be encrypted at rest</strong>, if supported by backend for e.g. <strong>S3, OSS</strong></li>
+</ul>
+<h2 id="12terraform-logging"><strong>12、Terraform Logging</strong></h2>
+<ul>
+<li><strong>debugging can be controlled using <code>TF_LOG</code></strong> , which can be configured for different levels TRACE, DEBUG, INFO, WARN or ERROR, with TRACE being the more verbose.</li>
+<li><strong>logs path can be controlled <code>TF_LOG_PATH</code>. <code>TF_LOG</code> needs to be specified.</strong></li>
+</ul>
+<h2 id="13terraform-cloud-and-terraform-enterprise"><strong>13、Terraform Cloud and Terraform Enterprise</strong></h2>
+<ul>
+<li><strong>Terraform Cloud provides Cloud Infrastructure Automation as a Service.</strong> It is offered as a multi-tenant SaaS platform and is designed to suit the needs of smaller teams and organizations. Its smaller plans default to one run at a time, which prevents users from executing multiple runs concurrently.</li>
+<li><strong>Terraform Enterprise is a private install for organizations who prefer to self-manage.</strong> It is designed to suit the needs of organizations with specific requirements for security, compliance and custom operations.</li>
+</ul>
+<h3 id="13-1-terraform-cloud-provides-features"><strong>13-1 Terraform Cloud provides features</strong></h3>
+<ul>
+<li><strong>Remote Terraform Execution</strong> – supports Remote Operations for Remote Terraform execution which helps provide consistency and visibility for critical provisioning operations.</li>
+<li><strong>Workspaces</strong> – organizes infrastructure with workspaces instead of directories. Each workspace contains everything necessary to manage a given collection of infrastructure, and Terraform uses that content whenever it executes in the context of that workspace.</li>
+<li><strong>Remote State Management – acts as a remote backend for the Terraform state. State storage is tied to workspaces, which helps keep state associated with the configuration that created it</strong>.</li>
+<li><strong>Version Control Integration</strong> – is designed to work directly with the version control system (VCS) provider.</li>
+<li><strong>Private Module Registry – provides a private and central library of versioned &amp; validated modules to be used within the organization</strong></li>
+<li><strong>Team based Permission System – can define groups of users that match the organization’s</strong> real-world teams and assign them only the permissions they need</li>
+<li><strong>Sentinel Policies</strong> – embeds the Sentinel policy-as-code framework, which lets you define and enforce granular policies for how the organization provisions infrastructure. Helps eliminate provisioned resources that don’t follow security, compliance, or operational policies.</li>
+<li><strong>Cost Estimation </strong>– can display an estimate of its total cost, as well as any change in cost caused by the proposed updates</li>
+<li><strong>Security</strong> – encrypts state at rest and protects it with TLS in transit.</li>
+</ul>
+<h3 id="13-2-terraform-enterprise-features"><strong>13-2 Terraform Enterprise features</strong></h3>
+<ul>
+<li>includes all the Terraform Cloud features with</li>
+<li><strong>Audit – supports detailed audit logging and tracks the identity of the user requesting state and maintains a history of state changes</strong>.</li>
+<li><strong>SSO/SAML – SAML for SSO provides the ability to govern user access to your applications.</strong></li>
+</ul>
+<p>Terraform Enterprise currently supports running under the following operating systems for a Clustered deployment:</p>
+<ul>
+<li>Ubuntu 16.04.3 – 16.04.5 / 18.04</li>
+<li>Red Hat Enterprise Linux 7.4 through 7.7</li>
+<li>CentOS 7.4 – 7.7</li>
+<li>Amazon Linux</li>
+<li>Oracle Linux</li>
+<li>Clusters currently don’t support other Linux variants.</li>
+</ul>
+<p><strong>Terraform Cloud currently supports following VCS Provider</strong></p>
+<ul>
+<li>GitHub.com</li>
+<li>GitHub.com (OAuth)</li>
+<li>GitHub Enterprise</li>
+<li>GitLab.com</li>
+<li>GitLab EE and CE</li>
+<li>Bitbucket Cloud</li>
+<li>Bitbucket Server</li>
+<li>Azure DevOps Server</li>
+<li>Azure DevOps Services</li>
+</ul>
+<p>A Terraform Enterprise install that is provisioned on a network that does not have Internet access is generally known as an <strong>air-gapped install.</strong> These types of installs require you to pull updates, providers, etc. from external sources vs. being able to download them directly.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.78eede0e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,3029 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's Chef&Ansible Automation 技术与实战教程">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../2pp_install_config/">
+      
+      
+        <link rel="next" href="../4pp_key_comps/">
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.5">
+    
+    
+      
+        <title>3 Puppet - 编码风格 - Jacob Chef&Ansible Automation Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0e669242.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#3-puppet" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-header__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob Chef&Ansible Automation Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3 Puppet - 编码风格
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob Chef&amp;Ansible Automation Book" class="md-nav__button md-logo" aria-label="Jacob Chef&Ansible Automation Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob Chef&Ansible Automation Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxchefbook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxchefbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Chef
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Chef
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef 介绍和安装
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Ruby和Chef语法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 如何写 Chef 配方 & chef-apply
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 用Test Kitchen管理沙盒测试环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 用 Chef 户端管理节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 撰写和使用菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial7_attributes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第七节 Chef 属性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第八节 Chef 服务器同时管理多个节点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第九节 社区以及Chef-Client菜谱
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial10_zero/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十节 Chef zero
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial11_databag/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十一节 数概包Databag
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十二节 角色
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial13_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十三节 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial14_test/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十四节 测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial15_term/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十五节 词汇表
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/chef_tutorial16_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第十六节 Chef Tutorial Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Opt & Adv
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Opt & Adv
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Chef Roles
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Cookbook Versioning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三节 How to Perform Chef Knife SSL Check and Fetch to Verify Certificate
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四节 12 Chef Knife Cookbook Command Examples
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_op1_kinfe_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第五节 knife search
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/chef_adv3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第六节 Chef Quick CheatSheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chef Cookbook Sample LAMP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Chef Cookbook Sample LAMP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一节 Creating My First Chef Cookbook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/chef_basic6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二节 Creating LAMP Chef Cookbook Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Learning Ansible
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Learning Ansible
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/1ansible_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L1 Ansible Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/2ansible_over_install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L2 Ansible Install(MacOs) and Environment Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/3play_task/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L3 Task Execution management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/4Ansible_variables/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L4 Ansible Variable Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/5Complex_roles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L5 Managing complex playbooks with roles and ansible galaxy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/6Secret_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L6 Working with Secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/7Network_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L7 Network Management with Ansible
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/8idempotentence/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L8 Idempotentence with Ansible play
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/9Ansible_interview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L9 Ansible Interview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/10Ansible_learn_ppt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L10 Ansible 自动化运维工具PPT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/11Ansible_task1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L11 任务中心之Ansible基础篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/12Ansible_task2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L12 任务中心之Ansible进阶篇
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/13Ansible_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L13 Ansible 面试知识点
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/14Ansible_containerd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    L14 Ansible Role批量部署Containerd服务
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            HashiCorp Certified Terraform Associate
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/1hashicorp_certified_terraform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HashiCorp Certified Terraform Associate Learning Path
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/2terraform_cs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Cheat Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/3terraform_lock/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    .terraform.lock.hcl 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/4terraform_var/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    terraform.tfvars 与 variables.tf 的区别
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/5terraform_random/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform: Random 简介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/6terraform_int/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Top Terraform Interview Questions and Answers (2022)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/7terraform_provider/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform provider update
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/8terraform_docker_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform install Jenkins in Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/9terraform_local/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    解决Terraform初始化慢~配置本地离线源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/10terraform_adv/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform(Troubleshooting/Data Sources/Existing Resource)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/11tf_adv_exam/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Exam(Backend/Command/Script/Others)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/12terraform_jenkins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12 Adding Terraform to a CI/CD Pipeline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5/13terraform_cmt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Terraform Integrating with Configuration Managers(Anisble)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Puppet Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Puppet Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1pp_overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Puppet - Overview & Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2pp_install_config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2 Puppet - 安装, 配置以及验证
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    3 Puppet - 编码风格
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    3 Puppet - 编码风格
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-fundamental-units" class="md-nav__link">
+    1 Fundamental Units
+  </a>
+  
+    <nav class="md-nav" aria-label="1 Fundamental Units">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-2" class="md-nav__link">
+    1-2 资源
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-puppet" class="md-nav__link">
+    1-3 文件的样本 Puppet 资源
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2 除标题外还指定本地名称
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-metaparameters" class="md-nav__link">
+    2 Metaparameters
+  </a>
+  
+    <nav class="md-nav" aria-label="2 Metaparameters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1" class="md-nav__link">
+    2-1 资源默认值
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3 资源集合
+  </a>
+  
+    <nav class="md-nav" aria-label="3 资源集合">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1-classes-and-definition" class="md-nav__link">
+    3-1 Classes and Definition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2" class="md-nav__link">
+    3-2 类与定义的区别
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-3-puppet" class="md-nav__link">
+    3-3 Puppet 类中的继承
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-4-puppet" class="md-nav__link">
+    3-4 Puppet 中的嵌套类
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-5" class="md-nav__link">
+    3-5 参数化类
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-run-stages" class="md-nav__link">
+    4 Run Stages
+  </a>
+  
+    <nav class="md-nav" aria-label="4 Run Stages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-puppet" class="md-nav__link">
+    4-1 使用 Puppet 声明式语法声明其他阶段
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-definitions" class="md-nav__link">
+    5 定义 Definitions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-modules" class="md-nav__link">
+    6 Modules
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    7 节点
+  </a>
+  
+    <nav class="md-nav" aria-label="7 节点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    匹配节点的正则表达式
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    节点继承
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    8 高级支持的功能
+  </a>
+  
+    <nav class="md-nav" aria-label="8 高级支持的功能">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variable-interpolation-with-quotes" class="md-nav__link">
+    带引号的变量插值 Variable Interpolation with Quotes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-capitalization" class="md-nav__link">
+    9 Capitalization
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10" class="md-nav__link">
+    10 数组
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    11 变量
+  </a>
+  
+    <nav class="md-nav" aria-label="11 变量">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    变量范围
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    限定变量
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-conditionals" class="md-nav__link">
+    12 Conditionals
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    13 选择器
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    14 语句条件
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-if-else" class="md-nav__link">
+    15 If-Else 语句
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16" class="md-nav__link">
+    16 虚拟资源
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#17" class="md-nav__link">
+    17 注释
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#18" class="md-nav__link">
+    18 运算符优先级
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#19" class="md-nav__link">
+    19 比较表达式
+  </a>
+  
+    <nav class="md-nav" aria-label="19 比较表达式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#not-equal-example" class="md-nav__link">
+    Not Equal Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arithmetic-expression" class="md-nav__link">
+    Arithmetic Expression
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boolean-expression" class="md-nav__link">
+    Boolean Expression
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regular-expression" class="md-nav__link">
+    Regular Expression
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#19_1" class="md-nav__link">
+    19 使用模板
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#20" class="md-nav__link">
+    20 定义和触发服务
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4pp_key_comps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4 Puppet - 核心模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5pp_resource/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5 Puppet - 资源
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6pp_tmp_cls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6 Puppet - 模板 & 类
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7pp_func/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7 Puppet - Function
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8pp_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8 Puppet - 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9app_type_pr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9 Puppet - 类型和提供者
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10pp_api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10 Puppet - RESTful API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11pp_proj1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11 Puppet - Live Project 1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ArgoCD Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            ArgoCD Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_argocd/1Intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 Introduction to Continuous Delivery
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-fundamental-units" class="md-nav__link">
+    1 Fundamental Units
+  </a>
+  
+    <nav class="md-nav" aria-label="1 Fundamental Units">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-2" class="md-nav__link">
+    1-2 资源
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-puppet" class="md-nav__link">
+    1-3 文件的样本 Puppet 资源
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2 除标题外还指定本地名称
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-metaparameters" class="md-nav__link">
+    2 Metaparameters
+  </a>
+  
+    <nav class="md-nav" aria-label="2 Metaparameters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1" class="md-nav__link">
+    2-1 资源默认值
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3 资源集合
+  </a>
+  
+    <nav class="md-nav" aria-label="3 资源集合">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1-classes-and-definition" class="md-nav__link">
+    3-1 Classes and Definition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2" class="md-nav__link">
+    3-2 类与定义的区别
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-3-puppet" class="md-nav__link">
+    3-3 Puppet 类中的继承
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-4-puppet" class="md-nav__link">
+    3-4 Puppet 中的嵌套类
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-5" class="md-nav__link">
+    3-5 参数化类
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-run-stages" class="md-nav__link">
+    4 Run Stages
+  </a>
+  
+    <nav class="md-nav" aria-label="4 Run Stages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-puppet" class="md-nav__link">
+    4-1 使用 Puppet 声明式语法声明其他阶段
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-definitions" class="md-nav__link">
+    5 定义 Definitions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-modules" class="md-nav__link">
+    6 Modules
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    7 节点
+  </a>
+  
+    <nav class="md-nav" aria-label="7 节点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    匹配节点的正则表达式
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    节点继承
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    8 高级支持的功能
+  </a>
+  
+    <nav class="md-nav" aria-label="8 高级支持的功能">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variable-interpolation-with-quotes" class="md-nav__link">
+    带引号的变量插值 Variable Interpolation with Quotes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-capitalization" class="md-nav__link">
+    9 Capitalization
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10" class="md-nav__link">
+    10 数组
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    11 变量
+  </a>
+  
+    <nav class="md-nav" aria-label="11 变量">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    变量范围
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    限定变量
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-conditionals" class="md-nav__link">
+    12 Conditionals
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    13 选择器
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    14 语句条件
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-if-else" class="md-nav__link">
+    15 If-Else 语句
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16" class="md-nav__link">
+    16 虚拟资源
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#17" class="md-nav__link">
+    17 注释
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#18" class="md-nav__link">
+    18 运算符优先级
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#19" class="md-nav__link">
+    19 比较表达式
+  </a>
+  
+    <nav class="md-nav" aria-label="19 比较表达式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#not-equal-example" class="md-nav__link">
+    Not Equal Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arithmetic-expression" class="md-nav__link">
+    Arithmetic Expression
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boolean-expression" class="md-nav__link">
+    Boolean Expression
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regular-expression" class="md-nav__link">
+    Regular Expression
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#19_1" class="md-nav__link">
+    19 使用模板
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#20" class="md-nav__link">
+    20 定义和触发服务
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="3-puppet"><strong>3 Puppet 编码风格</strong></h1>
+<p>在 Puppet 中，编码风格定义了在尝试将机器配置上的基础设施转换为代码时需要遵循的所有标准。 Puppet 使用资源工作并执行所有定义的任务。</p>
+<p>Puppet 的语言定义有助于以结构化方式指定所有资源，这是管理任何需要管理的目标机器所必需的。 Puppet 使用 Ruby 作为其编码语言，它具有多个内置功能，可以通过代码端的简单配置轻松完成工作。</p>
+<h2 id="1-fundamental-units"><strong>1 Fundamental Units</strong></h2>
+<p>Puppet 使用多种基本编码风格，易于理解和管理。以下是几个列表</p>
+<h3 id="1-2"><strong>1-2 资源</strong></h3>
+<p>在 Puppet 中，资源被称为基本建模单元，用于管理或修改任何目标系统。资源涵盖系统的所有方面，例如文件、服务和包。 Puppet 具有内置功能，允许用户或开发人员开发自定义资源，这有助于管理机器的任何特定单元</p>
+<p>在 Puppet 中，所有资源都通过使用“定义Define”或“类Class”聚合在一起。这些聚合功能有助于组织模块。</p>
+<p>以下是一个示例资源，它包含多个类型、一个标题和一个 Puppet 可以支持多个属性的属性列表。 Puppet 中的每个资源都有自己的默认值，可以在需要时覆盖。</p>
+<h3 id="1-3-puppet"><strong>1-3 文件的样本 Puppet 资源</strong></h3>
+<p>在以下命令中，我们尝试为特定文件指定权限。</p>
+<pre><code>file {  
+   '/etc/passwd': 
+   owner =&gt; superuser, 
+   group =&gt; superuser, 
+   mode =&gt; 644, 
+}
+</code></pre>
+<p>每当在任何机器上执行上述命令时，它都会验证系统中的 <strong>passwd</strong> 文件是否已按照描述进行配置。</p>
+<p>前面的文件  <code>:colon</code> 是资源的标题，在Puppet配置的其他部分可以称为资源</p>
+<h2 id="2"><strong>2 除标题外还指定本地名称</strong></h2>
+<pre><code>file { 'sshdconfig': 
+   name =&gt; $operaSystem ? { 
+      solaris =&gt; '/usr/local/etc/ssh/sshd_config', 
+      default =&gt; '/etc/ssh/sshd_config', 
+   }, 
+   owner =&gt; superuser, 
+   group =&gt; superuser, 
+   mode =&gt; 644, 
+}
+</code></pre>
+<p>通过使用始终相同的title，可以很容易地在配置中引用文件资源，而无需重复与操作系统相关的逻辑。</p>
+<p>另一个示例可能是使用依赖于文件的服务。</p>
+<pre><code>service { 'sshd': 
+   subscribe =&gt; File[sshdconfig], 
+} 
+</code></pre>
+<p>有了这个依赖，一旦 <strong>sshdconfig</strong> 文件发生变化，<strong>sshd</strong> 服务总是会重启。</p>
+<p>这里要记住的一点是 <strong>File[sshdconfig]</strong> 是一个小写形式的 File 声明，但是如果我们将其更改为 <strong>FILE[sshdconfig]</strong> 那么它将是一个引用。</p>
+<p>在声明资源时需要牢记的一个基本点是，每个配置文件只能声明一次。多次重复声明同一资源会导致错误。通过这个基本概念，Puppet 确保配置得到很好的建模。</p>
+<p>我们甚至有能力管理资源依赖，这有助于管理多个关系。</p>
+<pre><code>service { 'sshd': 
+   require =&gt; File['sshdconfig', 'sshconfig', 'authorized_keys']
+}   
+</code></pre>
+<h2 id="2-metaparameters"><strong>2 Metaparameters</strong></h2>
+<p>Metaparameters在 Puppet 中称为全局参数。Metaparameters的关键特性之一是，它适用于 Puppet 中的任何类型的资源。</p>
+<h3 id="2-1"><strong>2-1 资源默认值</strong></h3>
+<p>当需要定义默认资源属性值时，Puppet 提供了一组语法来归档它，使用没有标题的大写资源规范。</p>
+<p>例如，如果我们想设置所有可执行文件的默认路径，可以使用以下命令完成。</p>
+<pre><code>Exec { path =&gt; '/usr/bin:/bin:/usr/sbin:/sbin' } 
+exec { 'echo Testing mataparamaters.': } 
+</code></pre>
+<p>在上述命令中，第一条语句 Exec 将设置 exec 资源的默认值。 <strong>Exec 资源需要完全限定的路径或看起来像可执行文件的路径</strong>。</p>
+<p>有了这个，可以为整个配置定义一个默认路径。默认值适用于 Puppet 中的任何资源类型。</p>
+<p><strong>默认值不是全局值，但是，它们只影响定义它们的范围或它的下一个变量。</strong></p>
+<p>如果想要为完整的配置定义<strong>默认值</strong>，那么我们将在下一节中定义<strong>默认值</strong>和<strong>类</strong>。</p>
+<h2 id="3"><strong>3 资源集合</strong></h2>
+<p>聚合是将事物收集在一起的方法。 Puppet 支持非常强大的聚合概念。在 Puppet 中，聚合用于将 Puppet 的基本单元资源分组在一起。 </p>
+<p>Puppet 中的这种聚合概念是通过使用称为类和定义的两种强大方法来实现的。</p>
+<p>聚合是将事物收集在一起的方法。 Puppet 支持非常强大的聚合概念。在 Puppet 中，聚合用于将 Puppet 的基本单元资源分组在一起。 Puppet 中的这种聚合概念是通过使用称为<strong>类Class和定义definition</strong>的两种强大方法来实现的。</p>
+<h3 id="3-1-classes-and-definition"><strong>3-1 Classes and Definition</strong></h3>
+<p><strong>类Classes</strong> 负责对节点的基本方面进行建模。他们可以说节点是一个 Web 服务器，而这个特定的节点就是其中之一。</p>
+<p>在 Puppet 中，编程类是单例的，每个节点可以评估一次。</p>
+<p>另一方面，<strong>定义可以在单个节点上多次使用</strong>。它们的工作方式与使用该语言创建自己的 Puppet 类型类似。</p>
+<p>它们被创建为多次使用，每次都有不同的输入。这意味着可以将变量值传递到定义中。</p>
+<h3 id="3-2"><strong>3-2 类与定义的区别</strong></h3>
+<p>类和定义之间的唯一关键区别是在定义构建结构和分配资源时，每个节点只对类进行一次评估，而另一方面，在同一个节点上多次使用定义。</p>
+<p><strong>Classes</strong></p>
+<p>Puppet 中的类是使用 class 关键字引入的，该特定类的内容包含在花括号内，如下例所示。</p>
+<pre><code>class unix { 
+   file { 
+      '/etc/passwd': 
+      owner =&gt; 'superuser', 
+      group =&gt; 'superuser', 
+      mode =&gt; 644; 
+      '/etc/shadow': 
+      owner =&gt; 'vipin', 
+      group =&gt; 'vipin', 
+      mode =&gt; 440; 
+   } 
+}
+</code></pre>
+<p>在下面的例子中，我们使用了一些类似于上面的简写。</p>
+<pre><code>class unix { 
+   file { 
+      '/etc/passwd': 
+      owner =&gt; 'superuser', 
+      group =&gt; 'superuser', 
+      mode =&gt; 644; 
+   }  
+
+   file {'/etc/shadow': 
+      owner =&gt; 'vipin', 
+      group =&gt; 'vipin', 
+      mode =&gt; 440; 
+   } 
+} 
+</code></pre>
+<h3 id="3-3-puppet"><strong>3-3 Puppet 类中的继承</strong></h3>
+<p>在 Puppet 中，默认支持 OOP 的继承概念，其中类可以扩展先前的功能，而无需在新创建的类中再次复制和粘贴完整的代码位。继承允许子类覆盖父类中定义的资源设置。<strong>使用继承时要记住的一件事是，一个类只能从一个父类继承特性，不能超过一个</strong>。</p>
+<pre><code>class superclass inherits testsubclass { 
+   File['/etc/passwd'] { group =&gt; wheel } 
+   File['/etc/shadow'] { group =&gt; wheel } 
+}
+</code></pre>
+<p>如果需要撤消父类中指定的某些逻辑，<strong>我们可以使用 undef 命令</strong>。</p>
+<pre><code>class superclass inherits testsubcalss { 
+   File['/etc/passwd'] { group =&gt; undef } 
+} 
+</code></pre>
+<p><strong>使用继承的另一种方式</strong></p>
+<pre><code>class tomcat { 
+   service { 'tomcat': require =&gt; Package['httpd'] } 
+} 
+class open-ssl inherits tomcat { 
+   Service[tomcat] { require +&gt; File['tomcat.pem'] } 
+}
+</code></pre>
+<h3 id="3-4-puppet"><strong>3-4 Puppet 中的嵌套类</strong></h3>
+<p>Puppet 支持类嵌套的概念，它允许使用嵌套类，这意味着一个类在另一个类中。这有助于实现模块化和范围界定。</p>
+<pre><code>class testclass { 
+   class nested { 
+      file {  
+         '/etc/passwd': 
+         owner =&gt; 'superuser', 
+         group =&gt; 'superuser', 
+         mode =&gt; 644; 
+      } 
+   } 
+} 
+class anotherclass { 
+   include myclass::nested 
+} 
+</code></pre>
+<h3 id="3-5"><strong>3-5 参数化类</strong></h3>
+<p>在 Puppet 中，类可以扩展其功能以允许将参数传递给类。</p>
+<p>要在类中传递参数，可以使用以下构造 -</p>
+<pre><code>class tomcat($version) { 
+   ... class contents ... 
+} 
+</code></pre>
+<p>在 Puppet 中要记住的一个关键点是，带参数的类不是使用 include 函数添加的，而是可以将生成的类作为定义添加</p>
+<pre><code>node webserver { 
+   class { tomcat: version =&gt; &quot;1.2.12&quot; } 
+}
+</code></pre>
+<p><strong>默认值作为类中的参数</strong></p>
+<pre><code>class tomcat($version = &quot;1.2.12&quot;,$home = &quot;/var/www&quot;) { 
+   ... class contents ... 
+} 
+</code></pre>
+<h2 id="4-run-stages"><strong>4 Run Stages</strong></h2>
+<p>Puppet 支持运行阶段的概念，这意味着用户可以根据需要添加多个阶段，以管理任何特定资源或多个资源。当用户想要开发复杂的目录时，此功能非常有用。</p>
+<p>在一个复杂的目录中，有大量的资源需要编译，同时记住不应该影响定义的资源之间的依赖关系。</p>
+<p>Run Stage 在管理资源依赖方面非常有帮助。这可以通过在定义的阶段添加类来完成，其中特定类包含资源集合。</p>
+<p>通过运行阶段，Puppet 保证定义的阶段将在每次目录运行并应用于任何 Puppet 节点时以指定的可预测顺序运行。</p>
+<p>为了使用它，需要在已经存在的阶段之外声明额外的阶段，然后可以将 Puppet 配置为使用相同的资源关系语法按指定的顺序管理每个阶段，然后再使用 <code>require “-&gt;”</code> 和 <code>“+&gt;”</code>。然后，该关系将保证与每个阶段关联的类的顺序。</p>
+<h3 id="4-1-puppet"><strong>4-1 使用 Puppet 声明式语法声明其他阶段</strong></h3>
+<pre><code>stage { &quot;first&quot;: before =&gt; Stage[main] } 
+stage { &quot;last&quot;: require =&gt; Stage[main] } 
+</code></pre>
+<p>一旦声明了阶段，一个类可以与该阶段相关联，而不是使用该阶段的主要阶段。</p>
+<pre><code>class { 
+   &quot;apt-keys&quot;: stage =&gt; first; 
+   &quot;sendmail&quot;: stage =&gt; main; 
+   &quot;apache&quot;: stage =&gt; last; 
+}
+</code></pre>
+<ul>
+<li>与类 apt-key 关联的所有资源将首先运行。 </li>
+<li>Sendmail 中的所有资源将是主类，</li>
+<li>与 Apache 相关的资源将是最后一个阶段。</li>
+</ul>
+<h2 id="5-definitions"><strong>5 定义 Definitions</strong></h2>
+<p>在 Puppet 中，任何清单文件中的资源收集都是通过类class或定义defintions完成的。</p>
+<p>定义与 Puppet 中的类非常相似，但是它们是通过定义 <strong>关键字（不是类）define keyword (not class)</strong> 引入的，并且它们支持参数而不是继承。它们可以使用不同的参数在同一系统上多次运行。</p>
+<p>例如，如果一个人想要创建一个定义来控制源代码存储库，其中一个人试图在同一系统上创建多个存储库，那么可</p>
+<pre><code>define perforce_repo($path) { 
+   exec {  
+      &quot;/usr/bin/svnadmin create $path/$title&quot;: 
+      unless =&gt; &quot;/bin/test -d $path&quot;, 
+   } 
+} 
+svn_repo { puppet_repo: path =&gt; '/var/svn_puppet' } 
+svn_repo { other_repo: path =&gt; '/var/svn_other' }
+</code></pre>
+<p>这里要注意的关键点是如何将变量与定义一起使用。我们使用 <code>($)</code>美元符号变量。</p>
+<p>在上面，我们使用了 <code>$title</code>。定义可以同时具有 <code>$title</code>和 <code>$name</code> 来表示名称和标题。</p>
+<p>默认情况下，<code>$title</code> 和 <code>$name</code> 设置为相同的值，但可以设置一个 title 属性并将不同的名称作为参数传递。 <code>$title</code> 和 <code>$name</code> 仅适用于定义，不适用于类或其他资源。</p>
+<h2 id="6-modules"><strong>6 Modules</strong></h2>
+<p>一个模块可以定义为所有配置的集合，Puppet master 将使用这些配置在任何特定的 Puppet 节点（代理）上应用配置更改。</p>
+<p>它们也被称为执行特定任务所需的不同类型配置的便携式集合。<strong>例如，一个模块可能包含配置 Postfix 和 Apache 所需的所有资源。</strong></p>
+<h2 id="7"><strong>7 节点</strong></h2>
+<p>节点是非常简单的剩余步骤，这是我们如何将我们定义的内容（“这就是Webserver的样子”）与选择哪些机器来完成这些指令相匹配。</p>
+<p>节点定义看起来就像类，包括支持的继承，但是它们是特殊的，当一个节点（运行 puppet 客户端的托管计算机）连接到 Puppet 主守护程序时，它的名称将在定义的节点列表中查找。定义的信息将针对节点进行评估，然后节点将发送该配置。</p>
+<pre><code>node 'www.vipin.com' { 
+   include common 
+   include apache, squid 
+}
+</code></pre>
+<p>上面的定义创建了一个名为 www.vipin.com 的节点，并包含了 common、Apache 和 Squid 类</p>
+<p>我们可以通过用逗号分隔每个节点来将相同的配置发送到不同的节点。</p>
+<pre><code>node 'www.testing.com', 'www.testing2.com', 'www3.testing.com' { 
+   include testing 
+   include tomcat, squid 
+}
+</code></pre>
+<h3 id="_1"><strong>匹配节点的正则表达式</strong></h3>
+<pre><code>node /^www\d+$/ { 
+   include testing 
+}
+</code></pre>
+<h3 id="_2"><strong>节点继承</strong></h3>
+<p>Node 支持有限的继承模型。像类一样，节点只能从另一个节点继承</p>
+<pre><code>node 'www.testing2.com' inherits 'www.testing.com' { 
+   include loadbalancer 
+}
+</code></pre>
+<p>在上面的代码中，www.testing2.com 继承了 www.testing.com 的所有功能以及一个额外的负载均衡器类。</p>
+<h2 id="8"><strong>8 高级支持的功能</strong></h2>
+<p><strong>引用</strong> - 在大多数情况下，我们不需要在 Puppet 中引用字符串。任何以字母开头的字母数字字符串都应不加引号。但是，为任何非负值引用字符串始终是最佳实践。</p>
+<h3 id="variable-interpolation-with-quotes"><strong>带引号的变量插值 Variable Interpolation with Quotes</strong></h3>
+<p>到目前为止，我们已经在定义方面提到了变量。如果需要将这些变量与字符串一起使用，请使用双引号，而不是单引号。单引号字符串不会做任何变量插值，双引号字符串会做。变量可以括在 <code>{}</code> 中，这使它们更易于一起使用且更易于理解。</p>
+<pre><code>$value = &quot;${one}${two}&quot;
+</code></pre>
+<p>作为一种最佳实践，应该对所有不需要字符串插值的字符串使用单引号。</p>
+<h2 id="9-capitalization"><strong>9 Capitalization</strong></h2>
+<p>Capitalization是用于引用、继承和设置特定资源的默认属性的过程。基本上有两种基本的使用方法。</p>
+<ul>
+<li><strong>引用 Referencing</strong> - 这是引用已创建资源的方式。它主要用于依赖目的，必须将资源名称大写。例如，<code>要求 =&gt; 文件 [sshdconfig]</code></li>
+<li><strong>继承 Inheritance</strong> - 从子类覆盖父类的设置时，<strong>使用资源名称的大写版本</strong>。使用小写版本将导致错误。</li>
+<li><strong>设置默认属性值</strong> - 使用没有标题的大写资源来设置资源的默认值。</li>
+</ul>
+<h2 id="10"><strong>10 数组</strong></h2>
+<p>Puppet 允许在多个区域 [1,2,3] 中使用数组。</p>
+<p>一些类型成员，例如主机定义中的别名，在其值中接受数组。具有多个别名的主机资源如下所示。</p>
+<pre><code>host { 'one.vipin.com': 
+   alias =&gt; [ 'satu', 'dua', 'tiga' ], 
+   ip =&gt; '192.168.100.1', 
+   ensure =&gt; present, 
+}
+</code></pre>
+<p>上面的代码会将主机<code>“one.brcletest.com”</code>添加到具有三个别名<code>“satu”“dua”“tiga”</code>的主机列表中。如果想将多个资源添加到一个资源中，可以如下例所示进行。</p>
+<pre><code>resource { 'baz': 
+   require =&gt; [ Package['rpm'], File['testfile'] ], 
+}
+</code></pre>
+<h2 id="11"><strong>11 变量</strong></h2>
+<p>像大多数其他编程语言一样，Puppet 支持多个变量。 Puppet 变量用 <code>$</code> 表示。</p>
+<pre><code>$content = 'some content\n' 
+file { '/tmp/testing': content =&gt; $content } 
+</code></pre>
+<p>如前所述，Puppet 是一种声明式语言，这意味着它的作用域和赋值规则与命令式语言不同。</p>
+<p>主要区别在于不能在单个范围内更改变量，因为它们依赖于文件中的顺序来确定变量的值。顺序在声明性语言中无关紧要。</p>
+<pre><code>$user = root 
+file {  
+   '/etc/passwd': 
+   owner =&gt; $user, 
+} 
+
+$user = bin 
+   file {  
+      '/bin': 
+      owner =&gt; $user, 
+      recurse =&gt; true, 
+   }
+</code></pre>
+<h3 id="_3"><strong>变量范围</strong></h3>
+<p>变量范围定义是否所有定义的变量都有效。与最新功能一样，Puppet 目前是动态范围的，在 Puppet 术语中，这意味着所有定义的变量都在其范围内进行评估，而不是在它们定义的位置上进行评估。</p>
+<pre><code>$test = 'top' 
+class Testclass { 
+   exec { &quot;/bin/echo $test&quot;: logoutput =&gt; true } 
+} 
+
+class Secondtestclass { 
+   $test = 'other' 
+   include myclass 
+} 
+
+include Secondtestclass 
+</code></pre>
+<h3 id="_4"><strong>限定变量</strong></h3>
+<p>Puppet 支持在类或定义中使用限定变量。当用户希望在他已经定义或将要定义的其他类中使用相同的变量时，这非常有用</p>
+<pre><code>class testclass { 
+   $test = 'content' 
+} 
+
+class secondtestclass { 
+   $other = $myclass::test 
+} 
+</code></pre>
+<p>在上面的代码中，$other 变量的值评估了内容。</p>
+<h2 id="12-conditionals"><strong>12 Conditionals</strong></h2>
+<p>条件是用户希望在满足定义的条件或所需条件时执行一组语句或代码的情况。 Puppet 支持两种类型的条件。</p>
+<p>只能在定义的资源内使用选择器条件来选择机器的正确值。</p>
+<p>语句条件是清单中更广泛使用的条件，它有助于包含用户希望包含在同一清单文件中的其他类。在一个类中定义一组不同的资源，或做出其他结构决策。</p>
+<h2 id="13"><strong>13 选择器</strong></h2>
+<p>当用户希望指定与基于事实或其他变量的默认值不同的资源属性和变量时，选择器很有用。在 Puppet 中，选择器索引的工作方式类似于多值三向运算符。选择器还能够在 no 值中定义自定义默认值，这些值在清单中定义并匹配条件。</p>
+<pre><code>$owner = $Sysoperenv ? { 
+   sunos =&gt; 'adm', 
+   redhat =&gt; 'bin', 
+   default =&gt; undef, 
+}
+</code></pre>
+<p>在 Puppet 0.25.0 的更高版本中，选择器可以用作正则表达式。</p>
+<pre><code>$owner = $Sysoperenv ? { 
+   /(Linux|Ubuntu)/ =&gt; 'bin', 
+   default =&gt; undef, 
+}
+</code></pre>
+<p>在上面的例子中，选择器 <code>$Sysoperenv</code> 的值匹配 Linux 或 Ubuntu，那么 bin 将是选择的结果，否则用户将被设置为 undefined。</p>
+<h2 id="14"><strong>14 语句条件</strong></h2>
+<p>语句条件是 Puppet 中的另一种条件语句，与 Shell 脚本中的 switch case 条件非常相似。在这种情况下，定义了一组多例语句，并且给定的输入值与每个条件匹配。</p>
+<p>匹配给定输入条件的 case 语句被执行。此 case 语句条件没有任何返回值。在 Puppet 中，条件语句的一个非常常见的用例是运行一组基于底层操作系统的代码位</p>
+<pre><code>case $ Sysoperenv { 
+   sunos: { include solaris }  
+   redhat: { include redhat }  
+   default: { include generic}  
+}
+</code></pre>
+<p>Case 语句还可以通过用逗号分隔多个条件来指定多个条件。</p>
+<pre><code>case $Sysoperenv { 
+   development,testing: { include development } testing,production: { include production }
+   default: { include generic }  
+} 
+</code></pre>
+<h2 id="15-if-else"><strong>15 If-Else 语句</strong></h2>
+<p>Puppet 支持基于条件的操作的概念。为了实现它，If/else 语句提供了基于条件返回值的分支选项。如以下示例所示 -</p>
+<pre><code>if $Filename { 
+   file { '/some/file': ensure =&gt; present } 
+} else { 
+   file { '/some/other/file': ensure =&gt; present } 
+} 
+</code></pre>
+<p>最新版本的 Puppet 支持变量表达式，其中 if 语句也可以根据表达式的值进行分支。</p>
+<pre><code>if $machine == 'production' { 
+   include ssl 
+} else { 
+   include nginx 
+}
+</code></pre>
+<p>为了实现代码的更多多样性和执行复杂的条件操作，Puppet 支持嵌套 if/else 语句，如下代码所示。</p>
+<pre><code>if $ machine == 'production' { 
+   include ssl 
+} elsif $ machine == 'testing' { 
+   include nginx
+} else { 
+   include openssl 
+} 
+</code></pre>
+<h2 id="16"><strong>16 虚拟资源</strong></h2>
+<p>虚拟资源是那些除非实现才发送给客户端的资源。</p>
+<p>以下是在 Puppet 中使用虚拟资源的语法。</p>
+<pre><code>@user { vipin: ensure =&gt; present }
+</code></pre>
+<p>在上面的示例中，虚拟定义了用户vipin，以实现可以在集合中使用的定义</p>
+<pre><code>User &lt;| title == vipin |&gt;
+</code></pre>
+<h2 id="17"><strong>17 注释</strong></h2>
+<p>在任何代码位中都使用注释来创建关于一组代码行及其功能的附加节点。在 Puppet 中，目前支持两种类型的评论。</p>
+<ul>
+<li>Unix shell 风格的注释。他们可以在自己的一行或下一行。</li>
+<li>多行 c 样式注释。</li>
+</ul>
+<p>以下是 shell 样式注释的示例。</p>
+<pre><code># this is a comment
+</code></pre>
+<p>Following is an example of multiline comment.</p>
+<pre><code>/*
+This is a comment
+*/
+</code></pre>
+<h2 id="18"><strong>18 运算符优先级</strong></h2>
+<p>Puppet 运算符优先级符合大多数系统中的标准优先级，从最高到最低。</p>
+<p>以下是表达式列表</p>
+<ul>
+<li><code>!</code> = not</li>
+<li><code>/</code> = times and divide</li>
+<li><code>- +</code> = minus, plus</li>
+<li><code>&lt;&lt; &gt;&gt;</code> = left shift and right shift</li>
+<li><code>== !=</code> = not equal, equal</li>
+<li><code>&gt;= &lt;= &gt; &lt;</code> = greater equal, less or equal, greater than, less than</li>
+</ul>
+<h2 id="19"><strong>19 比较表达式</strong></h2>
+<p>当用户想要在满足给定条件时执行一组语句时使用比较表达式。比较表达式包括使用 == 表达式的相等性测试。</p>
+<pre><code>if $environment == 'development' { 
+   include openssl 
+} else { 
+   include ssl 
+} 
+</code></pre>
+<h3 id="not-equal-example"><strong>Not Equal Example</strong></h3>
+<pre><code>if $environment != 'development' { 
+   $otherenvironment = 'testing' 
+} else { 
+   $otherenvironment = 'production' 
+} 
+</code></pre>
+<h3 id="arithmetic-expression"><strong>Arithmetic Expression</strong></h3>
+<pre><code>$one = 1 
+$one_thirty = 1.30 
+$two = 2.034e-2 $result = ((( $two + 2) / $one_thirty) + 4 * 5.45) - 
+   (6 &lt;&lt; ($two + 4)) + (0×800 + -9)
+</code></pre>
+<h3 id="boolean-expression"><strong>Boolean Expression</strong></h3>
+<p>Boolean expressions are possible using or, and, &amp; not.</p>
+<pre><code>$one = 1 
+$two = 2 
+$var = ( $one &lt; $two ) and ( $one + 1 == $two ) 
+</code></pre>
+<h3 id="regular-expression"><strong>Regular Expression</strong></h3>
+<p>Puppet supports regular expression matching using <code>=~ (match)</code> and <code>!~ (not-match)</code>.</p>
+<pre><code>if $website =~ /^www(\d+)\./ { 
+   notice('Welcome web server #$1') 
+}
+</code></pre>
+<p>像大小写和选择器正则表达式匹配一样，会为每个正则表达式创建有限的范围变量。</p>
+<pre><code>exec { &quot;Test&quot;: 
+   command =&gt; &quot;/bin/echo now we don’t have openssl installed on machine &gt; /tmp/test.txt&quot;, 
+   unless =&gt; &quot;/bin/which php&quot; 
+}
+</code></pre>
+<p>同理，我们可以使用除非，除非一直执行命令，除非unless下的命令成功退出。</p>
+<pre><code>exec { &quot;Test&quot;: 
+   command =&gt; &quot;/bin/echo now we don’t have openssl installed on machine &gt; /tmp/test.txt&quot;, 
+   unless =&gt; &quot;/bin/which php&quot; 
+}
+</code></pre>
+<h2 id="19_1"><strong>19 使用模板</strong></h2>
+<p>当一个人希望有一个预定义的结构时使用模板，该结构将在 Puppet 的多个模块中使用，并且这些模块将分布在多台机器上。使用模板的第一步是创建一个使用模板方法呈现模板内容的模板。</p>
+<pre><code>file { &quot;/etc/tomcat/sites-available/default.conf&quot;: 
+   ensure =&gt; &quot;present&quot;, 
+   content =&gt; template(&quot;tomcat/vhost.erb&quot;)  
+}
+</code></pre>
+<p>Puppet 在处理本地文件时几乎没有做任何假设，以加强组织和模块化。 Puppet 在模块目录中的文件夹 <code>apache/templates</code> 中查找 <code>vhost.erb</code> 模板。</p>
+<h2 id="20"><strong>20 定义和触发服务</strong></h2>
+<p>在 Puppet 中，它有一个名为 service 的资源，它能够管理在任何特定机器或环境上运行的所有服务的生命周期。服务资源用于确保服务已初始化和启用。它们也用于服务重启。</p>
+<p>例如，在前面的tomcat 模板中，我们设置了apache 虚拟主机。如果要确保 apache 在虚拟主机更改后重新启动，我们需要使用以下命令为 apache 服务创建服务资源。</p>
+<pre><code>service { 'tomcat': 
+   ensure =&gt; running, 
+   enable =&gt; true 
+}
+</code></pre>
+<p>在定义资源时，我们需要包含通知选项以触发重启。</p>
+<pre><code>file { &quot;/etc/tomcat/sites-available/default.conf&quot;: 
+   ensure =&gt; &quot;present&quot;, 
+   content =&gt; template(&quot;vhost.erb&quot;), 
+   notify =&gt; Service['tomcat']  
+}
+</code></pre>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.78eede0e.min.js"></script>
+      
+    
+  </body>
+</html>
